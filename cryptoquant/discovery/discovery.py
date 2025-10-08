@@ -23,8 +23,10 @@ class Discovery(RequestHandler):
 
         Returns
         -------
-        TYPE
-            DESCRIPTION.
+        dict
+            The status object is return with most of requests and indicates 
+            if the request was successful. If it is not successful, error 
+            information is included.
 
         """
         return super().handle_request(self.URL_ENDPOINT, query_params)
