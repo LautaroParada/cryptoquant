@@ -22,6 +22,8 @@ class Bitcoin(RequestHandler):
         # Bitcoin Flow Indicators
         self.IDX_MPI = "btc/flow-indicator/mpi"
         self.IDX_EXCHANGE_SHUTDOWN = "btc/flow-indicator/exchange-shutdown-index"
+        self.IDX_EXCHANGE_WHALE_RATIO = "btc/flow-indicator/exchange-whale-ratio"
+        self.IDX_FUND_FLOW_RAIO = "btc/flow-indicator/fund-flow-ratio"
         super().__init__(api_key)
     
     # -------------------------------------
@@ -433,3 +435,90 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.IDX_EXCHANGE_SHUTDOWN, query_params)
+    
+    def get_btc_idx_whale(self, **query_params):
+        """
+        Find Whale Focused Exchanges with Top 10 Inflows. Looking at the relative
+        size of the top 10 inflows to total inflows, it is possible to discover
+        which exchanges whales use. For example, as Gemini has mostly whales 
+        users, it is possible for the price to rise or fall dramatically. This
+        has potential risks, but also the possibility of arbitrage.
+
+        Parameters
+        ----------
+        **query_params :
+            exchange (str, required): An exchange supported by CryptoQuant.
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            The total BTC amount of top 10 inflow amount divided by the total BTC
+            amount flowed into exchange.
+
+        """
+        return super().handle_request(self.IDX_EXCHANGE_WHALE_RATIO, query_params)
+    
+    def get_btc_idx_fundflow(self, **query_params):
+        """
+        Fund Flow Ratio provides the amount of bitcoins that exchanges occupy 
+        among the bitcoins sent underlying the Bitcoin network. Knowing the 
+        amount of fund currently involved in trading can help you understand 
+        market volatility.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            exchange (str, required): An exchange supported by CryptoQuant.
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            The total BTC inflow and outflow of exchange divided by the total
+            BTC transferred on the Bitcoin network.
+
+        """
+        return super().handle_request(self.IDX_FUND_FLOW_RAIO, query_params)
