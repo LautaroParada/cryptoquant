@@ -19,11 +19,13 @@ class Bitcoin(RequestHandler):
         self.EXCH_TNX_COUNT = "btc/exchange-flows/transactions-count"
         self.EXCH_ADDRESSES_COUNT = "btc/exchange-flows/addresses-count"
         self.EXCH_INHOUSE_FLOW = "btc/exchange-flows/in-house-flow"
+        # Bitcoin Flow Indicators
+        self.IDX_MPI = "btc/flow-indicator/mpi"
         super().__init__(api_key)
     
-    #-------------------------------------
+    # -------------------------------------
     # Exchange endpoints
-    #-------------------------------------
+    # -------------------------------------
     
     def get_btc_exch_entity(self, **query_params):
         """
@@ -340,3 +342,52 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.EXCH_INHOUSE_FLOW, query_params)
+    
+    # -------------------------------------
+    # BTC Flow Indicator
+    # -------------------------------------
+    
+    def get_btc_idx_mpi(self, **query_params):
+        """
+        MPI(Miners’ Position Index) is a z score of a specific period. The 
+        period range must be 2 days or more and if not, it will return an error.
+        mpi is an index to understand miners’ behavior by examining the total 
+        outflow of miners. It highlights periods where the value of Bitcoin’s 
+        outflow by miners on a daily basis has historically been extremely high 
+        or low. MPI values above 2 indicate that most of the miners are selling 
+        Bitcoin. MPI values under 0 indicate that there is less selling pressure 
+        by miners.
+
+        Parameters
+        ----------
+        **query_params :
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Miners position index
+
+        """
+        return super().handle_request(self.IDX_MPI, query_params)
