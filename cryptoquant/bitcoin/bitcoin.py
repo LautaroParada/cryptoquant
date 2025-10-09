@@ -28,6 +28,7 @@ class Bitcoin(RequestHandler):
         self.IDX_EXCHANGE_INFLOW_AGE_DSTR = "btc/flow-indicator/exchange-inflow-age-distribution"
         self.IDX_EXCHANGE_INFLOW_SUPPLY_DSTR = "btc/flow-indicator/exchange-inflow-supply-distribution"
         self.IDX_EXCHANGE_INFLOW_CDD = "btc/flow-indicator/exchange-inflow-cdd"
+        self.IDX_EXCHANGE_SUPPLY_RATIO = "btc/flow-indicator/exchange-supply-ratio"
         super().__init__(api_key)
     
     # -------------------------------------
@@ -695,3 +696,7 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.IDX_EXCHANGE_INFLOW_CDD, query_params)
+    
+    def get_btc_idx_supplyratio(self, **query_params):
+        
+        return super().handle_request(self.IDX_EXCHANGE_SUPPLY_RATIO, query_params)
