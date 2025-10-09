@@ -38,6 +38,9 @@ class Bitcoin(RequestHandler):
         self.MKT_SOPR_RATIO = "btc/market-indicator/sopr-ratio"
         self.MKT_REALIZED_PRICE = "btc/market-indicator/realized-price"
         self.MKT_UTXO_REALIZED_PRICE_AGRE_DIST = "btc/market-indicator/utxo-realized-price-age-distribution"
+        # Bitcoin network indicators
+        self.NTW_STOCK_TO_FLOW = "btc/network-indicator/stock-to-flow"
+        
         super().__init__(api_key)
     
     # -------------------------------------
@@ -1090,3 +1093,50 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.MKT_UTXO_REALIZED_PRICE_AGRE_DIST, query_params)
+    
+    # -------------------------------------
+    # BTC Network Indicator
+    # -------------------------------------
+    
+    def get_btc_ntw_stock2flow(self, **query_params):
+        """
+        Stock to Flow is a metric used to assume bitcoin price based on its 
+        scarcity just like gold, silver, and other valuable objects that are 
+        limited in amount and costly to earn. The same model for evaluating the
+        value of those objects can be adopted to assess the value of bitcoin. 
+        The scarcity is calculated by dividing currently circulating coins in 
+        the blockchain network to newly supplied coins.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Stock to flow and stock to flow reversion.
+
+        """
+        return super().handle_request(self.NTW_STOCK_TO_FLOW, query_params)
