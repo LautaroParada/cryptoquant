@@ -33,6 +33,7 @@ class Bitcoin(RequestHandler):
         # Bitcoin market indicators
         self.MKT_ESTIMATED_LEVERAGE_RATIO = "btc/market-indicator/estimated-leverage-ratio"
         self.MKT_STABLECOIN_SUPPLY_RATIO = "btc/market-indicator/stablecoin-supply-ratio"
+        self.MKT_MVRV = "btc/market-indicator/mvrv"
         super().__init__(api_key)
     
     # -------------------------------------
@@ -878,3 +879,45 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.MKT_STABLECOIN_SUPPLY_RATIO, query_params)
+    
+    def get_btc_mkt_mvrv(self, **query_params):
+        """
+        MVRV(Market-Value-to-Realized-Value) is a ratio of market_cap divided
+        by realized_cap. It can be interpreted as the relationship between 
+        short-term and long-term investors (i.e. speculators vs hodlers). 
+        When this value is too high, BTC price may be overvalued, and if it is
+        too low, there is a possibility that the price is undervalued.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Market-Value-to-Realized-Value
+
+        """
+        return super().handle_request(self.MKT_MVRV, query_params)
