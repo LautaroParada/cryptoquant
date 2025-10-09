@@ -30,6 +30,8 @@ class Bitcoin(RequestHandler):
         self.IDX_EXCHANGE_INFLOW_CDD = "btc/flow-indicator/exchange-inflow-cdd"
         self.IDX_EXCHANGE_SUPPLY_RATIO = "btc/flow-indicator/exchange-supply-ratio"
         self.IDX_MINER_SUPPLY_RATIO = "btc/flow-indicator/miner-supply-ratio"
+        # Bitcoin market indicators
+        self.MKT_ESTIMATED_LEVERAGE_RATIO = "btc/market-indicator/estimated-leverage-ratio"
         super().__init__(api_key)
     
     # -------------------------------------
@@ -779,3 +781,57 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.IDX_MINER_SUPPLY_RATIO, query_params)
+    
+    # -------------------------------------
+    # BTC Market Indicator
+    # -------------------------------------
+    
+    def get_btc_mkt_leverage(self, **query_params):
+        """
+        By dividing the open interest of an exchange by their BTC reserve, you
+        can estimate a relative average user leverage. Whenever the leverage 
+        value reaches a high, there is rapid volatility. Similar to Open Interest,
+        but more accurate because it reflects the growth of the exchange itself.
+        This is experimental indicator but it seems this reflects market sentiment.
+        You can see how aggressive people are and how conservative they are in
+        terms of investment. For 'In Progress' exchanges, estimated leverage 
+        ratio is not supported yet even though they provide open interest.
+        
+        Note: This endpoint does not support Point-In-Time (PIT) accuracy due
+        to periodic updates to wallet address clustering. Historical data may
+        change as new exchange wallets are discovered, added, and validated.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            exchange (str, required): An exchange supported by CryptoQuant.
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            The amount of open interest of exchange divided by their BTC reserve
+
+        """
+        return super().handle_request(self.MKT_ESTIMATED_LEVERAGE_RATIO, query_params)
