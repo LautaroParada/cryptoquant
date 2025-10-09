@@ -35,6 +35,7 @@ class Bitcoin(RequestHandler):
         self.MKT_STABLECOIN_SUPPLY_RATIO = "btc/market-indicator/stablecoin-supply-ratio"
         self.MKT_MVRV = "btc/market-indicator/mvrv"
         self.MKT_SOPR = "btc/market-indicator/sopr"
+        self.MKT_SOPR_RATIO = "btc/market-indicator/sopr-ratio"
         super().__init__(api_key)
     
     # -------------------------------------
@@ -966,3 +967,43 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.MKT_SOPR, query_params)
+    
+    def get_btc_mkt_soprratio(self, **query_params):
+        """
+        SOPR Ratio is calculated as long term holders' SOPR divided by short 
+        term holders' SOPR. Higher value of the ratio means higher spent 
+        profit of LTH over STH, which is usually useful for spotting market tops.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Long term holders SOPR divided by short term holders SOPR
+
+        """
+        return super().handle_request(self.MKT_SOPR_RATIO, query_params)
