@@ -32,6 +32,7 @@ class Bitcoin(RequestHandler):
         self.IDX_MINER_SUPPLY_RATIO = "btc/flow-indicator/miner-supply-ratio"
         # Bitcoin market indicators
         self.MKT_ESTIMATED_LEVERAGE_RATIO = "btc/market-indicator/estimated-leverage-ratio"
+        self.MKT_STABLECOIN_SUPPLY_RATIO = "btc/market-indicator/stablecoin-supply-ratio"
         super().__init__(api_key)
     
     # -------------------------------------
@@ -835,3 +836,45 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.MKT_ESTIMATED_LEVERAGE_RATIO, query_params)
+    
+    def get_btc_mkt_ssr(self, **query_params):
+        """
+        SSR(Stablecoin Supply Ratio) is a ratio of stablecoin supply in the 
+        whole cryptocurrency market where stablecoin is used as fiat substitute
+        for trading. This means that the supply of stablecoin can be used to 
+        assess the potential buying pressure for bitcoin. The historical 
+        starting point is 2017-11-28 00:00:00.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Stablecoin supply ratio.
+
+        """
+        return super().handle_request(self.MKT_STABLECOIN_SUPPLY_RATIO, query_params)
