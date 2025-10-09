@@ -40,6 +40,7 @@ class Bitcoin(RequestHandler):
         self.MKT_UTXO_REALIZED_PRICE_AGRE_DIST = "btc/market-indicator/utxo-realized-price-age-distribution"
         # Bitcoin network indicators
         self.NTW_STOCK_TO_FLOW = "btc/network-indicator/stock-to-flow"
+        self.NTW_NVT = "btc/network-indicator/nvt"
         
         super().__init__(api_key)
     
@@ -1140,3 +1141,45 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.NTW_STOCK_TO_FLOW, query_params)
+    
+    def get_btc_ntw_nvt(self, **query_params):
+        """
+        NVT(Network Value to Transaction) ratio is the network value(supply_total * price_usd)
+        divided by tokens_transferred_total. nvt is a metric often used to 
+        determine whether Bitcoin price is overvalued or not. The theory behind 
+        this indicator is that the value of the token depends on how actively
+        transactions take place on the network.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Network Value to Transaction ratio.
+
+        """
+        return super().handle_request(self.NTW_NVT, query_params)
