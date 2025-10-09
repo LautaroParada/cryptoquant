@@ -34,6 +34,7 @@ class Bitcoin(RequestHandler):
         self.MKT_ESTIMATED_LEVERAGE_RATIO = "btc/market-indicator/estimated-leverage-ratio"
         self.MKT_STABLECOIN_SUPPLY_RATIO = "btc/market-indicator/stablecoin-supply-ratio"
         self.MKT_MVRV = "btc/market-indicator/mvrv"
+        self.MKT_SOPR = "btc/market-indicator/sopr"
         super().__init__(api_key)
     
     # -------------------------------------
@@ -921,3 +922,47 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.MKT_MVRV, query_params)
+    
+    def get_btc_mkt_sopr(self, **query_params):
+        """
+        sopr is abbreviation of Spent Output Profit Ratio. Spent Output Profit Ratio
+        evaluates the profit ratio of the whole market participants by comparing
+        the value of outputs at spent time to created time. sopr is a ratio 
+        that is calculated as the USD value of spent outputs at the spent time
+        divided by the USD value of spent outputs at the created time. So you 
+        can see the value when UTxO destroyed. In a simple way, you can estimate
+        the distribution of spent transaction output are in profit or not.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Spent Output Profit Ratio
+
+        """
+        return super().handle_request(self.MKT_SOPR, query_params)
