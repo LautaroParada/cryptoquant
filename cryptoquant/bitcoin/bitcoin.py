@@ -26,6 +26,7 @@ class Bitcoin(RequestHandler):
         self.IDX_FUND_FLOW_RAIO = "btc/flow-indicator/fund-flow-ratio"
         self.IDX_STABLECOINS_RATIO = "btc/flow-indicator/stablecoins-ratio"
         self.IDX_EXCHANGE_INFLOW_AGE_DSTR = "btc/flow-indicator/exchange-inflow-age-distribution"
+        self.IDX_EXCHANGE_INFLOW_SUPPLY_DSTR = "btc/flow-indicator/exchange-inflow-supply-distribution"
         super().__init__(api_key)
     
     # -------------------------------------
@@ -609,3 +610,46 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.IDX_EXCHANGE_INFLOW_AGE_DSTR, query_params)
+    
+    def get_btc_idx_supplydstr(self, **query_params):
+        """
+        Exchange Inflow Supply Distribution is a set of active inflow to 
+        exchanges with balance (supply) bands. This indicator summarizes the 
+        behaviors of whales or retails flowed into the exchanges, separated by 
+        amount of coins they hold along with price actions. We provide the 
+        distribution values in native and percent values.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            exchange (str, required): An exchange supported by CryptoQuant.
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Exchange inflow supply distribution.
+
+        """
+        return super().handle_request(self.IDX_EXCHANGE_INFLOW_SUPPLY_DSTR, query_params)
