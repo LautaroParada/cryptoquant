@@ -29,6 +29,7 @@ class Bitcoin(RequestHandler):
         self.IDX_EXCHANGE_INFLOW_SUPPLY_DSTR = "btc/flow-indicator/exchange-inflow-supply-distribution"
         self.IDX_EXCHANGE_INFLOW_CDD = "btc/flow-indicator/exchange-inflow-cdd"
         self.IDX_EXCHANGE_SUPPLY_RATIO = "btc/flow-indicator/exchange-supply-ratio"
+        self.IDX_MINER_SUPPLY_RATIO = "btc/flow-indicator/miner-supply-ratio"
         super().__init__(api_key)
     
     # -------------------------------------
@@ -697,6 +698,84 @@ class Bitcoin(RequestHandler):
         """
         return super().handle_request(self.IDX_EXCHANGE_INFLOW_CDD, query_params)
     
-    def get_btc_idx_supplyratio(self, **query_params):
-        
+    def get_btc_idx_exchsupplyratio(self, **query_params):
+        """
+        Exchange Supply Ratio is calculated as exchange reserve divided by 
+        total supply. The metric measures how much tokens are reserved in the 
+        exchange relative to total supply of the token.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            exchange (str, required): An exchange supported by CryptoQuant.
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Ratio of reserved token in the exchange relative to total supply.
+
+        """
         return super().handle_request(self.IDX_EXCHANGE_SUPPLY_RATIO, query_params)
+    
+    def get_btc_idx_minersupplyratio(self, **query_params):
+        """
+        Miner Supply Ratio is calculated as miner reserve divided by total 
+        supply. The metric measures how much tokens are reserved in the miner 
+        relative to total supply of the token.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            exchange (str, required): An exchange supported by CryptoQuant.
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Ratio of reserved token in the miner relative to total supply.
+
+        """
+        return super().handle_request(self.IDX_MINER_SUPPLY_RATIO, query_params)
