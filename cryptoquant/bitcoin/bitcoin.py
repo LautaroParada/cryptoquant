@@ -41,6 +41,7 @@ class Bitcoin(RequestHandler):
         # Bitcoin network indicators
         self.NTW_STOCK_TO_FLOW = "btc/network-indicator/stock-to-flow"
         self.NTW_NVT = "btc/network-indicator/nvt"
+        self.NTW_NVT_GOLDEN_CROSS = "btc/network-indicator/nvt-golden-cross"
         
         super().__init__(api_key)
     
@@ -1183,3 +1184,44 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.NTW_NVT, query_params)
+    
+    def get_btc_ntw_nvtgoldencross(self, **query_params):
+        """
+        NVT Golden Cross is a modified index of NVT that provides local tops 
+        and bottoms. NVT Golden Cross values above 2.2 indicate that downside
+        risk goes up. NVT Golden Cross values below -1.6 mean huge upside 
+        potential will occur.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            NVT golden cross.
+
+        """
+        return super().handle_request(self.NTW_NVT_GOLDEN_CROSS, query_params)
