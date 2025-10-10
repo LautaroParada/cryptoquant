@@ -60,6 +60,7 @@ class Bitcoin(RequestHandler):
         self.NTW_UTXO_SUPPLY_DSTR = "btc/network-indicator/utxo-supply-distribution"
         self.NTW_UTXO_REALIZED_SUPPLY_DSTR = "btc/network-indicator/utxo-realized-supply-distribution"
         self.NTW_UTXO_COUNT_SUPPLY_DSTR = "btc/network-indicator/utxo-count-supply-distribution"
+        self.NTW_SPENT_OUTPUT_SUPPLY_DSTR = "btc/network-indicator/spent-output-supply-distribution"
         
         super().__init__(api_key)
     
@@ -2009,3 +2010,44 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.NTW_UTXO_COUNT_SUPPLY_DSTR, query_params)
+    
+    def get_btc_ntw_spent_output_supply_dstr(self, **query_params):
+        """
+        Spent Output Supply Distribution is a set of active sum of spent 
+        outputs with balance (supply) bands. This indicator summarizes how much
+        UTxOs are destroyed by whales or retails (each band). We provide the 
+        distribution values in native, USD, and percent values.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            Spent Output Supply Distribution.
+
+        """
+        return super().handle_request(self.NTW_SPENT_OUTPUT_SUPPLY_DSTR, query_params)
