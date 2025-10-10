@@ -85,6 +85,7 @@ class Bitcoin(RequestHandler):
         self.LIQUIDITY_FUNDING_RATES = "btc/market-data/funding-rates"
         self.LIQUIDITY_TAKER_BUY_SELL_STATS = "btc/market-data/taker-buy-sell-stats"
         self.LIQUIDITY_LIQUIDATIONS = "btc/market-data/liquidations"
+        self.LIQUIDITY_CAPITALIZATION = "btc/market-data/capitalization"
         
         super().__init__(api_key)
     
@@ -2983,3 +2984,64 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.LIQUIDITY_LIQUIDATIONS, query_params)
+    
+    def get_btc_liq_capitalization(self, **query_params):
+        """
+        This endpoint returns metrics related to market capitalization. First, 
+        CQ provide market_cap, which is total market capitalization of BTC, 
+        calculated by multiplying the total supply with its USD price. 
+        Moreover, we provide several adjusted capitalization metrics which are 
+        used for further fundamental analysis. realized_cap is the sum of each 
+        UTXO * last movement price. Since cryptocurrencies can be lost, 
+        unclaimed, or unreachable through various bugs, realized_cap is 
+        introduced to discount those coins which have remained unmoved for a 
+        long period. It is one way to attempt to measure the value of Bitcoin. 
+        This can be described as an on-chain version of volume weighted average
+        price(VWAP). average_cap is forever moving average, calculated by 
+        dividing the cumulated sum of daily market cap with the age of market.
+        Instead of using fixed time for calculating the moving average 
+        (e.g. 50 days, 100days ...), this serves as the true mean. Both 
+        realized_cap and average_cap are used to calculate delta_cap 
+        (realized_cap-average_cap). delta_cap is often used to spot market 
+        bottoms. Moreover, by analyzing the movement of delta_cap which 
+        oscillates between realized_cap and average_cap, we could notice that 
+        market tops are reached when delta_cap is near realized_cap(in a log 
+        scaled chart). Another metric that can be used to spot market bottoms 
+        is thermo_cap which is the weighted cumulative sum of the mined 
+        cryptocurrency price. This metric provides the total amount of funds in
+        the blockchain network and also helps to evaluate whether market_cap is
+        overvalued or not.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently CQ only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            market cap, realized cap, average cap, delta cap, and thermo cap.
+
+        """
+        return super().handle_request(self.LIQUIDITY_CAPITALIZATION, query_params)
