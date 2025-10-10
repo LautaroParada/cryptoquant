@@ -86,6 +86,7 @@ class Bitcoin(RequestHandler):
         self.LIQUIDITY_TAKER_BUY_SELL_STATS = "btc/market-data/taker-buy-sell-stats"
         self.LIQUIDITY_LIQUIDATIONS = "btc/market-data/liquidations"
         self.LIQUIDITY_CAPITALIZATION = "btc/market-data/capitalization"
+        self.LIQUIDITY_COINBASE_PREMIUM_INDEX = "btc/market-data/coinbase-premium-index"
         
         super().__init__(api_key)
     
@@ -3045,3 +3046,45 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.LIQUIDITY_CAPITALIZATION, query_params)
+    
+    def get_btc_liq_coinbase_idx(self, **query_params):
+        """
+        Coinbase Premium Index is calculated as percent difference from Binance
+        price(BTCUSDT) to Coinbase price(BTCUSD). Coinbase Premium Gap is 
+        calculated as gap between Coinbase price(BTCUSD) and Binance 
+        price(BTCUSDT). The higher the premium, the stronger the spot buying 
+        pressure from Coinbase.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently CQ only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            Coinbase premium index in percentage and coinbase premium gap.
+
+        """
+        return super().handle_request(self.LIQUIDITY_COINBASE_PREMIUM_INDEX, query_params)
