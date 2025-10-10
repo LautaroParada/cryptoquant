@@ -87,6 +87,8 @@ class Bitcoin(RequestHandler):
         self.LIQUIDITY_LIQUIDATIONS = "btc/market-data/liquidations"
         self.LIQUIDITY_CAPITALIZATION = "btc/market-data/capitalization"
         self.LIQUIDITY_COINBASE_PREMIUM_INDEX = "btc/market-data/coinbase-premium-index"
+        # Bitcoin miner data
+        self.BITCOIN_MINER_DATA = "btc/miner-data/companies"
         
         super().__init__(api_key)
     
@@ -3088,3 +3090,68 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.LIQUIDITY_COINBASE_PREMIUM_INDEX, query_params)
+    
+    # -------------------------------------
+    # BTC Miner data
+    # -------------------------------------
+    
+    def get_btc_miner_company_data(self, **query_params):
+        """
+        This endpoint returns BTC mining company data. Company data consists of
+        statistical metrics based on rewards and production data for each 
+        mining company. coinbase_rewards, The daily amount of Bitcoin mined 
+        directly from a coinbase transaction. And coinbase_rewards will only be
+        added to mara. other_mining_rewards, The daily amount of Bitcoin 
+        received as payment from a mining pool. Tipically, mining pools pay 
+        miners with Bitcoin from a coinbase transaction. total_rewards, The 
+        daily sum of coinbase rewards and other mining rewards (in number of 
+        Bitcoin). accumulated_monthly_rewards, The daily running sum of total 
+        rewards in each month (in number of Bitcoin). unique_txn, The total 
+        number of Bitcoin transactions involving a mining reward. 
+        active_address_count, The number of addresses from a company that 
+        received a block reward each day. reported_production, The company's 
+        reported total monthly production (in number of Bitcoin). 
+        report_accuracy, The ratio of accumulated monthly rewards to reported 
+        production times 100. It represents the % of total reported production 
+        captured by On-chain transactions. closing_usd, The daily closing price
+        of Bitcoin in USD. total_daily_rewards_closing_usd, Daily total rewards
+        in USD using the closing usd price. 
+        accumulated_monthly_rewards_closing_usd, accumulated monthly rewards in
+        usd using the closing usd price.
+        
+        full documentation: https://cryptoquant.com/docs#tag/BTC-Miner-Data/operation/getCompanies
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            miner (str, required): A mining company from the table CQ support
+            window (str, optional): Currently CQ only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        TYPE
+            DESCRIPTION.
+
+        """
+        return super().handle_request(self.BITCOIN_MINER_DATA, query_params)
