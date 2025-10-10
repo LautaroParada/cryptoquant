@@ -78,6 +78,7 @@ class Bitcoin(RequestHandler):
         self.FUND_MARKET_PRICE_USD = "btc/fund-data/market-price-usd"
         self.FUND_MARKET_VOLUME = "btc/fund-data/market-volume"
         self.FUND_MARKET_PREMIUM = "btc/fund-data/market-premium"
+        self.FUND_DIGITAL_ASSETS_HOLDINGS = "btc/fund-data/digital-asset-holdings"
         
         super().__init__(api_key)
     
@@ -2685,3 +2686,46 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.FUND_MARKET_PREMIUM, query_params)
+    
+    def get_btc_fund_digital_assets_holdings(self, **query_params):
+        """
+        This endpoint returns digital asset holdings status of each fund. For 
+        example, Grayscale BTC Holdings along with GBTC represents how much BTC 
+        Grayscale is holding for its investment. This metric indicates stock 
+        market's sentiment where higher the value means bullish sentiment of 
+        investors in stock market.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            symbol (str, required): A stock symbol (ticker)
+            window (str, optional): Currently CQ only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            Digital assets holdings for the fund.
+
+        """
+        return super().handle_request(self.FUND_DIGITAL_ASSETS_HOLDINGS, query_params)
