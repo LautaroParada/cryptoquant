@@ -51,6 +51,7 @@ class Bitcoin(RequestHandler):
         self.NTW_NET_UNREALIZED_PNL = "btc/network-indicator/nupl"
         self.NTW_NET_REALIZED_PNL = "btc/network-indicator/nrpl"
         self.NTW_PROFIT_AND_LOSS_UTXO = "btc/network-indicator/pnl-utxo"
+        self.NTW_PROFIT_AND_LOSS_SUPPLY = "btc/network-indicator/pnl-supply"
         
         super().__init__(api_key)
     
@@ -1625,3 +1626,47 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.NTW_PROFIT_AND_LOSS_UTXO, query_params)
+    
+    def get_btc_ntw_pnlsupply(self, **query_params):
+        """
+        Profit and Loss (Supply) evaluates the sum of UTxOs being in profit or 
+        not by comparing the price between created and destroyed. These metrics
+        are similar to the ones in Profit and Loss (UTxO) but differ from 
+        putting more weight on each UTxO with its value. Sometimes we want to 
+        know the exact alive bitcoin transaction output value in profit. 
+        pnl-supply will show it accuretely. pnl-supply is calculated as the sum
+        of UTxO value.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Profit and Loss (Supply).
+
+        """
+        return super().handle_request(self.NTW_PROFIT_AND_LOSS_SUPPLY, query_params)
