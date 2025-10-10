@@ -99,6 +99,7 @@ class Bitcoin(RequestHandler):
         self.NETWORK_BLOCK_COUNT = "btc/network-data/block-count"
         self.NETWORK_BLOCK_INTERVAL = "btc/network-data/block-interval"
         self.NETWORK_UTXO_COUNT = "btc/network-data/utxo-count"
+        self.NETWORK_FEES = "btc/network-data/fees"
         
         super().__init__(api_key)
     
@@ -3535,3 +3536,47 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_UTXO_COUNT, query_params)
+    
+    def get_btc_net_fees(self, **query_params):
+        """
+        This endpoint returns the statistics related to fees that are paid to 
+        bitcoin miners. In general, fees are calculated by subtracting the 
+        newly issued bitcoin from the total block reward of each blocks. We
+        provide three statistics, fees_total, the sum of all fees, 
+        fees_block_mean, the average fee per block, and fees_reward_percent, 
+        the percentage of fees relative to the total block reward. 
+        Additionally, these can be viewed in terms of USD.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently CQ support day, hour, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            Fees in the bitcoin network.
+
+        """
+        return super().handle_request(self.NETWORK_FEES, query_params)
