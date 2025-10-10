@@ -43,6 +43,7 @@ class Bitcoin(RequestHandler):
         self.NTW_NVT = "btc/network-indicator/nvt"
         self.NTW_NVT_GOLDEN_CROSS = "btc/network-indicator/nvt-golden-cross"
         self.NTW_NVM = "btc/network-indicator/nvm"
+        self.NTW_PUELL_MULTIPLE = "btc/network-indicator/puell-multiple"
         
         super().__init__(api_key)
     
@@ -1270,3 +1271,45 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.NTW_NVM, query_params)
+    
+    def get_btc_ntw_puell(self, **query_params):
+        """
+        Puell Multiple is the mining revenue usd divided by MA 365 mining 
+        revenue usd. puell_multiple is a metric shows the historically low and 
+        high periods of the value of bitcoin issued daily, and at what point 
+        investors should buy bitcoin to get high returns. This indicator was 
+        created by David Puell.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Puell Multiple.
+
+        """
+        return super().handle_request(self.NTW_PUELL_MULTIPLE, query_params)
