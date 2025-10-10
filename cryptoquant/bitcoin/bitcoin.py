@@ -82,6 +82,7 @@ class Bitcoin(RequestHandler):
         # Bitcoin market data
         self.LIQUIDITY_PRICE_OHLCV = "btc/market-data/price-ohlcv"
         self.LIQUIDITY_OPEN_INTEREST = "btc/market-data/open-interest"
+        self.LIQUIDITY_FUNDING_RATES = "btc/market-data/funding-rates"
         
         super().__init__(api_key)
     
@@ -2838,3 +2839,48 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.LIQUIDITY_OPEN_INTEREST, query_params)
+    
+    def get_btc_liq_funding_rates(self, **query_params):
+        """
+        Funding rates represents traders' sentiments of which position they bet
+        on in perpetual swaps market. Positive funding rates implies that many
+        traders are bullish and long traders pay funding to short traders. 
+        Negative funding rates implies many traders are bearish and short 
+        traders pay funding to long traders.
+        
+        full documentation: https://cryptoquant.com/docs#tag/BTC-Market-Data/operation/BTCgetFundingRates
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            exchange (str, required): A derivative exchange that CQ support.
+            window (str, optional): Currently CQ only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        TYPE
+            DESCRIPTION.
+
+        """
+        return super().handle_request(self.LIQUIDITY_FUNDING_RATES, query_params)
