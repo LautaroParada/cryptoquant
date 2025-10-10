@@ -77,6 +77,7 @@ class Bitcoin(RequestHandler):
         # Bitcoin fund data
         self.FUND_MARKET_PRICE_USD = "btc/fund-data/market-price-usd"
         self.FUND_MARKET_VOLUME = "btc/fund-data/market-volume"
+        self.FUND_MARKET_PREMIUM = "btc/fund-data/market-premium"
         
         super().__init__(api_key)
     
@@ -2636,3 +2637,51 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.FUND_MARKET_VOLUME, query_params)
+    
+    def get_btc_fund_mkt_premium(self, **query_params):
+        """
+        The premium of certain symbol (e.g. gbtc) is defined as (market price 
+        of the symbol - NAV) divided by NAV where NAV (Native Asset Value) is 
+        the current value of holdings (e.g. BTC price multiplied by BTC per 
+        Share). Higher the premium indicates market bullish, which also
+        indicates downside risk. On the other hand, lower the premium indicates 
+        market bearish, which also indicates upside risk. All Symbol market 
+        premium is calculated by taking VWAP (Volume Weighted Average Ratio)
+        of each fund data volume (usd).
+
+        supoorted symbols: https://cryptoquant.com/docs#tag/BTC-Fund-Data
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            symbol (str, required): A stock symbol (ticker)
+            window (str, optional): Currently CQ only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            Fund market premium or discount.
+
+        """
+        return super().handle_request(self.FUND_MARKET_PREMIUM, query_params)
