@@ -50,6 +50,7 @@ class Bitcoin(RequestHandler):
         self.NTW_SUM_COIN_AGE_DISTRIBUTION = "btc/network-indicator/sca-distribution"
         self.NTW_NET_UNREALIZED_PNL = "btc/network-indicator/nupl"
         self.NTW_NET_REALIZED_PNL = "btc/network-indicator/nrpl"
+        self.NTW_PROFIT_AND_LOSS_UTXO = "btc/network-indicator/pnl-utxo"
         
         super().__init__(api_key)
     
@@ -1583,3 +1584,44 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.NTW_NET_REALIZED_PNL, query_params)
+    
+    def get_btc_ntw_pnlutxo(self, **query_params):
+        """
+        Profit and Loss (UTxO) evaluates the number of UTxOs being in profit or 
+        not by comparing the price between created and destroyed. When the 
+        price at destroyed time is higher than created, this transaction is in
+        profit.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Profit and Loss UTxO.
+
+        """
+        return super().handle_request(self.NTW_PROFIT_AND_LOSS_UTXO, query_params)
