@@ -96,6 +96,7 @@ class Bitcoin(RequestHandler):
         self.NETWORK_ADDRESSES_COUNT = "btc/network-data/addresses-count"
         self.NETWORK_TOKENS_TRANSFERRED = "btc/network-data/tokens-transferred"
         self.NETWORK_BLOCK_BYTES = "btc/network-data/block-bytes"
+        self.NETWORK_BLOCK_COUNT = "btc/network-data/block-count"
         
         super().__init__(api_key)
     
@@ -3416,3 +3417,41 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_BLOCK_BYTES, query_params)
+    
+    def get_btc_net_block_count(self, **query_params):
+        """
+        The number of blocks generated in a given window.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently CQ support day and hour.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            The number of blocks generated in a given window.
+
+        """
+        return super().handle_request(self.NETWORK_BLOCK_COUNT, query_params)
