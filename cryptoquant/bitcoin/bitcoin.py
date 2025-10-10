@@ -63,6 +63,7 @@ class Bitcoin(RequestHandler):
         self.NTW_SPENT_OUTPUT_SUPPLY_DSTR = "btc/network-indicator/spent-output-supply-distribution"
         # Bitcoin Miner Flows
         self.MINER_RESERVE = "btc/miner-flows/reserve"
+        self.MINER_NETFLOW = "btc/miner-flows/netflow"
         
         super().__init__(api_key)
     
@@ -2097,3 +2098,44 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.MINER_RESERVE, query_params)
+    
+    def get_btc_miner_netflow(self, **query_params):
+        """
+        The difference between coins flowing into mining pools and flowing out
+        of mining pools. Netflow usually helps us to figure out an increase of
+        idle coins waiting to be traded in a certain time frame.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            miner (str, required): A mining pool from the table that CQ support
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            Total netflow.
+
+        """
+        return super().handle_request(self.MINER_NETFLOW, query_params)
