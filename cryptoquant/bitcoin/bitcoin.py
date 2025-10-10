@@ -89,6 +89,8 @@ class Bitcoin(RequestHandler):
         self.LIQUIDITY_COINBASE_PREMIUM_INDEX = "btc/market-data/coinbase-premium-index"
         # Bitcoin miner data
         self.BITCOIN_MINER_DATA = "btc/miner-data/companies"
+        # Bitcoin Network Data
+        self.NETWORK_SUPPLY = "btc/network-data/supply"
         
         super().__init__(api_key)
     
@@ -3155,3 +3157,49 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.BITCOIN_MINER_DATA, query_params)
+    
+    # -------------------------------------
+    # BTC Network Data
+    # -------------------------------------
+    
+    def get_btc_net_supply(self, **query_params):
+        """
+        This end point returns metrics related to bitcoin supply, i.e. the 
+        amount of bitcoin in existence. We currently provide two metrics, 
+        supply_total , the total amount of bitcoins in existence (sum of all 
+        bitcoins issued by the coinbase reward), and supply_new, the amount of
+        newly issued tokens in a given window.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently CQ support day, hour, block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            supply total and new.
+
+        """
+        return super().handle_request(self.NETWORK_SUPPLY, query_params)
