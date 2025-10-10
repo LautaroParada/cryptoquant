@@ -69,6 +69,8 @@ class Bitcoin(RequestHandler):
         self.MINER_TRANSACTIONS_COUNT = "btc/miner-flows/transactions-count"
         self.MINER_ADDRESSES_COUNT = "btc/miner-flows/addresses-count"
         self.MINER_IN_HOUSE_FLOW = "btc/miner-flows/in-house-flow"
+        # Bitcoin Inter Entity Flows
+        self.INTER_EXCHANGE_TO_EXCHANGE = "btc/inter-entity-flows/exchange-to-exchange"
         
         super().__init__(api_key)
     
@@ -2347,3 +2349,51 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.MINER_IN_HOUSE_FLOW, query_params)
+    
+    # -------------------------------------
+    # BTC Inter Entity Flows
+    # -------------------------------------
+    
+    def get_btc_inter_exch_2_exch(self, **query_params):
+        """
+        Metrics related to token flows between exchanges. CQ provide several 
+        metrics, flow_total, the total number of tokens transferred from one 
+        exchange to another, flow_mean, the mean of tokens transferred, and 
+        transactions_count_flow, the number of transactions between exchanges.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            from_exchange (str, required): An exchange that CQ support.
+            to_exchange (str, required): An exchange that CQ support. This one
+                                        should not be the same as from_exchange
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            from and to exchange flow.
+
+        """
+        return super().handle_request(self.INTER_EXCHANGE_TO_EXCHANGE, query_params)
