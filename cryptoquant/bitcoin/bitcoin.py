@@ -74,6 +74,8 @@ class Bitcoin(RequestHandler):
         self.INTER_MINER_TO_EXCHANGE = "btc/inter-entity-flows/miner-to-exchange"
         self.INTER_EXCHANGE_TO_MINER = "btc/inter-entity-flows/exchange-to-miner"
         self.INTER_MINER_TO_MINER = "btc/inter-entity-flows/miner-to-miner"
+        # Bitcoin fund data
+        self.FUND_MARKET_PRICE_USD = "btc/fund-data/market-price-usd"
         
         super().__init__(api_key)
     
@@ -2370,7 +2372,7 @@ class Bitcoin(RequestHandler):
             from_exchange (str, required): An exchange that CQ support.
             to_exchange (str, required): An exchange that CQ support. This one
                                         should not be the same as from_exchange
-            window (str, optional): Currently, we only support day.
+            window (str, optional): Currently CQ support day, hour, and block.
             from_ (any, optional): This defines the starting time for which data
                                 will be gathered, formatted as YYYYMMDDTHHMMSS 
                                 (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
@@ -2415,7 +2417,7 @@ class Bitcoin(RequestHandler):
             from_miner (str, required): A miner that CQ support.
             to_exchange (str, required): An exchange that CQ support. This one
                                         should not be the same as from_entity
-            window (str, optional): Currently, we only support day.
+            window (str, optional): Currently CQ support day, hour, and block.
             from_ (any, optional): This defines the starting time for which data
                                 will be gathered, formatted as YYYYMMDDTHHMMSS 
                                 (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
@@ -2459,6 +2461,7 @@ class Bitcoin(RequestHandler):
         **query_params : TYPE
             from_exchange (str, required): An exchange that CQ support.
             to_miner (str, required): A miner that CQ support.
+            window (str, optional): Currently CQ support day, hour, and block.
             from_ (any, optional): This defines the starting time for which data
                                 will be gathered, formatted as YYYYMMDDTHHMMSS 
                                 (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
@@ -2502,6 +2505,7 @@ class Bitcoin(RequestHandler):
         **query_params : TYPE
             from_miner (str, required): An miner that CQ support.
             to_miner (str, required): A miner that CQ support.
+            window (str, optional): Currently CQ support day, hour, and block.
             from_ (any, optional): This defines the starting time for which data
                                 will be gathered, formatted as YYYYMMDDTHHMMSS 
                                 (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
@@ -2531,3 +2535,58 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.INTER_MINER_TO_MINER, query_params)
+    
+    # -------------------------------------
+    # BTC Fund Data
+    # -------------------------------------
+    
+    def get_btc_fund_mkt_price(self, **query_params):
+        """
+        The price of certain symbol (e.g. gbtc) managed by each fund 
+        (e.g. Grayscale) reflects sentiment of investors in regulated markets. 
+        In this specific case, having single share of GBTC means having 
+        approximately 0.001 BTC invested to Grayscale. This endpoint returns 
+        metrics related to the US Dollar(USD) price of fund related stocks 
+        (e.g. gbtc). We provide five metrics, price_usd_open, USD opening price
+        at the beginning of the window, price_usd_close, USD closing price at 
+        the end of the window, price_usd_high, the highest USD price in a given 
+        window, price_usd_low, the lowest USD price in a given window, and 
+        price_usd_adj_close, USD adjusted closing price at the end of the 
+        window. All Symbol is not supported.
+        
+        supoorted symbols: https://cryptoquant.com/docs#tag/BTC-Fund-Data
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            symbol (str, required): A stock symbol (ticker)
+            window (str, optional): Currently CQ only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            Market price OHLC and adjusted C data in usd.
+
+        """
+        return super().handle_request(self.FUND_MARKET_PRICE_USD, query_params)
