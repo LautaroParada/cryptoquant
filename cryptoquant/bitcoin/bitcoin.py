@@ -64,6 +64,7 @@ class Bitcoin(RequestHandler):
         # Bitcoin Miner Flows
         self.MINER_RESERVE = "btc/miner-flows/reserve"
         self.MINER_NETFLOW = "btc/miner-flows/netflow"
+        self.MINER_INFLOW = "btc/miner-flows/inflow"
         
         super().__init__(api_key)
     
@@ -2139,3 +2140,44 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.MINER_NETFLOW, query_params)
+    
+    def get_btc_miner_inflow(self, **query_params):
+        """
+        This endpoint returns the inflow of BTC into mining pool wallets for as
+        far back as CQ track. The average inflow is the average transaction 
+        value for transactions flowing into mining pool wallets on a given day.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            miner (str, required): A mining pool from the table that CQ support
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            Miner inflows.
+
+        """
+        return super().handle_request(self.MINER_INFLOW, query_params)
