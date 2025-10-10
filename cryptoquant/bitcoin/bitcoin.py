@@ -84,6 +84,7 @@ class Bitcoin(RequestHandler):
         self.LIQUIDITY_OPEN_INTEREST = "btc/market-data/open-interest"
         self.LIQUIDITY_FUNDING_RATES = "btc/market-data/funding-rates"
         self.LIQUIDITY_TAKER_BUY_SELL_STATS = "btc/market-data/taker-buy-sell-stats"
+        self.LIQUIDITY_LIQUIDATIONS = "btc/market-data/liquidations"
         
         super().__init__(api_key)
     
@@ -2936,3 +2937,49 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.LIQUIDITY_TAKER_BUY_SELL_STATS, query_params)
+    
+    def get_btc_liq_liquidations(self, **query_params):
+        """
+        Liquidations are sum of forced market orders to exit leveraged 
+        positions caused by price volatility. Liquidations indicate current 
+        price volatility and traders' sentiment which side they had been 
+        betting. Note that Binance's liquidation data collection policy has 
+        changed since 2021-04-27, which makes the distribution of the data has
+        changed after that.
+        
+        full documentation: https://cryptoquant.com/docs#tag/BTC-Market-Data/operation/getLiquidations
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            exchange (str, required): A derivative exchange that CQ support.
+            window (str, optional): Currently CQ only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            Amount of long/short liquidations orders.
+
+        """
+        return super().handle_request(self.LIQUIDITY_LIQUIDATIONS, query_params)
