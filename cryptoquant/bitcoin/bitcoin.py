@@ -42,6 +42,7 @@ class Bitcoin(RequestHandler):
         self.NTW_STOCK_TO_FLOW = "btc/network-indicator/stock-to-flow"
         self.NTW_NVT = "btc/network-indicator/nvt"
         self.NTW_NVT_GOLDEN_CROSS = "btc/network-indicator/nvt-golden-cross"
+        self.NTW_NVM = "btc/network-indicator/nvm"
         
         super().__init__(api_key)
     
@@ -1225,3 +1226,47 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.NTW_NVT_GOLDEN_CROSS, query_params)
+    
+    def get_btc_ntw_nvm(self, **query_params):
+        """
+        NVM(Network Value to Metcalfe Ratio) is a metric based on Metcalfe’s law;
+        the value of a network is proportional to the square of its nodes or user. 
+        NVM is a ratio of market cap divided by daily active address. Based on 
+        Metcalfe’s law, the value of bitcoin rises if the daily active addresses
+        increase. Therefore, if the NVM value is relatively small, it means that 
+        the value of the network is underestimated and if the value is relatively
+        high, it means that the value of the network is overestimated.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Network Value to Metcalfe Ratio.
+
+        """
+        return super().handle_request(self.NTW_NVM, query_params)
