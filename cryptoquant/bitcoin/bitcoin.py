@@ -48,6 +48,7 @@ class Bitcoin(RequestHandler):
         self.NTW_MEAN_COIN_AGE = "btc/network-indicator/mca"
         self.NTW_SUM_COIN_AGE = "btc/network-indicator/sca"
         self.NTW_SUM_COIN_AGE_DISTRIBUTION = "btc/network-indicator/sca-distribution"
+        self.NTW_NET_UNREALIZED_PNL = "btc/network-indicator/nupl"
         
         super().__init__(api_key)
     
@@ -1494,3 +1495,50 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.NTW_SUM_COIN_AGE_DISTRIBUTION, query_params)
+    
+    def get_btc_ntw_nupl(self, **query_params):
+        """
+        Net Unrealized Profit and Loss shows how different between market_cap 
+        and realized_cap. nupl is calculated as difference between market_cap 
+        and realized_cap divided by market_cap. If market_cap > realized_cap, 
+        then nupl > 0, which means bitcoin on-chain expected value is less than
+        what they actually have. So this value will give selling pressure. nup 
+        is net unrealized profit, which is calculated as sum of products of 
+        UTxO's value and price difference between created and destroyed, 
+        divided by market_cap. nup only contains UTxOs in profit. nul is net
+        unrealized loss. This is opposite indicator of nup. It only contains
+        UTxOs in loss.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently, we only support day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Net unrealized profit and loss.
+
+        """
+        return super().handle_request(self.NTW_NET_UNREALIZED_PNL, query_params)
