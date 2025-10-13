@@ -101,6 +101,7 @@ class Bitcoin(RequestHandler):
         self.NETWORK_UTXO_COUNT = "btc/network-data/utxo-count"
         self.NETWORK_FEES = "btc/network-data/fees"
         self.NETWORK_FEES_TRANSACTION = "btc/network-data/fees-transaction"
+        self.NETWORK_BLOCKREWARD = "btc/network-data/blockreward"
         
         super().__init__(api_key)
     
@@ -3627,3 +3628,43 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_FEES_TRANSACTION, query_params)
+    
+    def get_btc_net_blockreward(self, **query_params):
+        """
+        The sum of block rewards (including mining or staking rewards and 
+        transaction fees). CQ also provide this value in usd.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently CQ support day, hour, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            The sum of block rewards (including mining or stacking rewards and
+            transaction fees). CQ al provides this value in usd.
+
+        """
+        return super().handle_request(self.NETWORK_BLOCKREWARD, query_params)
