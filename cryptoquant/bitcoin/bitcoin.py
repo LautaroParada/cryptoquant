@@ -103,6 +103,7 @@ class Bitcoin(RequestHandler):
         self.NETWORK_FEES_TRANSACTION = "btc/network-data/fees-transaction"
         self.NETWORK_BLOCKREWARD = "btc/network-data/blockreward"
         self.NETWORK_DIFFICULTY = "btc/network-data/difficulty"
+        self.NETWORK_HASHRATE = "btc/network-data/hashrate"
         
         super().__init__(api_key)
     
@@ -3707,3 +3708,43 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_DIFFICULTY, query_params)
+    
+    def get_btc_net_hashrate(self, **query_params):
+        """
+        The mean speed at which miners in the network are solving hash 
+        problems. It is displayed as hashes (Gigabytes) per second.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently CQ support day, hour, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            The mean speed at which hash problems are being solved across all
+            miners in the network. It is displayed as hash(bytes) per second.
+
+        """
+        return super().handle_request(self.NETWORK_HASHRATE, query_params)

@@ -91,17 +91,22 @@ class RequestHandler:
         endpoint_url_ = self.__url_api(
             endpoint_url
             )
+        print(endpoint_url)
+        print(endpoint_url_)
         
         # Formato de los parametros
         query_params_ = self.__append_fmt(
             query_params
             )
+        print(query_params)
+        print(query_params_)
         
         self.resp = requests.get(
             url = endpoint_url_,
             headers = self.HEADERS_,
             params = query_params_
             )
+        print(self.resp.url)
         
         # Determinar la respuesta del servidor
         if self.resp.status_code == 200:
