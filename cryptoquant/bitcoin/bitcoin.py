@@ -107,6 +107,8 @@ class Bitcoin(RequestHandler):
         # BTC Mempool Statistics
         self.MEMPOOL_STATS_BY_RELATIVE_FEE = "btc/mempool/stats-by-relative-fee"
         self.MEMPOOL_STATS_IN_TOTAL = "btc/mempool/stats-in-total"
+        # BTC Lightning Network Statistics
+        self.LIGHTNING_NETWORK = "btc/lightning/stats-in-total"
         
         super().__init__(api_key)
     
@@ -3855,3 +3857,46 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.MEMPOOL_STATS_IN_TOTAL, query_params)
+    
+    # -------------------------------------
+    # BTC Lightning Network Statistics
+    # -------------------------------------
+    
+    def get_btc_light_stats(self, **query_params):
+        """
+        Lightning Network Statistics contains various metrics which are 
+        calculated from lightning network.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): Currently CQ support day and hour.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            BTC Lightning network stats.
+
+        """
+        return super().handle_request(self.LIGHTNING_NETWORK, query_params)
