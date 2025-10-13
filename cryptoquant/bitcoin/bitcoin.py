@@ -104,6 +104,8 @@ class Bitcoin(RequestHandler):
         self.NETWORK_BLOCKREWARD = "btc/network-data/blockreward"
         self.NETWORK_DIFFICULTY = "btc/network-data/difficulty"
         self.NETWORK_HASHRATE = "btc/network-data/hashrate"
+        # BTC Mempool Statistics
+        self.MEMPOOL_STATS_BY_RELATIVE_FEE = "btc/mempool/stats-by-relative-fee"
         
         super().__init__(api_key)
     
@@ -3748,3 +3750,57 @@ class Bitcoin(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_HASHRATE, query_params)
+    
+    # -------------------------------------
+    # BTC Mempool Statistics
+    # -------------------------------------
+    
+    def get_btc_mem_stats_by_relative_fee(self, **query_params):
+        """
+        Mempool Statistics contains three metrics related to transactions
+        waiting to be confirmed. You can see metrics for the number of 
+        transactions, the total amount of fees, and the aggregate size in bytes
+        of transactions. Each metric was calculated based on fee level.
+        
+        full doc: https://cryptoquant.com/docs#tag/BTC-Mempool-Statistics/operation/getBTCMempoolStatsByRelativeFee
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            metric_type (str, required): A metric type derived from statistics.
+                                        Supported metrics are:
+            Metric Type	Description
+            tx_count*	The total number of unconfirmed transactions (Number)
+            total_size	The aggregated size in bytes of transactions (Megabyte)
+            total_fee	The total fee of unconfirmed transactions (BTC)
+            
+            window (str, optional): Currently CQ support day and hour.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            Bitcoin mempool stats by relative fee.
+
+        """
+        return super().handle_request(self.MEMPOOL_STATS_BY_RELATIVE_FEE, query_params)
