@@ -29,6 +29,7 @@ class Ethereum(RequestHandler):
         self.ETH_2_STAKING_TRX_COUNT = "eth/eth2/staking-transaction-count"
         self.ETH_2_STAKING_VALIDATOR_TOTAL = "eth/eth2/staking-validator-total"
         self.ETH_2_DEPOSITOR_COUNT_TOTAL = "eth/eth2/depositor-count-total"
+        self.ETH_2_DEPOSITOR_COUNT_NEW = "eth/eth2/depositor-count-new"
         
         super().__init__(api_key)
         
@@ -604,3 +605,44 @@ class Ethereum(RequestHandler):
 
         """
         return super().handle_request(self.ETH_2_DEPOSITOR_COUNT_TOTAL, query_params)
+    
+    def get_eth_20_depositor_count_new(self, **query_params):
+        """
+        This endpoint returns the number of new unique accounts who deposited 
+        over 32 ETH to the deposit contract.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): day, hour, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+
+        Returns
+        -------
+        dict
+            This endpoint returns the number of new unique accounts who
+            deposited over 32 ETH to the deposit contract.
+
+        """
+        return super().handle_request(self.ETH_2_DEPOSITOR_COUNT_NEW, query_params)
