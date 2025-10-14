@@ -16,6 +16,7 @@ class Ethereum(RequestHandler):
         self.EXCH_FLOWS_RESERVE = "eth/exchange-flows/reserve"
         self.EXCH_FLOWS_NETFLOW = "eth/exchange-flows/netflow"
         self.EXCH_FLOWS_INFLOW = "eth/exchange-flows/inflow"
+        self.EXCH_FLOWS_OUTFLOW = "eth/exchange-flows/outflow"
         
         super().__init__(api_key)
         
@@ -175,3 +176,44 @@ class Ethereum(RequestHandler):
 
         """
         return super().handle_request(self.EXCH_FLOWS_INFLOW, query_params)
+    
+    def get_eth_exch_outflow(self, **query_params):
+        """
+        This endpoint returns the outflow of ETH into exchange wallets for as
+        far back as CQ track. The average outflow is the average transaction 
+        value for transactions flowing into exchange wallets on a given day.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            exchange (str, required): An exchange supported by CryptoQuant.
+            window (str, optional): day, hour, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Outflow statistics.
+
+        """
+        return super().handle_request(self.EXCH_FLOWS_OUTFLOW, query_params)
