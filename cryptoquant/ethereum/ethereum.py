@@ -21,6 +21,8 @@ class Ethereum(RequestHandler):
         self.EXCH_FLOWS_ADDRESES_COUNT = "eth/exchange-flows/addresses-count"
         # Exchange Supply Ratio
         self.FLOW_IDX_EXCHNAGE_SUPPLY_RATIO = "eth/flow-indicator/exchange-supply-ratio"
+        # ETH Market Indicator
+        self.MARKET_IDX_ESTIMATED_LEVERAGE_RATIO = "eth/market-indicator/estimated-leverage-ratio"
         
         super().__init__(api_key)
         
@@ -347,3 +349,55 @@ class Ethereum(RequestHandler):
 
         """
         return super().handle_request(self.FLOW_IDX_EXCHNAGE_SUPPLY_RATIO, query_params)
+    
+    # -------------------------------
+    # ETH Market Indicator
+    # -------------------------------
+    
+    def get_eth_mkt_estimated_leverage_ratio(self, **query_params):
+        """
+        By dividing the open interest of an exchange by their ETH reserve, you 
+        can estimate a relative average user leverage. Whenever the leverage 
+        value reaches a high, there is rapid volatility. Similar to Open 
+        Interest, but more accurate because it reflects the growth of the 
+        exchange itself. This is experimental indicator but it seems this 
+        reflects market sentiment. You can see how aggressive people are and
+        how conservative they are in terms of investment. For 'In Progress'
+        exchanges, estimated leverage ratio is not supported yet even though 
+        they provide open interest.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            exchange (str, required): An exchange supported by CryptoQuant.
+            window (str, optional): day, hour, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            The amount of open interest of exchnge divided by their 
+            ETH reserve.
+
+        """
+        return super().handle_request(self.MARKET_IDX_ESTIMATED_LEVERAGE_RATIO, query_params)
