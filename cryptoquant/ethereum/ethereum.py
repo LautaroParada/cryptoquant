@@ -34,6 +34,7 @@ class Ethereum(RequestHandler):
         self.ETH_2_PHASE_0_SUCCESS_RATE = "eth/eth2/phase0-success-rate"
         # ETH Fund Data
         self.FUND_MARKET_PRICE = "eth/fund-data/market-price-usd"
+        self.FUND_MARKET_VOLUME = "eth/fund-data/market-volume"
         
         super().__init__(api_key)
         
@@ -731,6 +732,10 @@ class Ethereum(RequestHandler):
         """
         return super().handle_request(self.ETH_2_PHASE_0_SUCCESS_RATE, query_params)
     
+    # -------------------------------
+    # ETH Fund Data
+    # -------------------------------
+    
     def get_eth_fund_market_price(self, **query_params):
         """
         The price of certain symbol (e.g. ethe) managed by each fund (e.g. 
@@ -752,7 +757,7 @@ class Ethereum(RequestHandler):
         **query_params : TYPE
             symbol (str, required): A stock symbol (ticker) from the table that
                                     CQ support
-            window (str, optional): day, hour, and block.
+            window (str, optional): day.
             from_ (any, optional): This defines the starting time for which data
                                 will be gathered, formatted as YYYYMMDDTHHMMSS 
                                 (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
@@ -782,3 +787,49 @@ class Ethereum(RequestHandler):
 
         """
         return super().handle_request(self.FUND_MARKET_PRICE, query_params)
+    
+    def get_eth_fund_market_volumen(self, **query_params):
+        """
+        The volume of certain symbol (e.g. ethe) managed by each fund
+        (e.g. Grayscale) reflects sentiment of investors in regulated markets. 
+        This endpoint returns traded volume of fund related stocks (e.g. ethe).
+        At this endpoint, metrics are calculated by Day. CQ provide one metric,
+        volume, traded volume of the window.
+
+        full symbol list: https://cryptoquant.com/docs#tag/ETH-Fund-Data
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            symbol (str, required): A stock symbol (ticker) from the table that
+                                    CQ support
+            window (str, optional): day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Market volume data.
+
+        """
+        return super().handle_request(self.FUND_MARKET_VOLUME, query_params)
