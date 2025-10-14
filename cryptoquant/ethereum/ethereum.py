@@ -30,6 +30,7 @@ class Ethereum(RequestHandler):
         self.ETH_2_STAKING_VALIDATOR_TOTAL = "eth/eth2/staking-validator-total"
         self.ETH_2_DEPOSITOR_COUNT_TOTAL = "eth/eth2/depositor-count-total"
         self.ETH_2_DEPOSITOR_COUNT_NEW = "eth/eth2/depositor-count-new"
+        self.ETH_2_STAKING_RATE = "eth/eth2/staking-rate"
         
         super().__init__(api_key)
         
@@ -646,3 +647,43 @@ class Ethereum(RequestHandler):
 
         """
         return super().handle_request(self.ETH_2_DEPOSITOR_COUNT_NEW, query_params)
+    
+    def get_eth_20_staking_rate(self, **query_params):
+        """
+        This endpoint returns the percentage of the balance of the ETH 2.0 
+        deposit contract to the total supply.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): day, hour, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            The percentage of valid balance of the deposit contract to the
+            total supply on this window.
+
+        """
+        return super().handle_request(self.ETH_2_STAKING_RATE, query_params)
