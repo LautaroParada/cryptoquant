@@ -19,6 +19,8 @@ class Ethereum(RequestHandler):
         self.EXCH_FLOWS_OUTFLOW = "eth/exchange-flows/outflow"
         self.EXCH_FLOWS_TRANSACTIONS_COUNT = "eth/exchange-flows/transactions-count"
         self.EXCH_FLOWS_ADDRESES_COUNT = "eth/exchange-flows/addresses-count"
+        # Exchange Supply Ratio
+        self.FLOW_IDX_EXCHNAGE_SUPPLY_RATIO = "eth/flow-indicator/exchange-supply-ratio"
         
         super().__init__(api_key)
         
@@ -300,3 +302,48 @@ class Ethereum(RequestHandler):
 
         """
         return super().handle_request(self.EXCH_FLOWS_ADDRESES_COUNT, query_params)
+    
+    # -------------------------------
+    # Exchange Supply Ratio
+    # -------------------------------
+    
+    def get_eth_flow_exch_supply_ratio(self, **query_params):
+        """
+        Exchange Supply Ratio is calculated as exchange reserve divided by 
+        total supply. The metric measures how much tokens are reserved in the 
+        exchange relative to total supply of the token.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            exchange (str, required): An exchange supported by CryptoQuant.
+            window (str, optional): day, hour, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Ratio of reserved token in the exchange relative to total supply.
+
+        """
+        return super().handle_request(self.FLOW_IDX_EXCHNAGE_SUPPLY_RATIO, query_params)
