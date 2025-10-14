@@ -32,6 +32,8 @@ class Ethereum(RequestHandler):
         self.ETH_2_DEPOSITOR_COUNT_NEW = "eth/eth2/depositor-count-new"
         self.ETH_2_STAKING_RATE = "eth/eth2/staking-rate"
         self.ETH_2_PHASE_0_SUCCESS_RATE = "eth/eth2/phase0-success-rate"
+        # ETH Fund Data
+        self.FUND_MARKET_PRICE = "eth/fund-data/market-price-usd"
         
         super().__init__(api_key)
         
@@ -728,3 +730,55 @@ class Ethereum(RequestHandler):
 
         """
         return super().handle_request(self.ETH_2_PHASE_0_SUCCESS_RATE, query_params)
+    
+    def get_eth_fund_market_price(self, **query_params):
+        """
+        The price of certain symbol (e.g. ethe) managed by each fund (e.g. 
+        Grayscale) reflects sentiment of investors in regulated markets. In
+        this specific case, having single share of ETHE means having 
+        approximately 0.01 ETH invested to Grayscale. This endpoint returns
+        metrics related to the US Dollar(USD) price of fund related stocks 
+        (e.g. ethe). CQ provide five metrics, price_usd_open, USD opening price
+        at the beginning of the window, price_usd_close, USD closing price at 
+        the end of the window, price_usd_high, the highest USD price in a given
+        window, price_usd_low, the lowest USD price in a given window, and 
+        price_usd_adj_close, USD adjusted closing price at the end of the
+        window. All Symbol is not supported.
+        
+        full symbol list: https://cryptoquant.com/docs#tag/ETH-Fund-Data
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            symbol (str, required): A stock symbol (ticker) from the table that
+                                    CQ support
+            window (str, optional): day, hour, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Market price OHLC and adjusted C data in USD.
+
+        """
+        return super().handle_request(self.FUND_MARKET_PRICE, query_params)
