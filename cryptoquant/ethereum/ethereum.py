@@ -55,6 +55,7 @@ class Ethereum(RequestHandler):
         self.NETWORK_CONTRACT_CALLS_INTERNAL = "eth/network-data/contract-calls-count-internal"
         self.NETWORK_CONTRACT_CALLS_COUNT = "eth/network-data/contract-calls-count"
         self.NETWORK_TRANSACTIONS_COUNT_ALL = "eth/network-data/transactions-count-all"
+        self.NETWORK_ADDRESSES_COUNT = "eth/network-data/addresses-count"
         
         super().__init__(api_key)
         
@@ -1493,7 +1494,7 @@ class Ethereum(RequestHandler):
         """
         return super().handle_request(self.NETWORK_TRANSACTIONS_COUNT_BETWEEN_EOA, query_params)
     
-    def get_eth_trx_contract_calls_external(self, **query_params):
+    def get_eth_ntx_trx_contract_calls_external(self, **query_params):
         """
         This endpoint returns metrics related to the number of external 
         contract calls.
@@ -1532,7 +1533,7 @@ class Ethereum(RequestHandler):
         """
         return super().handle_request(self.NETWORK_CONTRACT_CALLS_EXTERNAL, query_params)
     
-    def get_eth_trx_contract_calls_internal(self, **query_params):
+    def get_eth_ntx_trx_contract_calls_internal(self, **query_params):
         """
         This endpoint returns metrics related to the number of internal 
         contract calls.
@@ -1571,7 +1572,7 @@ class Ethereum(RequestHandler):
         """
         return super().handle_request(self.NETWORK_CONTRACT_CALLS_INTERNAL, query_params)
     
-    def get_eth_trx_contract_calls_count(self, **query_params):
+    def get_eth_ntx_trx_contract_calls_count(self, **query_params):
         """
         This endpoint returns metrics related to the number of contract calls 
         including both internal and external calls.
@@ -1648,3 +1649,47 @@ class Ethereum(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_TRANSACTIONS_COUNT_ALL, query_params)
+    
+    def get_eth_ntx_addr_count(self, **query_params):
+        """
+        This endpoint returns metrics relating to the number of used Ethereum 
+        addresses. CQ provide several metrics, addresses_count_active, the 
+        total number of unique addresses that were active (either sender or 
+        receiver) on the blockchain in a given window, addresses_count_sender, 
+        the number of addresses that were active as a sender, and 
+        addresses_count_receiver, the number of addresses that were active as a
+        receiver.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): day, hour, 10minute, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            addresses count active, sender and receiver.
+
+        """
+        return super().handle_request(self.NETWORK_ADDRESSES_COUNT, query_params)
