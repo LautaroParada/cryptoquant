@@ -43,6 +43,7 @@ class Ethereum(RequestHandler):
         self.MARKET_FUNDING_RATES = "eth/market-data/funding-rates"
         self.MARKET_TAKER_BUY_SELL_STATS = "eth/market-data/taker-buy-sell-stats"
         self.MARKET_LIQUIDATIONS = "eth/market-data/liquidations"
+        self.MARKET_COINBASE_PREMIUM_INDEX = "eth/market-data/coinbase-premium-index"
         
         super().__init__(api_key)
         
@@ -1187,3 +1188,45 @@ class Ethereum(RequestHandler):
 
         """
         return super().handle_request(self.MARKET_LIQUIDATIONS, query_params)
+    
+    def get_eth_mkt_coinbase_premium_index(self, **query_params):
+        """
+        Coinbase Premium Index is calculated as percent difference from Binance
+        price(ETHUSDT) to Coinbase price(ETHUSD). Coinbase Premium Gap is 
+        calculated as gap between Coinbase price(ETHUSD) and Binance 
+        price(ETHUSDT). The higher the premium, the stronger the spot buying 
+        pressure from Coinbase.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): day, hour and minute.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            Coinbase premium index in percentage and coinbase premium gap.
+
+        """
+        return super().handle_request(self.MARKET_COINBASE_PREMIUM_INDEX, query_params)
