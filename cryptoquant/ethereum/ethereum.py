@@ -48,6 +48,7 @@ class Ethereum(RequestHandler):
         # ETH Network Data
         self.NETWORK_SUPPLY = "eth/network-data/supply"
         self.NETWORK_VELOCITY = "eth/network-data/velocity"
+        self.NETWORK_CONTRACTS_COUNT = "eth/network-data/contracts-count"
         
         super().__init__(api_key)
         
@@ -1364,3 +1365,45 @@ class Ethereum(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_VELOCITY, query_params)
+    
+    def get_eth_ntx_contracts_count(self, **query_params):
+        """
+        This endpoint returns metrics related to the number of contracts. CQ
+        provide contracts_created_new representing the number of contracts 
+        created, contracts_destroyed_new representing the number of contracts 
+        destroyed, and contracts_count_total representing the unique number of
+        contracts.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): day, hour, 10minute, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            new, destrpyed and total contracts on the ethereum netwok.
+
+        """
+        return super().handle_request(self.NETWORK_CONTRACTS_COUNT, query_params)
