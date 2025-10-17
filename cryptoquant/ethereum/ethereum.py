@@ -73,6 +73,7 @@ class Ethereum(RequestHandler):
         self.NETWORK_BLOCK_BYTES = "eth/network-data/block-bytes"
         self.NETWORK_BLOCK_COUNT = "eth/network-data/block-count"
         self.NETWORK_BLOCK_INTERVAL = "eth/network-data/block-interval"
+        self.NETWORK_FEES = "eth/network-data/fees"
         
         super().__init__(api_key)
         
@@ -2387,3 +2388,45 @@ class Ethereum(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_BLOCK_INTERVAL, query_params)
+    
+    def get_eth_ntx_fees(self, **query_params):
+        """
+        This endpoint returns the statistics related to fees paid from 
+        executing transactions. CQ provide the following statistics, 
+        fees_total, the sum of all fees, fees_block_mean, the average fee per 
+        block, and fees_reward_percent, the percentage of fees relative to the 
+        total block reward. CQ provide the metrics in both ETH and USD units.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): day, hour, 10minute, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            statistics related to fees paid from executing transactions.
+
+        """
+        return super().handle_request(self.NETWORK_FEES, query_params)
