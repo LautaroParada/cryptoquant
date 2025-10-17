@@ -62,6 +62,7 @@ class Ethereum(RequestHandler):
         self.NETWORK_TOKENS_TRANSFERRED_COUNT_BY_CONTRACT_CALLS_INTERNAL = "eth/network-data/tokens-transferred-count-by-contract-calls-internal"
         self.NETWORK_TOKENS_TRANSFERRED_COUNT_BY_CONTRACT_CALLS = "eth/network-data/tokens-transferred-count-by-contract-calls"
         self.NETWORK_TOKENS_TRANSFERRED_COUNT_ALL = "eth/network-data/tokens-transferred-count-all"
+        self.NETWORK_TOKENS_TRANSFERRED = "eth/network-data/tokens-transferred"
         
         super().__init__(api_key)
         
@@ -1937,3 +1938,47 @@ class Ethereum(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED_COUNT_ALL, query_params)
+    
+    def get_eth_ntx_tokens_transferred(self, **query_params):
+        """
+        This endpoint returns metrics related to the number of tokens 
+        transferred, i.e transaction volume. We provide several metrics, 
+        tokens_transferred_total, the total number of transferred tokens in 
+        that window, tokens_transferred_mean, the mean of transferred tokens 
+        per transaction in that window, and tokens_transferred_median, the 
+        median of tokens transferred per transaction. We also provide this 
+        value in USD units.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): day, hour, 10minute, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            metrics related to the number of tokens transferred.
+
+        """
+        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED, query_params)
