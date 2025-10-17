@@ -37,7 +37,8 @@ class XRP(RequestHandler):
         self.MARKET_ESTIMATED_LEVERAGE_RATIO = "xrp/market-data/estimated-leverage-ratio"
         # Network data
         self.NETWORK_ADDRESSES_COUNT = "xrp/network-data/addresses-count"
-        self.NETWORK_VELOCITY = "xrp/network-data/velocity"               
+        self.NETWORK_VELOCITY = "xrp/network-data/velocity"            
+        self.NETWORK_BLOCK_INTERVAL = "xrp/network-data/block-interval"
         
     # -----------------------------------
     # Entity list
@@ -966,3 +967,41 @@ class XRP(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_VELOCITY, query_params)
+    
+    def get_xrp_ntx_block_interval(self, **query_params):
+        """
+        The average time between blocks generated displayed in seconds.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            The average time between blocks generated in seconds.
+
+        """
+        return super().handle_request(self.NETWORK_BLOCK_INTERVAL, query_params)
