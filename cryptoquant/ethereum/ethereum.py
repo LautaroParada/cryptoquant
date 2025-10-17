@@ -72,6 +72,7 @@ class Ethereum(RequestHandler):
         self.NETWORK_FAILED_TOKENS_TRANSFERRED_COUNT = "eth/network-data/failed-tokens-transferred-count"
         self.NETWORK_BLOCK_BYTES = "eth/network-data/block-bytes"
         self.NETWORK_BLOCK_COUNT = "eth/network-data/block-count"
+        self.NETWORK_BLOCK_INTERVAL = "eth/network-data/block-interval"
         
         super().__init__(api_key)
         
@@ -2348,3 +2349,41 @@ class Ethereum(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_BLOCK_COUNT, query_params)
+    
+    def get_eth_ntx_block_interval(self, **query_params):
+        """
+        The average time between blocks generated displayed in seconds.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): day, hour, 10minute, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            The average time between blocks generated in seconds.
+
+        """
+        return super().handle_request(self.NETWORK_BLOCK_INTERVAL, query_params)
