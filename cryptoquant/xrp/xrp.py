@@ -32,6 +32,7 @@ class XRP(RequestHandler):
         self.MARKET_OPEN_INTEREST = "xrp/market-data/open-interest"
         self.MARKET_FUNDING_RATES = "xrp/market-data/funding-rates"
         self.MARKET_TAKER_BUY_SELL_STATS = "xrp/market-data/taker-buy-sell-stats"
+        self.MARKET_LIQUIDATIONS = "xrp/market-data/liquidations"
                 
         
     # -----------------------------------
@@ -747,3 +748,51 @@ class XRP(RequestHandler):
 
         """
         return super().handle_request(self.MARKET_TAKER_BUY_SELL_STATS, query_params)
+    
+    def get_xrp_mkt_liquidations(self, **query_params):
+        """
+        Liquidations are sum of forced market orders to exit leveraged 
+        positions caused by price volatility. Liquidations indicate current 
+        price volatility and traders' sentiment which side they had been 
+        betting. Note that Binance's liquidation data collection policy has 
+        changed since 2021-04-27, which makes the distribution of the data has 
+        changed after that.
+        
+        full documentation: https://cryptoquant.com/docs#tag/XRP-Market-Data/operation/XRPgetLiquidations
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            exchange (str, required): An exchange supported by CryptoQuant.
+            symbol (str, optional): A XRP pair symbol from the table that CQ
+                                    support.
+            window (str, optional): day, hour, min.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            Amount of long/short liquidations orders.
+
+        """
+        return super().handle_request(self.MARKET_LIQUIDATIONS, query_params)
