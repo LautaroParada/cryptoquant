@@ -29,6 +29,7 @@ class XRP(RequestHandler):
         self.FLOW_EXCHANGE_SUPPLY_RATIO = "xrp/flow-indicator/exchange-supply-ratio"
         # Market data
         self.MARKET_PRICE_OHLCV = "xrp/market-data/price-ohlcv"
+        self.MARKET_OPEN_INTEREST = "xrp/market-data/open-interest"
                 
         
     # -----------------------------------
@@ -605,3 +606,47 @@ class XRP(RequestHandler):
 
         """
         return super().handle_request(self.MARKET_PRICE_OHLCV, query_params)
+    
+    def get_xrp_mkt_open_interest(self, **query_params):
+        """
+        This endpoint returns XRP Perpetual Open Interest from derivative 
+        exchanges.
+        
+        full documentation: https://cryptoquant.com/docs#tag/XRP-Market-Data/operation/XRPgetOpenInterest
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            exchange (str, required): An exchange supported by CryptoQuant.
+            symbol (str, optional): A XRP pair symbol from the table that CQ
+                                    support.
+            window (str, optional): day and hour.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            Open interest in USD.
+
+        """
+        return super().handle_request(self.MARKET_OPEN_INTEREST, query_params)
