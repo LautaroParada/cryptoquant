@@ -33,6 +33,7 @@ class XRP(RequestHandler):
         self.MARKET_FUNDING_RATES = "xrp/market-data/funding-rates"
         self.MARKET_TAKER_BUY_SELL_STATS = "xrp/market-data/taker-buy-sell-stats"
         self.MARKET_LIQUIDATIONS = "xrp/market-data/liquidations"
+        self.MARKET_CAPITALIZATION = "xrp/market-data/capitalization"
                 
         
     # -----------------------------------
@@ -796,3 +797,43 @@ class XRP(RequestHandler):
 
         """
         return super().handle_request(self.MARKET_LIQUIDATIONS, query_params)
+    
+    def get_xrp_mkt_capitalization(self, **query_params):
+        """
+        This endpoint returns metrics related to market capitalization. First, 
+        CQ provide market_cap, which is total market capitalization of XRP, 
+        calculated by multiplying the total supply with its USD price.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): day, hour, min.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            Market cap for xrp.
+
+        """
+        return super().handle_request(self.MARKET_CAPITALIZATION, query_params)
