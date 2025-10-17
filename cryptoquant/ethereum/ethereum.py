@@ -82,6 +82,7 @@ class Ethereum(RequestHandler):
         self.NETWORK_BLOCKREWARD = "eth/network-data/blockreward"
         self.NETWORK_BLOCKREWARD_EXCEPT_UNCLE = "eth/network-data/blockreward-except-uncle"
         self.NETWORK_GAS = "eth/network-data/gas"
+        self.NETWORK_BASE_FEE = "eth/network-data/base-fee"
         
         super().__init__(api_key)
         
@@ -2778,3 +2779,43 @@ class Ethereum(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_GAS, query_params)
+    
+    def get_eth_ntx_base_fee(self, **query_params):
+        """
+        Base Fee represents the base fee per gas used to burn the fees in 
+        Ethereum chain, introduced after London upgrade. base_fee_mean is the 
+        average value of the base fee per gas over the blocks in Gwei.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): day, hour, 10minute, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            The average value of the base fee pern gas over the blocks is Gwei.
+
+        """
+        return super().handle_request(self.NETWORK_BASE_FEE, query_params)
