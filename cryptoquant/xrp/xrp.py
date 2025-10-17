@@ -15,7 +15,7 @@ class XRP(RequestHandler):
         self.ENTITY_LIST = "xrp/status/entity-list"
         # Entity flows
         self.ENTITY_RESERVE = "xrp/entity-flows/reserve"
-        
+        self.ENTITY_SHARE = "xrp/entity-flows/share"
         
     # -----------------------------------
     # Entity list
@@ -85,3 +85,43 @@ class XRP(RequestHandler):
 
         """
         return super().handle_request(self.ENTITY_RESERVE, query_params)
+    
+    def get_xrp_entity_share(self, **query_params):
+        """
+        This metric is calculated by dividing XRP holdings of the entity by the 
+        total supply
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            exchange (str, required): An exchange supported by CryptoQuant.
+            window (str, optional): day, hour, and 10min.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            The amount of XRP on a given entity on this window.
+
+        """
+        return super().handle_request(self.ENTITY_SHARE, query_params)
