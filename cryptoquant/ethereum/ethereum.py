@@ -88,6 +88,7 @@ class Ethereum(RequestHandler):
         self.NETWORK_DIFFICULTY = "eth/network-data/difficulty"
         self.NETWORK_HASHRATE = "eth/network-data/hashrate"
         self.NETWORK_UNCLE_BLOCK_COUNT = "eth/network-data/uncle-block-count"
+        self.NETWORK_UNCLE_BLOCKREWARD = "eth/network-data/uncle-blockreward"
         
         super().__init__(api_key)
         
@@ -3024,3 +3025,43 @@ class Ethereum(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_UNCLE_BLOCK_COUNT, query_params)
+    
+    def get_eth_ntx_uncle_blockreward(self, **query_params):
+        """
+        The sum of uncle block rewards (including mining or staking rewards and
+        transaction fees). We also provide this value in USD units.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): day, hour, 10minute, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            The sum of uncle block rewards (including mining or stacking rewards
+            and transaction fees). CQ also provide this value in USD units.
+
+        """
+        return super().handle_request(self.NETWORK_UNCLE_BLOCKREWARD, query_params)
