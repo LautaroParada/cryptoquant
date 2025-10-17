@@ -35,6 +35,9 @@ class XRP(RequestHandler):
         self.MARKET_LIQUIDATIONS = "xrp/market-data/liquidations"
         self.MARKET_CAPITALIZATION = "xrp/market-data/capitalization"
         self.MARKET_ESTIMATED_LEVERAGE_RATIO = "xrp/market-data/estimated-leverage-ratio"
+        # Network data
+        self.NETWORK_ADDRESSES_COUNT = "xrp/network-data/addresses-count"
+        
                 
         
     # -----------------------------------
@@ -560,7 +563,7 @@ class XRP(RequestHandler):
         return super().handle_request(self.FLOW_EXCHANGE_SUPPLY_RATIO, query_params)
     
     # -----------------------------------
-    # XRP Flow Indicator
+    # XRP Market Data
     # -----------------------------------
     
     def get_xrp_mkt_ohlcv(self, **query_params):
@@ -718,8 +721,6 @@ class XRP(RequestHandler):
         ----------
         **query_params : TYPE
             exchange (str, required): An exchange supported by CryptoQuant.
-            symbol (str, optional): A XRP pair symbol from the table that CQ
-                                    support.
             window (str, optional): day, hour, min.
             from_ (any, optional): This defines the starting time for which data
                                 will be gathered, formatted as YYYYMMDDTHHMMSS 
@@ -768,7 +769,7 @@ class XRP(RequestHandler):
             exchange (str, required): An exchange supported by CryptoQuant.
             symbol (str, optional): A XRP pair symbol from the table that CQ
                                     support.
-            window (str, optional): day, hour, min.
+            window (str, optional): day, hour, and min
             from_ (any, optional): This defines the starting time for which data
                                 will be gathered, formatted as YYYYMMDDTHHMMSS 
                                 (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
@@ -808,7 +809,7 @@ class XRP(RequestHandler):
         Parameters
         ----------
         **query_params : TYPE
-            window (str, optional): day, hour, min.
+            window (str, optional): day and hour.
             from_ (any, optional): This defines the starting time for which data
                                 will be gathered, formatted as YYYYMMDDTHHMMSS 
                                 (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
@@ -850,9 +851,7 @@ class XRP(RequestHandler):
         ----------
         **query_params : TYPE
             exchange (str, required): An exchange supported by CryptoQuant.
-            symbol (str, optional): A XRP pair symbol from the table that CQ
-                                    support.
-            window (str, optional): day, hour, min.
+            window (str, optional): day, hour, and 10min.
             from_ (any, optional): This defines the starting time for which data
                                 will be gathered, formatted as YYYYMMDDTHHMMSS 
                                 (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
@@ -882,3 +881,49 @@ class XRP(RequestHandler):
 
         """
         return super().handle_request(self.MARKET_ESTIMATED_LEVERAGE_RATIO, query_params)
+    
+    # -----------------------------------
+    # XRP Network Data
+    # -----------------------------------
+    
+    def get_xrp_ntx_addrs_count(self, **query_params):
+        """
+        NVT(Network Value to Transaction) ratio is the network value
+        (supply_total * price_usd) divided by tokens_transferred_total. 
+        nvt is a metric often used to determine whether the price is overvalued 
+        or not. The theory behind this indicator is that the value of the token
+        depends on how actively transactions take place on the network.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            The number of active addresses.
+
+        """
+        return super().handle_request(self.NETWORK_ADDRESSES_COUNT, query_params)
