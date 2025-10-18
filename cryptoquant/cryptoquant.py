@@ -8,10 +8,12 @@ Created on Tue Oct  7 19:23:16 2025
 from cryptoquant.discovery import Discovery
 from cryptoquant.bitcoin import Bitcoin
 from cryptoquant.ethereum import Ethereum
+from cryptoquant.xrp import XRP
 
-class CryptoQuant(Discovery, Bitcoin, Ethereum):
+class CryptoQuant(Discovery, Bitcoin, Ethereum, XRP):
     def __init__(self, api_key):
         # Sub estructuras de la API
         Discovery.__init__(self, api_key)
         Bitcoin.__init__(self, api_key)
         Ethereum.__init__(self, api_key)
+        XRP.__init__(self, api_key)
