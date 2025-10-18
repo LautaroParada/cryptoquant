@@ -55,6 +55,7 @@ class XRP(RequestHandler):
         # AMM Data
         self.AMM_PRICE = "xrp/amm-data/price"
         self.AMM_LIQUIDITY = "xrp/amm-data/liquidity"
+        self.AMM_FEE = "xrp/amm-data/fee"
         
     # -----------------------------------
     # Entity list
@@ -1538,3 +1539,43 @@ class XRP(RequestHandler):
 
         """
         return super().handle_request(self.AMM_LIQUIDITY, query_params)
+    
+    def get_xrp_amm_fee(self, **query_params):
+        """
+        This endpoint returns the trading fee on AMM. Currently, CQ only cover 
+        non-XRP/XRP pairs.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            amm (str, required): An AMM pair from the table that CQ support
+            window (str, optional): day and hour.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            The trading Fee on AMM
+
+        """
+        return super().handle_request(self.AMM_FEE, query_params)
