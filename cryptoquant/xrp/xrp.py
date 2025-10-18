@@ -47,6 +47,8 @@ class XRP(RequestHandler):
         self.NETWORK_SUPPLY = "xrp/network-data/supply"
         # Network Indicator
         self.NETWORK_VALUE_TO_TRANSACTION = "xrp/network-indicator/nvt"
+        # Dex Data
+        self.DEX_VOLUME = "xrp/dex-data/volume"
         
     # -----------------------------------
     # Entity list
@@ -1288,3 +1290,45 @@ class XRP(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_VALUE_TO_TRANSACTION, query_params)
+    
+    # -----------------------------------
+    # XRP Network Indicator
+    # -----------------------------------
+    
+    def get_xrp_dex_volume(self, **query_params):
+        """
+        XRP volume traded on XRPL DEX
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): day and hour.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            XRP volume traded on XRPL DEX.
+
+        """
+        return super().handle_request(self.DEX_VOLUME, query_params)
