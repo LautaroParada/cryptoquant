@@ -54,6 +54,7 @@ class XRP(RequestHandler):
         self.DEX_XRP_DEX_PRICE = "xrp/dex-data/dex-price"
         # AMM Data
         self.AMM_PRICE = "xrp/amm-data/price"
+        self.AMM_LIQUIDITY = "xrp/amm-data/liquidity"
         
     # -----------------------------------
     # Entity list
@@ -1458,7 +1459,7 @@ class XRP(RequestHandler):
     
     def get_xrp_amm_price(self, **query_params):
         """
-        This endpoint returns XRP exchange rate on AMM. Currently, we only 
+        This endpoint returns XRP exchange rate on AMM. Currently, CQ only 
         cover non-XRP/XRP pairs.
         
         full documentarion: https://cryptoquant.com/docs#tag/XRP-AMM-Data
@@ -1497,3 +1498,43 @@ class XRP(RequestHandler):
 
         """
         return super().handle_request(self.AMM_PRICE, query_params)
+    
+    def get_xrp_amm_liquidity(self, **query_params):
+        """
+        This endpoint returns the total amount of liquidity on AMM. Currently, 
+        CQ only cover non-XRP/XRP pairs.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            amm (str, required): An AMM pair from the table that CQ support
+            window (str, optional): day and hour.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            The total amount of liquidity on AMM.
+
+        """
+        return super().handle_request(self.AMM_LIQUIDITY, query_params)
