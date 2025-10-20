@@ -28,6 +28,7 @@ class StableCoins(RequestHandler):
         # Network Data
         self.NETWORK_SUPPLY = "stablecoin/network-data/supply"
         self.NETWORK_EVENTS_COUNT = "stablecoin/network-data/events-count"
+        self.NETWORK_TOKENS_TRANSFERRED = "stablecoin/network-data/tokens-transferred"
         
     # -----------------------------
     # Entity List
@@ -557,3 +558,45 @@ class StableCoins(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_EVENTS_COUNT, query_params)
+    
+    def get_stable_trx_tokens_transferred(self, **query_params):
+        """
+        This endpoint returns metrics related to the number of tokens 
+        transferred, i.e transaction volume. We provide several metrics, 
+        tokens_transferred_total, the total number of transferred tokens, and
+        tokens_transferred_mean, the mean tokens transferred per transaction.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            token (str, required): A stablecoin from the table that CQ support.
+            window (str, optional): day and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Total tokens transferred and mean.
+
+        """
+        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED, query_params)
