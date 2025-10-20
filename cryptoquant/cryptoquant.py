@@ -9,6 +9,7 @@ from cryptoquant.discovery import Discovery
 from cryptoquant.bitcoin import Bitcoin
 from cryptoquant.ethereum import Ethereum
 from cryptoquant.xrp import XRP
+from cryptoquant.stablecoins import StableCoins
 
 class CryptoQuant(Discovery, Bitcoin, Ethereum, XRP):
     def __init__(self, api_key):
@@ -17,3 +18,4 @@ class CryptoQuant(Discovery, Bitcoin, Ethereum, XRP):
         Bitcoin.__init__(self, api_key)
         Ethereum.__init__(self, api_key)
         XRP.__init__(self, api_key)
+        StableCoins.__init__(self, api_key)
