@@ -29,6 +29,7 @@ class StableCoins(RequestHandler):
         self.NETWORK_SUPPLY = "stablecoin/network-data/supply"
         self.NETWORK_EVENTS_COUNT = "stablecoin/network-data/events-count"
         self.NETWORK_TOKENS_TRANSFERRED = "stablecoin/network-data/tokens-transferred"
+        self.NETWORK_ADDRESSES_COUNT = "stablecoin/network-data/addresses-count"
         
     # -----------------------------
     # Entity List
@@ -600,3 +601,48 @@ class StableCoins(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED, query_params)
+    
+    def get_stable_trx_addrs_count(self, **query_params):
+        """
+        This endpoint returns metrics relating to the number of used addresses
+        to transfer the token. CQ provide several metrics, 
+        addresses_active_count, the total number of unique addresses that were 
+        active (either sender or receiver) on the blockchain in a given window,
+        addresses_active_sender_count, the number of addresses that were active
+        as a sender, addresses_active_receiver_count, the number of addresses 
+        that were active as a receiver.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            token (str, required): A stablecoin from the table that CQ support.
+            window (str, optional): day and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Statistics for counting addresses.
+
+        """
+        return super().handle_request(self.NETWORK_ADDRESSES_COUNT, query_params)
