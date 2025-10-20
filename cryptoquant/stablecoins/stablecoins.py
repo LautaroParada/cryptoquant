@@ -24,6 +24,7 @@ class StableCoins(RequestHandler):
         self.FLOW_EXCHANGE_SUPPLY_RATIO = "stablecoin/flow-indicator/exchange-supply-ratio"
         # Price OHLCV
         self.MARKET_OHLCV = "stablecoin/market-data/price-ohlcv"
+        self.MARKET_CAPITALIZATION = "stablecoin/market-data/capitalization"
         
     # -----------------------------
     # Entity List
@@ -411,3 +412,46 @@ class StableCoins(RequestHandler):
 
         """
         return super().handle_request(self.MARKET_OHLCV, query_params)
+    
+    def get_stable_mkt_capitalization(self, **query_params):
+        """
+        This endpoint returns metrics related to market capitalization. We 
+        currently provide market_cap, which is total market capitalization of 
+        the token, calculated by multiplying the circulating supply with its 
+        USD price(circulating_supply * price_usd_close).
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            token (str, required): A stablecoin from the table that CQ support.
+            window (str, optional): day, hour, and min.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Market capitalization of the stable coin, calculated by total
+            supply times price close.
+
+        """
+        return super().handle_request(self.MARKET_CAPITALIZATION, query_params)
