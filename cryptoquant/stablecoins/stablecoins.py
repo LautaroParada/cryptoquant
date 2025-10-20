@@ -25,6 +25,8 @@ class StableCoins(RequestHandler):
         # Price OHLCV
         self.MARKET_OHLCV = "stablecoin/market-data/price-ohlcv"
         self.MARKET_CAPITALIZATION = "stablecoin/market-data/capitalization"
+        # Network Data
+        self.NETWORK_SUPPLY = "stablecoin/network-data/supply"
         
     # -----------------------------
     # Entity List
@@ -361,7 +363,7 @@ class StableCoins(RequestHandler):
         return super().handle_request(self.FLOW_EXCHANGE_SUPPLY_RATIO, query_params)
     
     # -----------------------------
-    # Flow Indicator
+    # Market Data
     # -----------------------------
     
     def get_stable_mkt_ohlcv(self, **query_params):
@@ -424,7 +426,7 @@ class StableCoins(RequestHandler):
         ----------
         **query_params : TYPE
             token (str, required): A stablecoin from the table that CQ support.
-            window (str, optional): day, hour, and min.
+            window (str, optional): day and block.
             from_ (any, optional): This defines the starting time for which data
                                 will be gathered, formatted as YYYYMMDDTHHMMSS 
                                 (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
@@ -455,3 +457,58 @@ class StableCoins(RequestHandler):
 
         """
         return super().handle_request(self.MARKET_CAPITALIZATION, query_params)
+    
+    # -----------------------------
+    # Network Data
+    # -----------------------------
+    
+    def get_stable_ntx_supply(self, **query_params):
+        """
+        This end point returns metrics related to token supply, i.e. the amount 
+        of tokens in existence. CQ currently provide six metrics. supply_total 
+        is the total amount of tokens in existence, and supply_circulating is
+        an approximation of the amount of tokens that are circulating in the 
+        market(e.g. excluding tokens owned by the issuing company's treasury 
+        address). supply_minted and supply_burned represents how many tokens 
+        were added/subtracted from supply_total. supply_issued and 
+        supply_redeemed represents how many tokens were added/subtracted from 
+        supply_circulating. For some tokens, mint and issue(or redeem and burn)
+        occurs simultaneously, and for others this does not. For further 
+        information, please refer to the section 'Stablecoin Issuing Mechanism'.
+        
+        https://cryptoquant.com/docs#tag/Stablecoin-Network-Data
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            token (str, required): A stablecoin from the table that CQ support.
+            window (str, optional): day and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Supply stablecoins statistics.
+
+        """
+        return super().handle_request(self.NETWORK_SUPPLY, query_params)
