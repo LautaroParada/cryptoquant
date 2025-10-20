@@ -16,6 +16,7 @@ class StableCoins(RequestHandler):
         # Exchange Flows
         self.EXCH_RESERVE = "stablecoin/exchange-flows/reserve"
         self.EXCH_NETFLOW = "stablecoin/exchange-flows/netflow"
+        self.EXCH_INFLOW = "stablecoin/exchange-flows/inflow"
         
     # -----------------------------
     # Entity List
@@ -130,3 +131,46 @@ class StableCoins(RequestHandler):
 
         """
         return super().handle_request(self.EXCH_NETFLOW, query_params)
+    
+    def get_stable_exch_inflow(self, **query_params):
+        """
+        This endpoint returns the inflow of Stablecoin into exchange wallets 
+        for as far back as we track. The average inflow is the average 
+        transaction value for transactions flowing into exchange wallets on a 
+        given day.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            token (str, required): A stablecoin from the table that CQ support.
+            exchange (str, required): An exchange supported by CryptoQuant.
+            window (str, optional): day, hour, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Inflwo statistics for stablecoins inflows.
+
+        """
+        return super().handle_request(self.EXCH_INFLOW, query_params)
