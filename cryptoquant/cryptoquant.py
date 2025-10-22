@@ -11,8 +11,9 @@ from cryptoquant.ethereum import Ethereum
 from cryptoquant.xrp import XRP
 from cryptoquant.stablecoins import StableCoins
 from cryptoquant.trx import TRX
+from cryptoquant.erc20 import Erc20
 
-class CryptoQuant(Discovery, Bitcoin, Ethereum, XRP, StableCoins, TRX):
+class CryptoQuant(Discovery, Bitcoin, Ethereum, XRP, StableCoins, TRX, Erc20):
     def __init__(self, api_key):
         # Sub estructuras de la API
         Discovery.__init__(self, api_key)
@@ -21,3 +22,4 @@ class CryptoQuant(Discovery, Bitcoin, Ethereum, XRP, StableCoins, TRX):
         XRP.__init__(self, api_key)
         StableCoins.__init__(self, api_key)
         TRX.__init__(self, api_key)
+        Erc20.__init__(self, api_key)
