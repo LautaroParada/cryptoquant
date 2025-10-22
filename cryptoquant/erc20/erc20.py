@@ -19,6 +19,7 @@ class Erc20(RequestHandler):
         self.EXCHANGE_FLOWS_INFLOW = "erc20/exchange-flows/inflow"
         self.EXCHANGE_FLOWS_OUTFLOW = "erc20/exchange-flows/outflow"
         self.EXCHANGE_FLOWS_TRANSACTIONS_COUNT = "erc20/exchange-flows/transactions-count"
+        self.EXCHANGE_FLOWS_ADDRESSES_COUNT = "erc20/exchange-flows/addresses-count"
         
     # -------------------------------
     # Entity list
@@ -266,3 +267,45 @@ class Erc20(RequestHandler):
 
         """
         return super().handle_request(self.EXCHANGE_FLOWS_TRANSACTIONS_COUNT, query_params)
+    
+    def get_erc20_exch_addrs_count(self, **query_params):
+        """
+        This endpoint returns the number of addresses involved in 
+        inflow/outflow transactions.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            token (str, required): A ERC20 token from the table that CQ support.
+            exchange (str, required): An exchange supported by CryptoQuant.
+            window (str, optional): day, hour, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            The number of addresses evoking inflow/outflow transactions to
+            exchange wallets.
+
+        """
+        return super().handle_request(self.EXCHANGE_FLOWS_ADDRESSES_COUNT, query_params)
