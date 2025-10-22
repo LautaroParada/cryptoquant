@@ -12,8 +12,8 @@
 2. [Requirements](#requirements-arrow_up)
 3. [Installation](#installation-arrow_up)
 4. [Demo](#demo-arrow_up)
+		- [REST API](#rest-api-arrow_up)
 5. [Documentation](#documentation-arrow_up)
-   - [REST API](#rest-api-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -33,7 +33,7 @@ It provides a unified interface to query all available metrics (including on-cha
 
 ---
 
-## Installation [:arrow_up:](#eod-historical-data-sdk)
+## Installation [:arrow_up:](#cryptoquant-sdk)
 
 ```python
 pip install cryptoquant
@@ -41,22 +41,49 @@ pip install cryptoquant
 ---
 
 ## Demo [:arrow_up:](#cryptoquant-sdk)
+
+Basic usage example: Initialize the client and retrieve the list of available API endpoints.
+
+```python
+# Import the main SDK class.
+# This class unifies all API modules (Bitcoin, Ethereum, Stablecoins, etc.)
+# and provides a single interface to interact with the CryptoQuant REST API.
+from cryptoquant import CryptoQuant
+
+# Import the 'os' module to access environment variables.
+# It's considered best practice to store API keys outside of source code.
+import os
+
+# Load your CryptoQuant API key from an environment variable.
+api_key = os.environ['CQ_API']
+
+# Create an instance of the main SDK client,
+# passing the API key for authentication.
+# This automatically initializes all internal submodules and request handlers.
+client = CryptoQuant(api_key)
+
+# Make a request to the discovery endpoint.
+# This method queries the API and returns a list of all available endpoints
+# along with their optional and required parameters.
+resp = client.get_endpoints()
+
+```
+
 ### REST API [:arrow_up:](#cryptoquant-sdk)
 It's highly recommendable to save your API keys in the environment variable. A short tutorial can be founded in the [following video](https://www.youtube.com/watch?v=IolxqkL7cD8):
 
 [![Demo enviroment variables](https://j.gifs.com/LZlj1D.gif)](https://www.youtube.com/watch?v=IolxqkL7cD8)
 
-```python
-from cryptoquant import CryptoQuant
-import os
-api_key = os.environ['CQ_API']
-client = CryptoQuant(api_key)
-resp = client.get_endpoints()
-```
-
 ---
 
-## Documentation [:arrow_up:](#eod-historical-data-sdk)
-Please be aware that some descriptions will come directly from the API's documentation because no further explanations were needed for the specific method. Additionally, for the sake of simplicity, I will use the following convention along with the whole document: 
+## Documentation [:arrow_up:](#cryptoquant-sdk)
+Please be aware that some descriptions will come directly from the API's documentation because no further explanations were needed for the specific method. Additionally, for the sake of simplicity, I will use the following convention along with the whole document:
+
+```python
+from cryptoquant import CryptoQuant
+# create the instance of the SDK
+api_key = os.environ['CQ_API']
+client = CryptoQuant(api_key)
+```
 
 ---
