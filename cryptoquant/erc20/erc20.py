@@ -13,6 +13,8 @@ class Erc20(RequestHandler):
         
         # Entity list
         self.ENTITY_LIST = "erc20/status/entity-list"
+        # Exchange flows
+        self.EXCHANGE_FLOWS_RESERVE = "erc20/exchange-flows/reserve"
         
     # -------------------------------
     # Entity list
@@ -46,3 +48,48 @@ class Erc20(RequestHandler):
 
         """
         return super().handle_request(self.ENTITY_LIST, query_params)
+    
+    # -------------------------------
+    # Exchange Flows
+    # -------------------------------
+    
+    def get_erc20_exch_flows_reserve(self, **query_params):
+        """
+        This endpoint returns the full historical on-chain ERC20 token balance 
+        of exchanges.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            token (str, required): A ERC20 token from the table that CQ support.
+            exchange (str, required): An exchange supported by CryptoQuant.
+            window (str, optional): day, hour, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            The amount of ERC 20 token on a given exchange on this window.
+
+        """
+        return super().handle_request(self.EXCHANGE_FLOWS_RESERVE, query_params)
