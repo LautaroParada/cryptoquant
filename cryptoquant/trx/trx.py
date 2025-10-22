@@ -26,6 +26,7 @@ class TRX(RequestHandler):
         self.NETWORK_ENERGY_STAKE = "trx/network-data/energy-stake"
         # DEFI
         self.DEFI_SUNPUMP_TOKENS = "trx/defi/sunpump-tokens"
+        self.DEFI_SUNSWAP_ACTIVITY = "trx/defi/sunswap-activity"
         
     # -----------------------------
     # Market Data
@@ -546,3 +547,49 @@ class TRX(RequestHandler):
 
         """
         return super().handle_request(self.DEFI_SUNPUMP_TOKENS, query_paramas)
+    
+    def get_trx_defi_sunswap_activity(self, **query_paramas):
+        """
+        This endpoint returns metrics related to Sunswap activity on TRON.
+
+        Metric	                Description
+        total_transaction_count	The total number of transactions on Sunswap.
+        wtrx_transaction_count	The number of transactions involving WTRX in the given window.
+        other_transaction_count	The number of transactions involving other tokens in the given window.
+        wtrx_dominance	        The dominance of WTRX in the total transaction volume in the given window.
+        wtrx_amount	            The total amount of WTRX traded in the given window.
+        wtrx_amount_usd	        The total amount of WTRX traded in USD in the given window.
+
+        Parameters
+        ----------
+        **query_paramas : TYPE
+            window (str, optional): day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            SunSwap activity.
+
+        """
+        return super().handle_request(self.DEFI_SUNSWAP_ACTIVITY, query_paramas)
