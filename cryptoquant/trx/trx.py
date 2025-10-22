@@ -24,6 +24,8 @@ class TRX(RequestHandler):
         self.NETWORK_TPS = "trx/network-data/tps"
         self.NETWORK_TOTAL_VALUE_STAKED = "trx/network-data/total-value-staked"
         self.NETWORK_ENERGY_STAKE = "trx/network-data/energy-stake"
+        # DEFI
+        self.DEFI_SUNPUMP_TOKENS = "trx/defi/sunpump-tokens"
         
     # -----------------------------
     # Market Data
@@ -498,3 +500,49 @@ class TRX(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_ENERGY_STAKE, query_params)
+    
+    # -----------------------------
+    # DEFI Data
+    # -----------------------------
+    
+    def get_trx_defi_sunpump_tokens(self, **query_paramas):
+        """
+        This endpoint returns metrics related to SunPump token creation on TRON.
+
+        Metric	                        Description
+        token_create_event_count	    The total number of tokens that have been created on the SunPump platform.
+        cumulative_count_create_events	The cumulative number of token creation events on SunPump over time.
+
+        Parameters
+        ----------
+        **query_paramas : TYPE
+            window (str, optional): day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            SunPump token creation in Tron.
+
+        """
+        return super().handle_request(self.DEFI_SUNPUMP_TOKENS, query_paramas)
