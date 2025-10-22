@@ -14,6 +14,8 @@
 4. [Demo](#demo-arrow_up)
 	- [REST API](#rest-api-arrow_up)
 5. [Documentation](#documentation-arrow_up)
+	- [Available Endpoints](available-edpoints-arrow_up)
+	- [Bitcoin](bitcoin-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -97,7 +99,7 @@ client = CryptoQuant(api_key)
 resp = client.get_endpoints()
 ```
 
-
+### Bitcoin [:arrow_up:](#cryptoquant-sdk)
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
