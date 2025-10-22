@@ -12,7 +12,7 @@
 2. [Requirements](#requirements-arrow_up)
 3. [Installation](#installation-arrow_up)
 4. [Demo](#demo-arrow_up)
-		- [REST API](#rest-api-arrow_up)
+	- [REST API](#rest-api-arrow_up)
 5. [Documentation](#documentation-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
@@ -42,6 +42,8 @@ pip install cryptoquant
 
 ## Demo [:arrow_up:](#cryptoquant-sdk)
 
+### REST API [:arrow_up:](#cryptoquant-sdk)
+
 Basic usage example: Initialize the client and retrieve the list of available API endpoints.
 
 ```python
@@ -69,7 +71,6 @@ resp = client.get_endpoints()
 
 ```
 
-### REST API [:arrow_up:](#cryptoquant-sdk)
 It's highly recommendable to save your API keys in the environment variable. A short tutorial can be founded in the [following video](https://www.youtube.com/watch?v=IolxqkL7cD8):
 
 [![Demo enviroment variables](https://j.gifs.com/LZlj1D.gif)](https://www.youtube.com/watch?v=IolxqkL7cD8)
