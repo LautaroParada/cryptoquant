@@ -24,6 +24,8 @@ class Erc20(RequestHandler):
         self.EXCHANGE_FLOWS_SUPPLY_RATIO = "erc20/flow-indicator/exchange-supply-ratio"
         # Market data
         self.MARKET_OHLCV = "erc20/market-data/price-ohlcv"
+        # Network data
+        self.NETWORK_SUPPLY = "erc20/network-data/supply"
         
     # -------------------------------
     # Entity list
@@ -406,8 +408,55 @@ class Erc20(RequestHandler):
 
         Returns
         -------
-        TYPE
-            DESCRIPTION.
+        dict
+            Price OHLCV data.
 
         """
         return super().handle_request(self.MARKET_OHLCV, query_params)
+    
+    # -------------------------------
+    # Network data
+    # -------------------------------
+    
+    def get_erc20_ntx_supply(self, **query_params):
+        """
+        This endpoint returns metrics related to the supply of ERC20 tokens, 
+        i.e. the amount of ERC20s tokens in existence. CQ currently provide 
+        three metrics, supply_total, the total amount of ERC20 tokens in 
+        existence, supply_minted, the amount of newly issued tokens, and 
+        supply_burned, the amount of newly burnt tokens in a given window.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            token (str, required): A ERC20 token from the table that CQ support.
+            window (str, optional): day, hour, 10min, and block.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv
+
+        Returns
+        -------
+        dict
+            Supply statistics.
+
+        """
+        return super().handle_request(self.NETWORK_SUPPLY, query_params)
