@@ -22,7 +22,8 @@ class TRX(RequestHandler):
         self.NETWORK_BLOCK_COUNT = "trx/network-data/block-count"
         self.NETWORK_FEES = "trx/network-data/fees"
         self.NETWORK_TPS = "trx/network-data/tps"
-        self.NETWORK_TOTAL_VALUE_STACKED = "trx/network-data/total-value-staked"
+        self.NETWORK_TOTAL_VALUE_STAKED = "trx/network-data/total-value-staked"
+        self.NETWORK_ENERGY_STAKE = "trx/network-data/energy-stake"
         
     # -----------------------------
     # Market Data
@@ -411,7 +412,7 @@ class TRX(RequestHandler):
         """
         return super().handle_request(self.NETWORK_TPS, query_params)
     
-    def get_trx_ntx_total_value_stacked(self, **query_params):
+    def get_trx_ntx_total_value_staked(self, **query_params):
         """
         This endpoint returns the total amount of TRX staked by staking model.
         (Stake 1.0, Stake 2.0) This metric reflects how much TRX has been 
@@ -453,4 +454,47 @@ class TRX(RequestHandler):
             total value stacked.
 
         """
-        return super().handle_request(self.NETWORK_TOTAL_VALUE_STACKED, query_params)
+        return super().handle_request(self.NETWORK_TOTAL_VALUE_STAKED, query_params)
+    
+    def get_trx_ntx_enery_stake(self, **query_params):
+        """
+        This endpoint returns the statistics related to the amount of TRX 
+        staked for Energy.
+
+        Metric	            Description
+        total_energy_weight	The total amount of TRX staked for Energy.
+        energy_rate	        The percentage of TRX staked for Energy.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            energy staked.
+
+        """
+        return super().handle_request(self.NETWORK_ENERGY_STAKE, query_params)
