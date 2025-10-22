@@ -20,6 +20,7 @@ class TRX(RequestHandler):
         self.NETWORK_ADDRESSES_COUNT = "trx/network-data/addresses-count"
         self.NETWORK_TOKENS_TRANSFERRED = "trx/network-data/tokens-transferred"
         self.NETWORK_BLOCK_COUNT = "trx/network-data/block-count"
+        self.NETWORK_FEES = "trx/network-data/fees"
         
     # -----------------------------
     # Market Data
@@ -320,3 +321,48 @@ class TRX(RequestHandler):
 
         """
         return super().handle_request(self.NETWORK_BLOCK_COUNT, query_params)
+    
+    def get_trx_ntx_fees(self, **query_params):
+        """
+        This endpoint returns the statistics related to fees paid from 
+        executing transactions.
+        
+        Metric	            Description
+        fees_total	        The sum of all fees paid from executing transactions.
+        fees_total_usd	    The sum of all fees paid from executing transactions, calculated in USD.
+        fees_block_mean	    The average fee per block.
+        fees_block_mean_usd	The average fee per block, calculated in USD.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            Fees.
+
+        """
+        return super().handle_request(self.NETWORK_FEES, query_params)
