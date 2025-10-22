@@ -14,6 +14,8 @@ class TRX(RequestHandler):
         # Market data
         self.MARKET_OHLCV = "trx/market-data/price-ohlcv"
         self.MARKET_CAPITALIZATION = "trx/market-data/capitalization"
+        # Network data
+        self.NETWORK_SUPPLY = "trx/network-data/supply"
         
     # -----------------------------
     # Market Data
@@ -103,3 +105,52 @@ class TRX(RequestHandler):
 
         """
         return super().handle_request(self.MARKET_CAPITALIZATION, query_params)
+    
+    # -----------------------------
+    # Network Data
+    # -----------------------------
+    
+    def get_trx_ntx_supply(self, **query_params):
+        """
+        This endpoint returns the metrics related to the supply of TRX.
+
+        Metric	            Description
+        supply_total	    The total amount of tokens in existence.
+        supply_circulating	The amount of tokens that are circulating in the market.
+        supply_minted	    The amount of tokens minted in the given window.
+        supply_burned	    The amount of tokens burned in the given window.
+        supply_staked	    The amount of tokens staked in Tron Super Representative members.
+
+        Parameters
+        ----------
+        **query_params : TYPE
+            window (str, optional): day.
+            from_ (any, optional): This defines the starting time for which data
+                                will be gathered, formatted as YYYYMMDDTHHMMSS 
+                                (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                                If window=day is used, it can also be formatted 
+                                as YYYYMMDD (date). If window=block is used, you
+                                can also specify the exact block height (e.g. 510000). 
+                                If this field is not specified, response will 
+                                include data from the earliest time.
+           to_ (any, optinal): This defines the ending time for which data will
+                               be gathered, formatted as YYYYMMDDTHHMMSS 
+                               (indicating YYYY-MM-DDTHH:MM:SS, UTC time). 
+                               If window=day is used, it can also be formatted 
+                               as YYYYMMDD (date). If window=block is used, you
+                               can also specify the exact block height (e.g. 510000).
+                               If this field is not specified, response will 
+                               include data from the latest time
+           limit (int, optional): The maximum number of entries to return before
+                                  the latest data point (or before to if specified).
+                                  This field ranges from 1 to 100,000.
+           format (str, optional): A format type about return message type. 
+                                   Supported formats are json, csv.
+
+        Returns
+        -------
+        dict
+            Supply statistics.
+
+        """
+        return super().handle_request(self.NETWORK_SUPPLY, query_params)
