@@ -16,8 +16,8 @@
 5. [Documentation](#documentation-arrow_up)
 	- [Available Endpoints](#available-edpoints-arrow_up)
 	- [Bitcoin](#bitcoin-arrow_up)
-		- [Entity Status](#entity_status-arrow_up)
-		- [Exchange Flows](#exchange_flows-arrow_up)
+		- [Entity Status](#entity-status-arrow_up)
+		- [Exchange Flows](#exchange-flows-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -117,7 +117,7 @@ resp = client.get_btc_exch_entity(type_="miner")
 
 #### Exchange Flows [:arrow_up:](#cryptoquant-sdk)
 
-##### Common Parameters (applies to all methods)
+##### Common Parameters (applies to all methods of this section)
 
 - ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
 - ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
@@ -129,12 +129,19 @@ resp = client.get_btc_exch_entity(type_="miner")
   - If `window=block`, can specify block height (e.g., `510000`).  
   - Defaults to latest available timestamp.  
 - ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
-- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.  
 
 ---
 
+- **Reserves**: Returns the total BTC reserves held on a specific exchange. This metric reflects the total balance of Bitcoin stored in wallets identified as belonging to that exchange. A decline in reserves can indicate outflows or potential accumulation by users.  
 
+	- **Specific Parameters**  
+		- ```exchange```(str): Required — Exchange name (e.g., `binance`, `coinbase`, `kraken`).  
 
+	- **Usage**  
+```python
+resp = client.get_btc_exch_reserve(exchange="binance")
+```
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
