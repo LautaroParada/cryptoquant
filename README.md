@@ -87,9 +87,16 @@ api_key = os.environ['CQ_API']
 client = CryptoQuant(api_key)
 ```
 
----
+### Available Endpoints [:arrow_up:](#cryptoquant-sdk)
+- **Endpoints**: Discover all available endpoints.
+	- Parameters:
+		- ```format_```(str): Optional - Default: ```json```.A format type about return message type. Supported formats are ```json```, ```csv```.
 
----
+	- Usage:
+```python
+resp = client.get_endpoints()
+```
+
 
 ---
 
