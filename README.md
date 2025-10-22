@@ -14,8 +14,10 @@
 4. [Demo](#demo-arrow_up)
 	- [REST API](#rest-api-arrow_up)
 5. [Documentation](#documentation-arrow_up)
-	- [Available Endpoints](available-edpoints-arrow_up)
-	- [Bitcoin](bitcoin-arrow_up)
+	- [Available Endpoints](#available-edpoints-arrow_up)
+	- [Bitcoin](#bitcoin-arrow_up)
+		- [Entity Status](#entity_status-arrow_up)
+		- [Exchange Flows](#exchange_flows-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -92,7 +94,7 @@ client = CryptoQuant(api_key)
 ### Available Endpoints [:arrow_up:](#cryptoquant-sdk)
 - **Endpoints**: Discover all available endpoints.
 	- Parameters:
-		- ```format_```(str): Optional - Default: ```json```.A format type about return message type. Supported formats are ```json```, ```csv```.
+		- ```format_```(str): Optional — Default: `json`. Defines the response format. Supported formats: `json`, `csv`.
 
 	- Usage:
 ```python
@@ -100,6 +102,39 @@ resp = client.get_endpoints()
 ```
 
 ### Bitcoin [:arrow_up:](#cryptoquant-sdk)
+
+#### Entity Status [:arrow_up:](#cryptoquant-sdk)
+- **Entities**: Returns the list of Bitcoin-related entities, such as exchanges, banks, and miners.  
+	- Parameters:  
+		- ```type_```(str): Required — Specifies the entity type to query.  
+		  For exchange entities, the `market_type` field indicates whether the exchange operates in the **spot** or **derivatives** market.  
+		  Entities without a `market_type` (e.g., miners) will return `0` for this field.  
+		- ```format_```(str): Optional — Default: `json`. Defines the response format. Supported formats: `json`, `csv`.  
+	- Usage:  
+```python
+resp = client.get_btc_exch_entity(type_="miner")
+```
+
+#### Exchange Flows [:arrow_up:](#cryptoquant-sdk)
+
+##### Common Parameters (applies to all methods)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+---
+
+
+
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
