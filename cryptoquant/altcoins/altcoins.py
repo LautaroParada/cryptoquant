@@ -12,7 +12,7 @@ class AltCoins(RequestHandler):
         super().__init__(api_key)
         
         # Market Data
-        self.MARKET_OHLCV = "alt/market-data/price-ohlcv"
+        self.ALT_MARKET_OHLCV = "alt/market-data/price-ohlcv"
         
     # -------------------------------
     # Market Data
@@ -65,4 +65,4 @@ class AltCoins(RequestHandler):
 
 
         """
-        return super().handle_request(self.MARKET_OHLCV, query_params)
+        return super().handle_request(self.ALT_MARKET_OHLCV, query_params)

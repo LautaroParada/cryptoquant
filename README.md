@@ -131,17 +131,25 @@ resp = client.get_btc_exch_entity(type_="miner")
 - ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
 - ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.  
 
----
-
 - **Reserves**: Returns the total BTC reserves held on a specific exchange. This metric reflects the total balance of Bitcoin stored in wallets identified as belonging to that exchange. A decline in reserves can indicate outflows or potential accumulation by users.  
 
 	- **Specific Parameters**  
-		- ```exchange```(str): Required — Exchange name (e.g., `binance`, `coinbase`, `kraken`).  
+		- ```exchange```(str): Required — Exchange name (e.g., `binance`, `coinbase`, `kraken`).
 
 	- **Usage**  
 ```python
 resp = client.get_btc_exch_reserve(exchange="binance")
 ```
+- **Netflow**: Returns the net BTC flow for a specific exchange. Defined as inflow minus outflow (Inflow − Outflow = Netflow). Positive values indicate accumulation (more inflows than outflows), while negative values indicate net withdrawals (more outflows than inflows).  
+
+    - **Specific Parameters**  
+        - `exchange` (str): Required — Exchange name (e.g., `binance`, `kraken`, `coinbase`).
+
+    - **Usage**  
+```python
+resp = client.get_btc_exch_netflow(exchange="kraken")
+```
+
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)

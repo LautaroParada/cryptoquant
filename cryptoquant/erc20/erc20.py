@@ -12,25 +12,25 @@ class Erc20(RequestHandler):
         super().__init__(api_key)
         
         # Entity list
-        self.ENTITY_LIST = "erc20/status/entity-list"
+        self.ERC20_ENTITY_LIST = "erc20/status/entity-list"
         # Exchange flows
-        self.EXCHANGE_FLOWS_RESERVE = "erc20/exchange-flows/reserve"
-        self.EXCHANGE_FLOWS_NETFLOW = "erc20/exchange-flows/netflow"
-        self.EXCHANGE_FLOWS_INFLOW = "erc20/exchange-flows/inflow"
-        self.EXCHANGE_FLOWS_OUTFLOW = "erc20/exchange-flows/outflow"
-        self.EXCHANGE_FLOWS_TRANSACTIONS_COUNT = "erc20/exchange-flows/transactions-count"
-        self.EXCHANGE_FLOWS_ADDRESSES_COUNT = "erc20/exchange-flows/addresses-count"
+        self.ERC20_EXCHANGE_FLOWS_RESERVE = "erc20/exchange-flows/reserve"
+        self.ERC20_EXCHANGE_FLOWS_NETFLOW = "erc20/exchange-flows/netflow"
+        self.ERC20_EXCHANGE_FLOWS_INFLOW = "erc20/exchange-flows/inflow"
+        self.ERC20_EXCHANGE_FLOWS_OUTFLOW = "erc20/exchange-flows/outflow"
+        self.ERC20_EXCHANGE_FLOWS_TRANSACTIONS_COUNT = "erc20/exchange-flows/transactions-count"
+        self.ERC20_EXCHANGE_FLOWS_ADDRESSES_COUNT = "erc20/exchange-flows/addresses-count"
         # Flow Indicator
-        self.EXCHANGE_FLOWS_SUPPLY_RATIO = "erc20/flow-indicator/exchange-supply-ratio"
+        self.ERC20_EXCHANGE_FLOWS_SUPPLY_RATIO = "erc20/flow-indicator/exchange-supply-ratio"
         # Market data
-        self.MARKET_OHLCV = "erc20/market-data/price-ohlcv"
+        self.ERC20_MARKET_OHLCV = "erc20/market-data/price-ohlcv"
         # Network data
-        self.NETWORK_SUPPLY = "erc20/network-data/supply"
-        self.NETWORK_VELOCITY = "erc20/network-data/velocity"
-        self.NETWORK_TRANSACTIONS_COUNT = "erc20/network-data/transactions-count"
-        self.NETWORK_TOKENS_TRANSFERRED_COUNT = "erc20/network-data/tokens-transferred-count"
-        self.NETWORK_TOKENS_TRANSFERRED = "erc20/network-data/tokens-transferred"
-        self.NETWORK_ADDRESSES_COUNT = "erc20/network-data/addresses-count"
+        self.ERC20_NETWORK_SUPPLY = "erc20/network-data/supply"
+        self.ERC20_NETWORK_VELOCITY = "erc20/network-data/velocity"
+        self.ERC20_NETWORK_TRANSACTIONS_COUNT = "erc20/network-data/transactions-count"
+        self.ERC20_NETWORK_TOKENS_TRANSFERRED_COUNT = "erc20/network-data/tokens-transferred-count"
+        self.ERC20_NETWORK_TOKENS_TRANSFERRED = "erc20/network-data/tokens-transferred"
+        self.ERC20_NETWORK_ADDRESSES_COUNT = "erc20/network-data/addresses-count"
         
     # -------------------------------
     # Entity list
@@ -63,7 +63,7 @@ class Erc20(RequestHandler):
             Entity list on a given type.
 
         """
-        return super().handle_request(self.ENTITY_LIST, query_params)
+        return super().handle_request(self.ERC20_ENTITY_LIST, query_params)
     
     # -------------------------------
     # Exchange Flows
@@ -108,7 +108,7 @@ class Erc20(RequestHandler):
             The amount of ERC 20 token on a given exchange on this window.
 
         """
-        return super().handle_request(self.EXCHANGE_FLOWS_RESERVE, query_params)
+        return super().handle_request(self.ERC20_EXCHANGE_FLOWS_RESERVE, query_params)
     
     def get_erc20_exch_netflow(self, **query_params):
         """
@@ -150,7 +150,7 @@ class Erc20(RequestHandler):
             Total netflow.
 
         """
-        return super().handle_request(self.EXCHANGE_FLOWS_NETFLOW, query_params)
+        return super().handle_request(self.ERC20_EXCHANGE_FLOWS_NETFLOW, query_params)
     
     def get_erc20_exch_inflow(self, **query_params):
         """
@@ -193,7 +193,7 @@ class Erc20(RequestHandler):
             Inflow statistics.
 
         """
-        return super().handle_request(self.EXCHANGE_FLOWS_INFLOW, query_params)
+        return super().handle_request(self.ERC20_EXCHANGE_FLOWS_INFLOW, query_params)
     
     def get_erc20_exch_outflow(self, **query_params):
         """
@@ -236,7 +236,7 @@ class Erc20(RequestHandler):
             outflow statistics.
 
         """
-        return super().handle_request(self.EXCHANGE_FLOWS_OUTFLOW, query_params)
+        return super().handle_request(self.ERC20_EXCHANGE_FLOWS_OUTFLOW, query_params)
     
     def get_erc20_exch_trx_count(self, **query_params):
         """
@@ -277,7 +277,7 @@ class Erc20(RequestHandler):
             Transactions in and out.
 
         """
-        return super().handle_request(self.EXCHANGE_FLOWS_TRANSACTIONS_COUNT, query_params)
+        return super().handle_request(self.ERC20_EXCHANGE_FLOWS_TRANSACTIONS_COUNT, query_params)
     
     def get_erc20_exch_addrs_count(self, **query_params):
         """
@@ -319,7 +319,7 @@ class Erc20(RequestHandler):
             exchange wallets.
 
         """
-        return super().handle_request(self.EXCHANGE_FLOWS_ADDRESSES_COUNT, query_params)
+        return super().handle_request(self.ERC20_EXCHANGE_FLOWS_ADDRESSES_COUNT, query_params)
     
     # -------------------------------
     # Flow indicators
@@ -365,7 +365,7 @@ class Erc20(RequestHandler):
             Ratio of reserved token in the exchange relative to total supply.
 
         """
-        return super().handle_request(self.EXCHANGE_FLOWS_SUPPLY_RATIO, query_params)
+        return super().handle_request(self.ERC20_EXCHANGE_FLOWS_SUPPLY_RATIO, query_params)
     
     # -------------------------------
     # Market data
@@ -417,7 +417,7 @@ class Erc20(RequestHandler):
             Price OHLCV data.
 
         """
-        return super().handle_request(self.MARKET_OHLCV, query_params)
+        return super().handle_request(self.ERC20_MARKET_OHLCV, query_params)
     
     # -------------------------------
     # Network data
@@ -464,7 +464,7 @@ class Erc20(RequestHandler):
             Supply statistics.
 
         """
-        return super().handle_request(self.NETWORK_SUPPLY, query_params)
+        return super().handle_request(self.ERC20_NETWORK_SUPPLY, query_params)
     
     def get_erc20_ntx_velocity(self, **query_params):
         """
@@ -508,7 +508,7 @@ class Erc20(RequestHandler):
             current total supply.
 
         """
-        return super().handle_request(self.NETWORK_VELOCITY, query_params)
+        return super().handle_request(self.ERC20_NETWORK_VELOCITY, query_params)
     
     def get_erc20_ntx_trx_count(self, **query_params):
         """
@@ -550,7 +550,7 @@ class Erc20(RequestHandler):
             Statistics for transactions count.
 
         """
-        return super().handle_request(self.NETWORK_TRANSACTIONS_COUNT, query_params)
+        return super().handle_request(self.ERC20_NETWORK_TRANSACTIONS_COUNT, query_params)
     
     def get_erc20_ntx_tokens_transferred_count(self, **query_params):
         """
@@ -594,7 +594,7 @@ class Erc20(RequestHandler):
             token transferred statistics.
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED_COUNT, query_params)
+        return super().handle_request(self.ERC20_NETWORK_TOKENS_TRANSFERRED_COUNT, query_params)
     
     def get_erc20_ntx_tokens_transferred(self, **query_params):
         """
@@ -638,7 +638,7 @@ class Erc20(RequestHandler):
             Token transferred statistics (different that only counts).
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED, query_params)
+        return super().handle_request(self.ERC20_NETWORK_TOKENS_TRANSFERRED, query_params)
     
     def get_erc20_ntx_addrs_count(self, **query_params):
         """
@@ -683,4 +683,4 @@ class Erc20(RequestHandler):
             Statistics for addresses in the network of the token.
 
         """
-        return super().handle_request(self.NETWORK_ADDRESSES_COUNT, query_params)
+        return super().handle_request(self.ERC20_NETWORK_ADDRESSES_COUNT, query_params)
