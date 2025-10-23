@@ -20,6 +20,8 @@
 		- [Exchange Flows](#exchange-flows-arrow_up)
         - [Flow Indicators](#flow-indicators-arrow_up)
         - [Market Indicators](#market-indicators-arrow_up)
+        - [Network Indicators](#network-indicators-arrow_up)
+            - [Classical valuation models](#classical-valuation-models-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -447,6 +449,19 @@ resp = client.get_btc_exch_inhouseflow(exchange="kraken")
   - Defaults to latest available timestamp.  
 - ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
 - ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+##### Classical valuation models [:arrow_up:](#cryptoquant-sdk)
+
+- **Stock-to-Flow (S2F)**: Evaluates Bitcoin’s scarcity by comparing the existing circulating supply to the rate of new issuance. The metric assumes that, like gold or other scarce commodities, Bitcoin’s value is influenced by its limited and predictable supply. Stock-to-Flow is calculated by dividing the total circulating coins by the annual production (newly mined coins). Higher S2F values indicate greater scarcity, which historically has been associated with long-term price appreciation trends.
+
+    - **Specific Parameters** 
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_stock2flow(window="day", limit=365)
+```
+
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
