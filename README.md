@@ -19,6 +19,7 @@
 		- [Entity Status](#entity-status-arrow_up)
 		- [Exchange Flows](#exchange-flows-arrow_up)
         - [Flow Indicators](#flow-indicators-arrow_up)
+        - [Market Indicators](#market-indicators-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -336,6 +337,116 @@ resp = client.get_btc_exch_inhouseflow(exchange="kraken")
 ```python
   resp = client.get_btc_idx_minersupplyratio(miner="f2pool", window="day", limit=365)
 ```
+
+#### Market Indicators [:arrow_up:](#cryptoquant-sdk)
+
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+
+- **Estimated Leverage Ratio (ELR)**: Calculated by dividing an exchange’s open interest by its BTC reserve, this metric estimates the average leverage used by traders on that exchange. When the leverage ratio reaches elevated levels, the market tends to experience rapid volatility due to liquidations and over-leveraged positions. Unlike simple open interest, the Estimated Leverage Ratio accounts for the exchange’s BTC reserve size, providing a more accurate view of risk exposure and market sentiment. It helps assess how aggressive or conservative traders are in their positioning. Historical data may change over time as new exchange wallet addresses are identified and validated.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `bybit`, `bitmex`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_mkt_leverage(exchange="binance", window="day", limit=365)
+  ```
+
+- **Stablecoin Supply Ratio (SSR)**: Represents the ratio between Bitcoin’s market capitalization and the total supply of stablecoins. Since stablecoins act as a proxy for fiat currency within crypto markets, this metric helps assess the potential buying power available to purchase BTC. A high SSR indicates relatively low stablecoin liquidity compared to Bitcoin’s valuation, suggesting reduced buying power and potential sell pressure. Conversely, a low SSR implies greater stablecoin availability, often interpreted as increased market capacity to buy Bitcoin. The historical data for this indicator begins on 2017-11-28 00:00:00.
+
+    - **Specific Parameters** 
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_mkt_ssr(window="day", limit=365)
+```
+
+- **Market Value to Realized Value (MVRV)**: Calculated as the ratio of Bitcoin’s market capitalization to its realized capitalization. This metric reflects the relationship between speculative market value and the actual cost basis of holders. A high MVRV indicates that the market value significantly exceeds the aggregate cost at which coins last moved, suggesting potential overvaluation and profit-taking conditions. Conversely, a low MVRV suggests that the market value is close to or below the holders’ cost basis, indicating potential undervaluation or accumulation phases.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_mkt_mvrv(window="day", limit=365)
+  ```
+
+- **Spent Output Profit Ratio (SOPR)**: Measures the overall profit ratio of market participants by comparing the value of spent outputs at the time they are spent to their value when they were created. It is calculated as the USD value of spent outputs at the spent time divided by the USD value of those outputs at their creation time. A SOPR value greater than 1 indicates that coins are being sold at a profit, while values below 1 imply that coins are being sold at a loss. This metric helps identify periods of profit-taking, market capitulation, or accumulation based on on-chain spending behavior.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_mkt_sopr(window="day", limit=365)
+```
+
+- **SOPR Ratio (Long-Term vs Short-Term Holders)**: Calculated as the ratio between the SOPR of long-term holders (LTH) and that of short-term holders (STH). A higher SOPR Ratio indicates that long-term holders are realizing more profit relative to short-term holders, which often occurs near market tops or during periods of strong distribution. Conversely, a lower ratio suggests that short-term participants are dominating realized profits, typically seen in early recovery or accumulation phases.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_mkt_soprratio(window="day", limit=365)
+```
+
+- **Realized Price**: Calculated by dividing Bitcoin’s realized capitalization by the total circulating supply. This metric represents the average price at which all coins in circulation were last transacted, effectively capturing the market’s aggregate cost basis. Realized Price is often used as an on-chain support or resistance level, indicating whether the current market price is trading above or below the average acquisition cost of participants.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_mkt_realizedprice(window="day", limit=365)
+```
+
+- **UTxO Realized Price Age Distribution**: Provides the distribution of realized prices categorized by the age of unspent transaction outputs (UTxOs). This metric helps visualize the cost basis of different holding cohorts by grouping coins according to how long they have remained unspent. By comparing realized prices across age bands, it becomes possible to assess whether long-term holders or newer entrants dominate market positioning and how their cost structures differ over time.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_mkt_utxo(window="day", limit=180)
+```
+
+
+#### Network Indicator [:arrow_up:](#cryptoquant-sdk)
+
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
