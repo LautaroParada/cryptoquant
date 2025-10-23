@@ -150,6 +150,63 @@ resp = client.get_btc_exch_reserve(exchange="binance")
 resp = client.get_btc_exch_netflow(exchange="kraken")
 ```
 
+- **Inflow**: Returns the inflow of BTC into exchange wallets for as far back as available. The average inflow represents the average transaction value for BTC deposits into exchange wallets on a given day.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `kraken`, `coinbase`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_exch_inflow(exchange="kraken")
+```
+
+- **Outflow**: Returns the outflow of BTC from exchange wallets for as far back as available. The average outflow represents the average transaction value for BTC withdrawals from exchange wallets on a given day.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `kraken`, `coinbase`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_exch_outflow(exchange="binance")
+```
+
+- **Transactions**: Returns the number of BTC transactions between exchange wallets for the selected exchange. This endpoint provides the count of on-chain transactions associated with the exchange during the specified time window. It can be used to analyze transaction activity levels or detect unusual spikes in internal movements.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `kraken`, `coinbase`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_exch_txn(exchange="kraken")
+```
+
+- **Addresses**: Returns the number of BTC addresses involved in inflow and outflow transactions for a specific exchange. This endpoint measures the total count of unique Bitcoin addresses that interacted with the exchange during the selected period. It can be used to estimate user activity or identify changes in wallet participation over time.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `kraken`, `coinbase`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_exch_addrs(exchange="binance")
+```
+
+- **In-house Flows**: Returns the BTC transfer volume that occurred **within the same exchange**,  
+  meaning movements between wallets belonging to the same exchange entity.  
+  This metric reflects internal fund movements that do not represent user deposits or withdrawals.  
+  It is useful for distinguishing between external flows (user-driven) and internal rebalancing operations.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `kraken`, `coinbase`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_exch_inhouseflow(exchange="kraken")
+```
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
