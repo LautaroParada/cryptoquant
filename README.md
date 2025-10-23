@@ -14,7 +14,7 @@
 4. [Demo](#demo-arrow_up)
 	- [REST API](#rest-api-arrow_up)
 5. [Documentation](#documentation-arrow_up)
-	- [Available Endpoints](#available-edpoints-arrow_up)
+	- [Available Endpoints](#available-endpoints-arrow_up)
 	- [Bitcoin](#bitcoin-arrow_up)
 		- [Entity Status](#entity-status-arrow_up)
 		- [Exchange Flows](#exchange-flows-arrow_up)
@@ -434,7 +434,7 @@ resp = client.get_btc_exch_inhouseflow(exchange="kraken")
 ```
 
 
-#### Network Indicator [:arrow_up:](#cryptoquant-sdk)
+#### Network Indicators [:arrow_up:](#cryptoquant-sdk)
 
 ##### Common Parameters (applies to all methods of this section)
 
@@ -460,7 +460,7 @@ resp = client.get_btc_exch_inhouseflow(exchange="kraken")
   - **Usage**  
   ```python
   resp = client.get_btc_ntw_stock2flow(window="day", limit=365)
-```
+  ```
 
 ---
 
