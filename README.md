@@ -18,6 +18,7 @@
 	- [Bitcoin](#bitcoin-arrow_up)
 		- [Entity Status](#entity-status-arrow_up)
 		- [Exchange Flows](#exchange-flows-arrow_up)
+        - [Flow Indicators](#flow-indicators-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -207,6 +208,35 @@ resp = client.get_btc_exch_addrs(exchange="binance")
 ```python
 resp = client.get_btc_exch_inhouseflow(exchange="kraken")
 ```
+
+#### Flow Indicators [:arrow_up:](#cryptoquant-sdk)
+
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+
+- **Miners’ Position Index (MPI)**: Returns the **Miner’s Position Index**, a ratio that compares the total amount of BTC moved by miners to its historical average. This indicator helps assess **selling pressure from miners** — higher values suggest that miners are transferring more BTC than usual to exchanges (potential sell-side activity), while lower values imply accumulation or reduced selling.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `kraken`, `coinbase`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_idx_mpi(exchange='kraken', window="day", limit=365)
+  ```
+
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
