@@ -237,6 +237,105 @@ resp = client.get_btc_exch_inhouseflow(exchange="kraken")
   resp = client.get_btc_idx_mpi(exchange='kraken', window="day", limit=365)
   ```
 
+- **Exchange Shutdown Indicator**: Detects anomalous on-chain flow patterns that typically precede or coincide with an exchange hack or operational halt. This metric identifies the characteristic sequence where massive outflows are followed by a sudden drop to zero**, signaling that an exchange has likely paused withdrawals or frozen wallets due to a security breach or critical issue. It serves as an early-warning signal of potential exchange-related riskand liquidity disruptions.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `kraken`, `coinbase`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+```python
+  resp = client.get_btc_idx_exchshutdown(exchange="binance", window="day", limit=90)
+```
+
+- **Exchange Whale Ratio (EWR)**: Measures the ratio of the top 10 inflow transactions to the total inflow volume on a given exchange. A high value indicates that large holders (“whales”) are depositing a significant share of total inflows, which may suggest increased selling pressure or distribution activity. Conversely, a lower value implies more balanced inflows across users, often associated with accumulation or stable market conditions.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `kraken`, `coinbase`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+```python
+  resp = client.get_btc_idx_whale(exchange="kraken", window="day", limit=365)
+```
+
+- **Fund Flow Ratio (FFR)**: Measures the ratio of BTC transferred to exchange wallets relative to the total BTC moved on-chain.  
+  This indicator quantifies how much of the overall Bitcoin network activity is directed toward exchanges. A high Fund Flow Ratio means that a larger share of BTC transactions involve exchanges — often associated with increased trading activity or potential sell pressure. Conversely, a low ratio indicates that fewer BTC are being sent to exchanges, suggesting reduced trading activity or accumulation behavior.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `kraken`, `coinbase`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+```python
+  resp = client.get_btc_idx_fundflow(exchange="binance", window="day", limit=180)
+```
+
+- **Stablecoin Ratio (SR)**: Represents the ratio between an exchange’s BTC reserve and its total stablecoin reserve. This indicator reflects the relative balance between Bitcoin held and stablecoins available for trading. A high Stablecoin Ratio (more BTC relative to stablecoins) suggests potential sell pressure, while a low ratio (more stablecoins relative to BTC) indicates buying capacity or accumulation potential. Only exchanges with both BTC and at least one supported stablecoin are included in this metric.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `kraken`, `coinbase`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+```python
+  resp = client.get_btc_idx_stableratio(exchange="binance", window="day", limit=365)
+```
+
+- **Exchange Inflow Age Distribution**: Represents the distribution of Bitcoin inflows to exchanges categorized by the age of the coins being moved. This indicator provides insight into the behavior of long-term versus short-term holders sending BTC to exchanges. It helps identify whether older, dormant coins are entering circulation (a potential sign of selling from long-term holders) or if inflows are dominated by newer coins, which typically indicates routine trading activity. Values are provided both in native units and as percentages of total inflow volume.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `kraken`, `coinbase`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+```python
+  resp = client.get_btc_idx_agedistr(exchange="binance", window="day", limit=180)
+```
+
+- **Exchange Inflow Supply Distribution**: Represents the distribution of Bitcoin inflows to exchanges segmented by wallet balance tiers. This indicator helps identify whether inflows are dominated by large holders (whales) or smaller retail participants. By analyzing the amount of BTC held by entities sending coins to exchanges, it provides insight into market composition and potential shifts in dominance between large and small holders. Values are presented both in native BTC units and as percentages of total inflow volume.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `kraken`, `coinbase`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+```python
+  resp = client.get_btc_idx_supplydstr(exchange="kraken", window="day", limit=180)
+```
+
+- **Exchange Inflow CDD (Coin Days Destroyed)**: Represents the portion of Coin Days Destroyed (CDD) specifically attributed to coins flowing into exchanges. This indicator filters out general network noise to focus on movements that may signal selling activity. Higher values indicate that older coins, which have been held for longer periods, are being sent to exchanges—often interpreted as a potential increase in sell-side pressure. It serves as a refined version of traditional CDD tailored to detect exchange-related dumping behavior.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `kraken`, `coinbase`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+```python
+  resp = client.get_btc_idx_cdd(exchange="binance", window="day", limit=365)
+```
+
+- **Exchange Supply Ratio (ESR)**: Calculated as the ratio of Bitcoin held in exchange reserves to the total circulating supply. This indicator measures the proportion of total BTC supply stored on exchanges, providing insight into the potential liquidity and sell pressure in the market. A rising Exchange Supply Ratio suggests that more coins are being held on exchanges, often linked to increased readiness to sell or trade. Conversely, a declining ratio indicates that coins are being withdrawn to self-custody, typically interpreted as accumulation behavior.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `kraken`, `coinbase`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+```python
+  resp = client.get_btc_idx_exchsupplyratio(exchange="kraken", window="day", limit=365)
+```
+
+- **Miner Supply Ratio (MSR)**: Calculated as the ratio of Bitcoin held in miner reserves to the total circulating supply. This indicator measures the share of total BTC supply controlled by miners, offering insight into miner behavior and its potential impact on market dynamics. A higher Miner Supply Ratio indicates that miners are holding a larger portion of the total supply, often associated with accumulation or reduced selling activity. A lower ratio suggests that miners are reducing their holdings, which can imply increased selling pressure or liquidity injections into the market.
+
+    - **Specific Parameters**  
+        - ```miner```(str): Optional — Miner name (e.g., `f2pool`, `antpool`, `foundry`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+```python
+  resp = client.get_btc_idx_minersupplyratio(miner="f2pool", window="day", limit=365)
+```
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
