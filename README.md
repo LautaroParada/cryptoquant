@@ -803,8 +803,8 @@ resp = client.get_btc_exch_inhouseflow(exchange="kraken")
   - **Usage**  
   ```python
   resp = client.get_btc_miner_inhouse_flow(miner="all_miner", window="day", limit=365)
-```
-
+  ```
+  
 #### Inter Entity Flows [:arrow_up:](#cryptoquant-sdk)
 Inter-entity flows help assess capital movements between structural actors in the ecosystem. For example, a sustained increase in `miner_2_exch` suggests selling pressure, while increases in `exch_2_exch` may reflect liquidity adjustments or arbitrage.
 
