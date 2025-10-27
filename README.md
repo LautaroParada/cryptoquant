@@ -25,7 +25,8 @@
             - [Network activity and profitability](#network-activity-and-profitability-arrow_up)
             - [Realized and PnL data](#realized-and-pnl-data-arrow_up)
             - [UTXO Distribution](#utxo-distribution-arrow_up)
-            - [Miner Flows](#miner-flows-arrow_up)
+        - [Miner Flows](#miner-flows-arrow_up)
+        - [Inter Entity Flows](#inter-entity_flows-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -804,7 +805,70 @@ resp = client.get_btc_exch_inhouseflow(exchange="kraken")
   resp = client.get_btc_miner_inhouse_flow(miner="all_miner", window="day", limit=365)
 ```
 
+#### Inter Entity Flows [:arrow_up:](#cryptoquant-sdk)
+Inter-entity flows help assess capital movements between structural actors in the ecosystem. For example, a sustained increase in `miner_2_exch` suggests selling pressure, while increases in `exch_2_exch` may reflect liquidity adjustments or arbitrage.
 
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+- **Exchange-to-Exchange Flow**: Returns metrics related to Bitcoin transfers between exchange wallets. This endpoint provides several measures, including `flow_total` (total BTC transferred from one exchange to another), `flow_mean` (average BTC transferred per transaction), and `transactions_count_flow` (the number of transactions between exchanges). These flows help assess inter-exchange liquidity movements, potential arbitrage activity, and overall exchange connectivity within the network.
+
+    - **Specific Parameters**  
+        - ```from_exchange```(str): Required — Origin exchange name (e.g., `binance`, `bitmex`, `kraken`, etc).  
+        - ```to_exchange```(str): Required — Destination exchange name (e.g., `binance`, `bitmex`, `kraken`, etc).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_inter_exch_2_exch(from_exchange="binance", to_exchange="kraken", window="day", limit=365)
+```
+
+- **Miner-to-Exchange Flow**: Returns metrics related to Bitcoin transfers from mining pool wallets to exchanges. This endpoint provides several measures, including `flow_total` (total BTC transferred from a mining pool to an exchange), `flow_mean` (average BTC transferred per transaction), and `transactions_count_flow` (the number of transactions from miners to exchanges). This indicator helps evaluate miners’ selling behavior and potential market impact, as higher outflows to exchanges often signal increased selling pressure or liquidity provisioning.
+
+    - **Specific Parameters**  
+        - ```from_miner```(str): Required — Origin miner or pool name (e.g., `f2pool`, `viabtc`, `antpool`, etc).  
+        - ```to_exchange```(str): Required — Destination exchange name (e.g., `binance`, `bitmex`, `kraken`, etc).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_inter_miner_2_exch(from_miner="antpool", to_exchange="binance", window="day", limit=365)
+```
+
+- **Exchange-to-Miner Flow**: Returns metrics related to Bitcoin transfers from exchange wallets to mining pool wallets. This endpoint provides several measures, including `flow_total` (total BTC transferred from an exchange to a mining pool), `flow_mean` (average BTC transferred per transaction), and `transactions_count_flow` (the number of transactions from exchanges to miners). This indicator helps track fund movements from trading venues back to mining entities, which can reflect pool payments, operational funding, or redistribution of mined rewards.
+
+    - **Specific Parameters**  
+        - ```from_exchange```(str): Required — Origin exchange name (e.g., `binance`, `bitmex`, `kraken`, etc).  
+        - ```to_miner```(str): Required — Destination miner or pool name (e.g., `f2pool`, `viabtc`, `antpool`, etc).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_inter_exch_2_miner(from_exchange="kraken", to_miner="f2pool", window="day", limit=365)
+```
+
+- **Miner-to-Miner Flow**: Returns metrics related to Bitcoin transfers between mining pool wallets. This endpoint provides several measures, including `flow_total` (total BTC transferred from one mining pool to another), `flow_mean` (average BTC transferred per transaction), and `transactions_count_flow` (the number of transactions between mining pools). These flows can indicate internal fund redistribution, cooperative transfers, or structural changes among mining entities and pools.
+
+    - **Specific Parameters**  
+        - ```from_miner```(str): Required — Origin miner or pool name (e.g., `f2pool`, `viabtc`, `antpool`, etc).  
+        - ```to_miner```(str): Required — Destination miner or pool name (e.g., `f2pool`, `viabtc`, `antpool`, etc).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_inter_miner_2_miner(from_miner="f2pool", to_miner="antpool", window="day", limit=365)
+```
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
