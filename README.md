@@ -615,7 +615,7 @@ resp = client.get_btc_exch_inhouseflow(exchange="kraken")
   - **Usage**  
   ```python
   resp = client.get_btc_ntw_dormancy(window="day", limit=365)
-```
+  ```
 
 ##### UTXO Distribution [:arrow_up:](#cryptoquant-sdk)
 
