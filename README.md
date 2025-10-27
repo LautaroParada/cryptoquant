@@ -22,6 +22,9 @@
         - [Market Indicators](#market-indicators-arrow_up)
         - [Network Indicators](#network-indicators-arrow_up)
             - [Classical valuation models](#classical-valuation-models-arrow_up)
+            - [Network activity and profitability](#network-activity-and-profitability-arrow_up)
+            - [Realized and PnL data](#realized-and-pnl-data-arrow_up)
+            - [UTXO Distribution](#utxo-distribution-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -462,6 +465,250 @@ resp = client.get_btc_exch_inhouseflow(exchange="kraken")
   resp = client.get_btc_ntw_stock2flow(window="day", limit=365)
   ```
 
+- **Network Value to Transactions (NVT) Ratio**: Calculated as Bitcoin’s network value (total supply multiplied by price in USD) divided by the total value of tokens transferred on-chain. This metric is often used to assess whether Bitcoin is overvalued or undervalued relative to its transaction activity. The underlying theory is that the fundamental value of the network is derived from its usage — when the NVT ratio is high, it may indicate overvaluation or reduced transactional utility, while a low NVT suggests that network activity is strong relative to valuation.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_nvt(window="day", limit=365)
+```
+
+- **NVT Golden Cross**: A modified version of the traditional NVT ratio designed to identify local market tops and bottoms. The indicator compares short-term and long-term moving averages of the NVT ratio to generate dynamic signals of potential trend reversals. Values above approximately 2.2 suggest increased downside risk and potential overvaluation, while values below -1.6 indicate strong upside potential or undervaluation.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_nvtgoldencross(window="day", limit=365)
+```
+
+- **Network Value to Metcalfe Ratio (NVM)**: A valuation metric derived from Metcalfe’s Law, which states that the value of a network grows in proportion to the square of its number of active users. NVM is calculated by dividing Bitcoin’s market capitalization by the number of daily active addresses, providing a way to assess whether network activity justifies its market value. Lower NVM values suggest the network may be undervalued relative to user activity, while higher values indicate potential overvaluation or reduced user engagement.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_nvm(window="day", limit=365)
+```
+
+- **Puell Multiple**: Calculated as the ratio between the current daily mining revenue (in USD) and its 365-day moving average.  
+  This metric highlights periods when miner revenue is significantly above or below historical norms, helping to identify potential market tops and bottoms. Low Puell Multiple values often occur near cyclical lows, suggesting reduced miner profitability and possible accumulation opportunities, while high values are typically observed near market peaks, indicating potential overvaluation. The indicator was developed by David Puell.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_puell(window="day", limit=365)
+```
+
+##### Network activity and profitability [:arrow_up:](#cryptoquant-sdk)
+
+- **Coin Days Destroyed (CDD)**: Measures the total activity of spent coins weighted by their holding time, giving more significance to movements of long-held coins. It is calculated as the sum of each spent output’s value multiplied by the number of days it remained unspent. The supply-adjusted version (sa_cdd) normalizes this value by dividing CDD by the total coin supply, allowing comparisons across time. The binary version of CDD signals whether the current supply-adjusted CDD exceeds its historical average since the genesis block (1 if above average, 0 if below). Elevated values often indicate that long-term holders or whales are moving coins, which can suggest increased market activity or profit realization.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_cdd(window="day", limit=365)
+```
+
+- **Mean Coin Age (MCA)**: Represents the average age of all unspent transaction outputs (UTxOs), weighted by their value. It is conceptually similar to Coin Days Destroyed (CDD) but focuses on unspent rather than spent coins, providing a view of how long coins have remained dormant in the network. A rising Mean Coin Age indicates that coins are staying unspent for longer periods, suggesting accumulation and reduced on-chain activity, while a declining value implies renewed spending or increased market participation. The related metric, Mean Coin Dollar Age (MCDA), extends this concept by weighting UTxOs by both their age and the price of Bitcoin at the time they were created.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_mca(window="day", limit=365)
+```
+
+- **Sum Coin Age (SCA)**: Represents the cumulative age of all unspent transaction outputs (UTxOs), weighted by their value.  
+  It is closely related to Coin Days Destroyed (CDD) but focuses on coins that remain unspent, reflecting the aggregate holding duration of all circulating Bitcoin.  
+  A growing Sum Coin Age indicates that more coins are remaining dormant, suggesting long-term holding or reduced market activity.  
+  The complementary metric, Sum Coin Dollar Age (SCDA), multiplies UTxO age and value by the Bitcoin price at the time of creation, providing a dollar-weighted perspective on network dormancy.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_sca(window="day", limit=365)
+```
+
+- **Sum Coin Age Distribution (SCAD)**: Shows the distribution of Bitcoin held by long-term and short-term holders based on UTxO data. Similar to the UTxO distribution, this metric is weighted by the number of days each coin has remained unspent, emphasizing the distribution of long-term holders across different holding ranges. Each value is calculated as the sum of products of UTxO age and value within a specific range, divided by the total sum across all ranges. An increasing proportion of long-term holder distribution typically signals a bullish market phase, as it reflects accumulation and reduced spending activity.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_scad(window="day", limit=365)
+```
+
+- **Net Unrealized Profit and Loss (NUPL)**: Measures the difference between Bitcoin’s market capitalization and realized capitalization, normalized by market cap. It is calculated as (market_cap − realized_cap) / market_cap and reflects the overall unrealized profit or loss held by market participants. A positive NUPL value (market_cap > realized_cap) indicates that, on average, holders are in profit—often corresponding to increased selling pressure or overvaluation risk. Conversely, a negative NUPL value suggests that holders are in unrealized loss, typically associated with market capitulation or accumulation phases. Related submetrics include Net Unrealized Profit (NUP), which measures profits from UTxOs in gain, and Net Unrealized Loss (NUL), which captures losses from UTxOs in decline.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_nupl(window="day", limit=365)
+```
+
+- **Net Realized Profit/Loss (NRPL)**: Represents the net amount of profit or loss realized by all Bitcoin holders when coins are spent on-chain. It is calculated relative to the price at which each coin last moved, capturing the difference between the current spending price and the historical acquisition cost. Positive NRPL values indicate that, on aggregate, coins are being spent at a profit, while negative values show that coins are being sold at a loss. This metric helps evaluate market sentiment and behavioral shifts, such as phases of profit-taking, capitulation, or renewed confidence among holders.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_nrpl(window="day", limit=365)
+```
+
+##### Realized and PnL data [:arrow_up:](#cryptoquant-sdk)
+
+
+- **Profit and Loss (UTxO)**: Evaluates the number of unspent transaction outputs (UTxOs) that are in profit or loss by comparing the Bitcoin price at the time of creation with the price at the time of destruction. A UTxO is considered in profit if the price at which it is spent is higher than its creation price, and in loss if the opposite is true. This metric provides a detailed view of the profitability distribution of spent outputs, helping to identify whether market participants are realizing gains or losses at a given point in time.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_pnlutxo(window="day", limit=365)
+```
+
+- **Profit and Loss (Supply)**: Measures the total value of Bitcoin supply currently in profit or loss by comparing the creation and destruction prices of UTxOs, weighted by their value. Unlike the Profit and Loss (UTxO) metric, which counts outputs equally, this version assigns greater importance to larger holdings, providing a more accurate view of how much supply is profitable at a given time.  It effectively quantifies the portion of the active Bitcoin supply that is in profit or loss, helping assess overall market health and investor sentiment.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_pnlsupply(window="day", limit=365)
+```
+
+- **Average Dormancy**: Represents the average number of days destroyed per coin transacted, providing insight into how long coins typically remain dormant before being moved. This metric is calculated as the total Coin Days Destroyed (CDD) divided by the number of coins transacted. The Supply-Adjusted Average Dormancy (SA Average Dormancy) normalizes this value by the total circulating supply to account for long-term growth in mined coins. Higher dormancy values indicate that older coins are being spent, often suggesting profit-taking or market transitions, while lower values imply more frequent movement of recently created coins.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_dormancy(window="day", limit=365)
+```
+
+##### UTXO Distribution [:arrow_up:](#cryptoquant-sdk)
+
+- **UTxO Age Distribution**: Displays the distribution of Bitcoin’s active supply categorized by the age of unspent transaction outputs (UTxOs). This indicator provides insight into the behavior of long-term and short-term holders by showing how much of the circulating supply has remained unspent within different time bands. It helps identify accumulation, distribution, or dormancy patterns among holders and how these behaviors correspond to price movements. The distribution values are provided in native BTC units, USD value, and percentage of total supply.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_utxo_age_distr(window="day", limit=180)
+```
+
+- **UTxO Realized Age Distribution**: Represents the distribution of Bitcoin’s active supply by UTxO age bands, weighted by the price at the time each UTxO was created. Similar in concept to Realized Capitalization, this metric reflects how network capitalization is distributed among long-term and short-term holders across different age cohorts. It helps assess which groups of holders dominate the market’s realized value and how their behavior changes over time. Distribution values are provided in native BTC units, USD value, and percentage of total supply.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_utxo_realized_age_dstr(window="day", limit=180)
+```
+
+- **UTxO Count Age Distribution**: Shows the distribution of the number of unspent transaction outputs (UTxOs) grouped by age bands. This indicator summarizes how many long-term and short-term holders exist within each cohort, providing a view of holder composition across time. It helps reveal the balance between recently active wallets and long-dormant holders, offering insights into market maturity and behavioral shifts. The distribution values are provided in native counts and as percentages of the total UTxO set.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_utxo_count_age_dstr(window="day", limit=180)
+```
+
+- **Spent Output Age Distribution**: Represents the distribution of spent transaction outputs (UTxOs) categorized by the age of the coins at the time they were spent. This indicator shows how much of the total spent volume originates from long-term versus short-term holders, providing insight into holder behavior and potential market turning points. High spending activity from older age bands can indicate long-term holders realizing profits or exiting positions, while dominance of younger age bands suggests routine trading activity. The distribution values are available in native BTC units, USD value, and percentage of total spent outputs.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_spent_output_age_dstr(window="day", limit=180)
+```
+
+- **UTxO Supply Distribution**: Displays the distribution of Bitcoin’s active supply segmented by wallet balance bands. This indicator distinguishes between whale and retail behavior by showing how much BTC is held across different balance ranges and how these holdings evolve with price movements. It helps track concentration of wealth, accumulation patterns, and the relative influence of large versus small holders on market dynamics. The distribution values are provided in native BTC units and as percentages of total supply.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_utxo_supply_dstr(window="day", limit=180)
+```
+
+- **UTxO Realized Supply Distribution**: Represents the distribution of Bitcoin’s active supply segmented by wallet balance bands and weighted by the price at which each UTxO was created. Similar to the Realized Capitalization concept, this indicator shows how network capitalization is distributed among whales and retail holders across different balance ranges. It provides insight into which holder groups control the most realized value in the network and how these proportions shift over time. The distribution values are provided in USD and as percentages of the total realized supply.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_utxo_realized_supply_dstr(window="day", limit=180)
+```
+
+- **UTxO Count Supply Distribution**: Shows the distribution of the number of holders grouped by wallet balance bands. This indicator illustrates how many entities fall into each holding category, distinguishing between whales and retail participants. It helps analyze the composition of the Bitcoin holder base, revealing changes in wealth concentration, entry of new participants, or distribution from large to small holders. The distribution values are provided in native counts and as percentages of the total number of holders.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_utxo_count_supply_dstr(window="day", limit=180)
+```
+
+- **Spent Output Supply Distribution**: Represents the distribution of spent Bitcoin outputs grouped by wallet balance bands.  
+  This indicator shows how much of the total spent supply originates from whales versus retail holders, highlighting which groups are actively realizing profits or moving funds.  
+  It provides context for market dynamics by revealing whether large holders are distributing (selling) or small holders are driving transaction activity.  
+  The distribution values are provided in native BTC units, USD value, and as percentages of total spent supply.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_ntw_spent_output_supply_dstr(window="day", limit=180)
+```
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
