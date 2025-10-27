@@ -612,10 +612,10 @@ resp = client.get_btc_exch_inhouseflow(exchange="kraken")
         - No exchange parameter required.  
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
-  - **Usage**  
-  ```python
+  - **Usage**
+```python
   resp = client.get_btc_ntw_dormancy(window="day", limit=365)
-  ```
+```
 
 ##### UTXO Distribution [:arrow_up:](#cryptoquant-sdk)
 
@@ -706,14 +706,14 @@ resp = client.get_btc_exch_inhouseflow(exchange="kraken")
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
   resp = client.get_btc_ntw_spent_output_supply_dstr(window="day", limit=180)
 ```
 
 ---
 
-
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
+
 The information in this document is provided for informational and educational purposes only. Nothing herein should be construed as financial, legal, or tax advice. The author is not a licensed financial advisor or registered investment consultant.
 
 This SDK is not affiliated with or endorsed by CryptoQuant. It is an independent, open-source tool intended for research and data analysis.
