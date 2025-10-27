@@ -709,7 +709,9 @@ resp = client.get_btc_exch_inhouseflow(exchange="kraken")
   ```python
   resp = client.get_btc_ntw_spent_output_supply_dstr(window="day", limit=180)
 ```
+
 ---
+
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
 The information in this document is provided for informational and educational purposes only. Nothing herein should be construed as financial, legal, or tax advice. The author is not a licensed financial advisor or registered investment consultant.
