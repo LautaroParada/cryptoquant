@@ -25,6 +25,7 @@
             - [Network activity and profitability](#network-activity-and-profitability-arrow_up)
             - [Realized and PnL data](#realized-and-pnl-data-arrow_up)
             - [UTXO Distribution](#utxo-distribution-arrow_up)
+            - [Miner Flows](#miner-flows-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -696,10 +697,7 @@ resp = client.get_btc_exch_inhouseflow(exchange="kraken")
   resp = client.get_btc_ntw_utxo_count_supply_dstr(window="day", limit=180)
 ```
 
-- **Spent Output Supply Distribution**: Represents the distribution of spent Bitcoin outputs grouped by wallet balance bands.  
-  This indicator shows how much of the total spent supply originates from whales versus retail holders, highlighting which groups are actively realizing profits or moving funds.  
-  It provides context for market dynamics by revealing whether large holders are distributing (selling) or small holders are driving transaction activity.  
-  The distribution values are provided in native BTC units, USD value, and as percentages of total spent supply.
+- **Spent Output Supply Distribution**: Represents the distribution of spent Bitcoin outputs grouped by wallet balance bands. This indicator shows how much of the total spent supply originates from whales versus retail holders, highlighting which groups are actively realizing profits or moving funds. It provides context for market dynamics by revealing whether large holders are distributing (selling) or small holders are driving transaction activity. The distribution values are provided in native BTC units, USD value, and as percentages of total spent supply.
 
     - **Specific Parameters**  
         - No exchange parameter required.  
@@ -709,6 +707,103 @@ resp = client.get_btc_exch_inhouseflow(exchange="kraken")
 ```python
   resp = client.get_btc_ntw_spent_output_supply_dstr(window="day", limit=180)
 ```
+
+#### Miner Flows [:arrow_up:](#cryptoquant-sdk)
+
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+- **Miner Reserve**: Returns the historical on-chain balance of Bitcoin mining pools.  
+  This metric tracks the total amount of BTC held in miner-associated wallets over time, reflecting miners’ cumulative holdings.  
+  Increases in miner reserves indicate accumulation or reduced selling activity, while decreases suggest distribution or operational selling to cover costs.  
+  Monitoring miner reserves provides insight into miners’ confidence and their potential influence on market supply.
+
+    - **Specific Parameters**  
+        - ```miner```(str): Required — Miner or pool name (e.g., `f2pool`, `antpool`, `foundry`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_miner_reserve(miner="viabtc", window="day", limit=365)
+```
+
+- **Miner Netflow**: Represents the net amount of Bitcoin flowing into or out of mining pool wallets, calculated as inflow minus outflow. This metric helps identify whether miners are accumulating or distributing their holdings during a specific time period. A positive netflow indicates that more coins are entering miner wallets than leaving, suggesting accumulation or reduced selling pressure. Conversely, a negative netflow means that more coins are flowing out, typically signaling increased selling activity or operational expenses.
+
+    - **Specific Parameters**  
+        - ```miner```(str): Required — Miner or pool name (e.g., `f2pool`, `viabtc`, `antpool`, etc).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_miner_netflow(miner="all_miner", window="day", limit=365)
+```
+
+- **Miner Inflow**: Returns the amount of Bitcoin flowing into mining pool wallets over time. This metric measures the total BTC transferred to miner-associated addresses, typically representing block rewards or internal fund movements. The average inflow value reflects the mean transaction size of BTC entering mining wallets during a given day. High inflows may indicate accumulation, reward consolidation, or repositioning of funds across miner wallets.
+
+    - **Specific Parameters**  
+        - ```miner```(str): Required — Miner or pool name (e.g., `f2pool`, `viabtc`, `antpool`, etc).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_miner_inflow(miner="all_miner", window="day", limit=365)
+```
+
+- **Miner Outflow**: Returns the amount of Bitcoin flowing out of mining pool wallets over time. This metric measures the total BTC transferred from miner-associated addresses, typically representing operational expenses, exchange deposits, or selling activity. The average outflow value reflects the mean transaction size of BTC leaving mining wallets on a given day. Sustained increases in outflows often indicate higher selling pressure or liquidity needs among miners.
+
+    - **Specific Parameters**  
+        - ```miner```(str): Required — Miner or pool name (e.g., `f2pool`, `viabtc`, `antpool`, etc).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_miner_outflow(miner="all_miner", window="day", limit=365)
+```
+
+- **Miner Transaction Count**: Returns the total number of Bitcoin transactions flowing into and out of mining pool wallets. This metric reflects the overall transaction activity of miners, capturing both inflows and outflows within a given period. Higher transaction counts may indicate increased operational activity, fund management, or redistribution of rewards among mining entities.
+
+    - **Specific Parameters**  
+        - ```miner```(str): Required — Miner or pool name (e.g., `f2pool`, `viabtc`, `antpool`, etc).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_miner_txn_count(miner="all_miner", window="day", limit=365)
+```
+
+- **Miner Address Count**: Returns the number of unique addresses involved in inflow and outflow transactions related to mining pool wallets. This metric reflects the level of activity and address utilization among miners. A rising address count may indicate diversification of wallet structures or increased operational complexity, while a declining count suggests consolidation of funds into fewer addresses or reduced activity.
+
+    - **Specific Parameters**  
+        - ```miner```(str): Required — Miner or pool name (e.g., `f2pool`, `viabtc`, `antpool`, etc).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_miner_addr_count(miner="all_miner", window="day", limit=365)
+```
+
+- **Miner In-House Flow**: Returns the volume of Bitcoin transferred internally between wallets belonging to the same mining pool. This metric captures movements of BTC that remain within a miner’s ecosystem, such as fund reallocation or internal management of rewards. The average in-house flow represents the mean transaction value of these internal transfers on a given day. High in-house flow can indicate operational restructuring, reward distribution, or wallet reorganization by miners.
+
+    - **Specific Parameters**  
+        - ```miner```(str): Required — Miner or pool name (e.g., `f2pool`, `viabtc`, `antpool`, etc).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+  - **Usage**  
+  ```python
+  resp = client.get_btc_miner_inhouse_flow(miner="all_miner", window="day", limit=365)
+```
+
 
 ---
 
