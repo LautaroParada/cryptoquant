@@ -79,7 +79,7 @@ resp = client.get_endpoints()
 
 ```
 
-It's highly recommendable to save your API keys in the environment variable. A short tutorial can be founded in the [following video](https://www.youtube.com/watch?v=IolxqkL7cD8):
+I strongly recommend saving your API keys in your environment variables. You can find a short tutorial in the [following video](https://www.youtube.com/watch?v=IolxqkL7cD8):
 
 [![Demo enviroment variables](https://j.gifs.com/LZlj1D.gif)](https://www.youtube.com/watch?v=IolxqkL7cD8)
 
