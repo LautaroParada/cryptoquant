@@ -26,7 +26,7 @@
             - [Realized and PnL data](#realized-and-pnl-data-arrow_up)
             - [UTXO Distribution](#utxo-distribution-arrow_up)
         - [Miner Flows](#miner-flows-arrow_up)
-        - [Inter Entity Flows](#inter-entity_flows-arrow_up)
+        - [Inter Entity Flows](#inter-entity-flows-arrow_up)
         - [Fund Data](#fund-data-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
