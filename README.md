@@ -30,6 +30,13 @@
         - [Fund Data](#fund-data-arrow_up)
         - [Market or Liquidity Data](#market-or-liquidity-data-arrow_up)
         - [Miner Data](#miner-data-arrow_up)
+        - [Network Data](#network-data-arrow_up)
+            - [Monetary activity and circulation](#monetary-activity-and-circulation-arrow_up)
+            - [Network usage](#network-usage-arrow_up)
+            - [Block metrics](#block-metrics-arrow_up)
+            - [Structure of the UTXO set](#structure-of-the-utxo-set-arrow_up)
+            - [Fees](#fees-arrow_up)
+            - [Mining economy](#mining-economy-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -1056,6 +1063,177 @@ resp = client.get_btc_liq_coinbase_idx(window="day", limit=365)
     - **Usage**  
 ```python
 resp = client.get_btc_miner_company_data(miner="mara", window="day", limit=365)
+```
+
+#### Network Data [:arrow_up:](#cryptoquant-sdk)
+Bitcoin on-chain network data including but not limited to token movements, fees, supply, address movements, etc. All metrics have data entries starting from the genesis block (block height 0, datetime 2009-01-03 18:15:05).
+
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+##### Monetary activity and circulation [:arrow_up:](#cryptoquant-sdk)
+
+- **BTC Supply**: Returns metrics related to Bitcoin’s total and newly issued supply. It includes `supply_total`, representing the total number of bitcoins in existence (sum of all coins issued through coinbase rewards), and `supply_new`, representing the number of new bitcoins created within a given time window. These metrics provide insight into Bitcoin’s issuance schedule and the effects of halving events on supply growth.
+
+    - **Specific Parameters**   
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_net_supply(window="day", limit=365)
+```
+
+- **BTC Velocity**: Returns metrics related to the velocity of Bitcoin, calculated as the trailing one-year cumulative transaction volume divided by the current circulating supply. This metric reflects how actively Bitcoin is being used or transferred within the network and serves as an indicator of on-chain economic activity. Higher velocity values suggest greater transaction frequency and market circulation, while lower values indicate reduced on-chain activity or holding behavior.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_net_velocity(window="day", limit=365)
+```
+
+- **BTC Tokens Transferred**: Returns metrics related to Bitcoin’s on-chain transaction volume, representing the total number of tokens moved between addresses. It includes `tokens_transferred_total` (total BTC transferred), `tokens_transferred_mean` (average BTC transferred per transaction), and `tokens_transferred_median` (median BTC transferred per transaction). These metrics help evaluate the scale and distribution of Bitcoin transaction activity over time.
+
+    - **Specific Parameters**    
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_net_tokens_transferred(window="day", limit=365)
+```
+
+##### Network usage [:arrow_up:](#cryptoquant-sdk)
+
+- **BTC Transaction Count**: Returns metrics related to the number of Bitcoin transactions processed on-chain. It includes `transactions_count_total`, representing the total number of transactions within a given window, and `transactions_count_mean`, representing the average number of transactions over that period. These metrics provide insight into network utilization, user activity, and overall transactional demand.
+
+    - **Specific Parameters**   
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_net_trx_count(window="day", limit=365)
+```
+
+- **BTC Address Count**: Returns metrics related to the number of active Bitcoin addresses participating in transactions. It includes `addresses_count_active` (total unique addresses active as either sender or receiver), `addresses_count_sender` (number of addresses active as senders), and `addresses_count_receiver` (number of addresses active as receivers). These metrics help measure network participation, user activity, and overall adoption trends within the Bitcoin ecosystem.
+
+    - **Specific Parameters**   
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_net_addr_count(window="day", limit=365)
+```
+
+##### Block metrics [:arrow_up:](#cryptoquant-sdk)
+
+- **BTC Block Bytes**: Returns the mean size of all Bitcoin blocks generated within a given time window, measured in bytes. This metric reflects block utilization and network throughput efficiency, helping to assess transaction density and overall demand for block space.
+
+    - **Specific Parameters**    
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_net_block_bytes(window="day", limit=365)
+```
+
+- **BTC Block Count**: Returns the total number of Bitcoin blocks generated within a specified time window. This metric indicates the pace of block production and helps monitor network performance, mining activity, and block confirmation rates over time.
+
+    - **Specific Parameters**   
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_net_block_count(window="day", limit=365)
+```
+
+- **BTC Block Interval**: Returns the average time between Bitcoin blocks generated, expressed in seconds. This metric measures the consistency of block production and serves as an indicator of network health and mining difficulty adjustments. Shorter intervals may reflect increased hash power, while longer intervals can indicate reduced mining activity or rising difficulty.
+
+    - **Specific Parameters**   
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_net_block_interval(window="day", limit=365)
+```
+
+##### Structure of the UTXO set [:arrow_up:](#cryptoquant-sdk)
+
+- **BTC UTXO Count**: Returns the total number of unspent transaction outputs (UTXOs) existing at a specified point in time. This metric reflects the structure and fragmentation of the Bitcoin ledger, providing insights into user behavior, wallet activity, and the overall complexity of the UTXO set.
+
+    - **Specific Parameters**   
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_net_utxo_count(window="day", limit=365)
+```
+
+##### Fees [:arrow_up:](#cryptoquant-sdk)
+
+- **BTC Fees**: Returns statistics related to transaction fees paid to Bitcoin miners. Fees are calculated by subtracting newly issued bitcoins from the total block reward of each block. Provided metrics include `fees_total` (sum of all fees), `fees_block_mean` (average fee per block), and `fees_reward_percent` (percentage of fees relative to total block rewards). Each metric can also be expressed in USD, offering a clearer view of miner revenue composition and network demand.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_net_fees(window="day", limit=365)
+```
+
+- **BTC Fees per Transaction**: Returns statistics related to the average transaction fees paid to Bitcoin miners. Fees are derived by subtracting newly issued bitcoins from the total block reward of each block and dividing by the number of transactions to determine the mean and median fee per transaction. Provided metrics include `fees_transaction_mean` (average fee per transaction) and `fees_transaction_median` (median fee per transaction). Both values can also be expressed in USD, offering insights into network congestion and user cost to transact on-chain.
+
+    - **Specific Parameters**   
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_net_fees_trx(window="day", limit=365)
+```
+
+##### Mining economy [:arrow_up:](#cryptoquant-sdk)
+
+- **BTC Block Reward**: Returns the total value of Bitcoin block rewards, including both the newly issued coins (mining rewards) and transaction fees earned by miners. This metric represents the overall miner revenue from block production and is also available in USD for easier valuation and comparison across time periods.
+
+    - **Specific Parameters**    
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_net_blockreward(window="day", limit=365)
+```
+
+- **BTC Mining Difficulty**: Returns the mean difficulty required to mine a new Bitcoin block within a given time window. This metric reflects the overall computational power and competitiveness of the network. Increases in difficulty indicate growing miner participation and network security, while decreases suggest reduced hash power or miner activity.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_net_difficulty(window="day", limit=365)
+```
+
+- **BTC Hashrate**: Returns the mean computational speed at which miners across the Bitcoin network solve hash problems, expressed in gigahashes per second (GH/s). This metric serves as a key indicator of network security and mining activity. Higher hashrate values reflect stronger network resilience and miner participation, while lower values can indicate reduced mining power or profitability.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_net_hashrate(window="day", limit=365)
 ```
 ---
 
