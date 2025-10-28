@@ -29,6 +29,7 @@
         - [Inter Entity Flows](#inter-entity-flows-arrow_up)
         - [Fund Data](#fund-data-arrow_up)
         - [Market or Liquidity Data](#market-or-liquidity-data-arrow_up)
+        - [Miner Data](#miner-data-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -1030,7 +1031,32 @@ resp = client.get_btc_liq_capitalization(window="day", limit=365)
 resp = client.get_btc_liq_coinbase_idx(window="day", limit=365)
 ```
 
+#### Miner Data [:arrow_up:](#cryptoquant-sdk)
 
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+- **BTC Miner Company Data**: Returns on-chain and production-based statistics for publicly listed Bitcoin mining companies. The dataset includes `coinbase_rewards` (daily BTC mined directly from coinbase transactions, applied only to MARA), `other_mining_rewards` (daily BTC received as pool payouts), `total_rewards` (sum of coinbase and other mining rewards in BTC), and `accumulated_monthly_rewards` (running monthly total of rewards). Additional metrics include `unique_txn` (number of reward-related transactions), `active_address_count` (number of addresses receiving block rewards), `reported_production` (self-reported monthly BTC production), and `report_accuracy` (ratio of on-chain monthly rewards to reported production × 100, reflecting reporting precision). USD-based metrics include `closing_usd` (daily BTC price), `total_daily_rewards_closing_usd` (daily total rewards in USD), and `accumulated_monthly_rewards_closing_usd` (monthly accumulated rewards in USD). Supported miners include MARA, RIOT, CORE, HIVE, CLSK, BITF, CIPHER, WULF, and IREN.
+
+    - **Specific Parameters**  
+        - ```miner```(str): Required — Public mining company symbol (e.g., `mara`, `riot`, `hive`, `bitf`, `core`, `clsk`, `cipher`, `wulf`, `iren`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_miner_company_data(miner="mara", window="day", limit=365)
+```
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
