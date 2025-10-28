@@ -38,6 +38,7 @@
             - [Fees](#fees-arrow_up)
             - [Mining economy](#mining-economy-arrow_up)
         - [Mempool Statistics](#mempool-statistics-arrow_up)
+        - [Lightning Network Statistics](#lightning-network-statistics-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -1274,6 +1275,33 @@ resp = client.get_btc_mem_stats_by_relative_fee(metric_type="tx_count", window="
     - **Usage**  
 ```python
 resp = client.get_btc_mem_stats_in_total(metric_type="tx_count", window="day", limit=365)
+```
+
+#### Lightning Network Statistics [:arrow_up:](#cryptoquant-sdk)
+Monitoring the Lightning Network allows for analyzing the evolution of Bitcoin's layer 2 infrastructure: growth of nodes, locked capital (available liquidity), and operational decentralization. This data is key to measuring the real adoption of Bitcoin as a means of payment, beyond purely speculative use or store of value.
+
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+- **Lightning Network Stats**: Returns key statistics derived from the Bitcoin Lightning Network, providing insight into its capacity, structure, and fee dynamics. Metrics include `network_capacity` (total BTC available across all channels), `network_capacity_usd` (same in USD), `capacity_per_channel_mean` and `capacity_per_channel_mean_usd` (average channel capacity), `capacity_per_node_mean` and `capacity_per_node_mean_usd` (average node capacity), `number_of_node` (total active nodes), `number_of_channel` (total open payment channels), `channel_per_node_mean` (average number of channels per node), `node_age_days` and `channel_age_days` (average lifespan of nodes and channels), and median fee metrics (`base_fee_median`, `base_fee_median_usd`, `fee_rate_median`, `fee_rate_median_usd`). These metrics allow analysis of Lightning’s liquidity distribution, decentralization, and fee competitiveness. Metrics are available for hourly and daily windows.
+
+    - **Specific Parameters**   
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_light_stats(window="day", limit=365)
 ```
 ---
 
