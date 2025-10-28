@@ -242,9 +242,9 @@ resp = client.get_btc_exch_inhouseflow(exchange="kraken")
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_idx_mpi(exchange='kraken', window="day", limit=365)
-  ```
+```
 
 - **Exchange Shutdown Indicator**: Detects anomalous on-chain flow patterns that typically precede or coincide with an exchange hack or operational halt. This metric identifies the characteristic sequence where massive outflows are followed by a sudden drop to zero**, signaling that an exchange has likely paused withdrawals or frozen wallets due to a security breach or critical issue. It serves as an early-warning signal of potential exchange-related riskand liquidity disruptions.
 
@@ -370,9 +370,9 @@ resp = client.get_btc_idx_minersupplyratio(miner="f2pool", window="day", limit=3
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_mkt_leverage(exchange="binance", window="day", limit=365)
-  ```
+```
 
 - **Stablecoin Supply Ratio (SSR)**: Represents the ratio between Bitcoin’s market capitalization and the total supply of stablecoins. Since stablecoins act as a proxy for fiat currency within crypto markets, this metric helps assess the potential buying power available to purchase BTC. A high SSR indicates relatively low stablecoin liquidity compared to Bitcoin’s valuation, suggesting reduced buying power and potential sell pressure. Conversely, a low SSR implies greater stablecoin availability, often interpreted as increased market capacity to buy Bitcoin. The historical data for this indicator begins on 2017-11-28 00:00:00.
 
@@ -380,7 +380,7 @@ resp = client.get_btc_mkt_leverage(exchange="binance", window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_mkt_ssr(window="day", limit=365)
 ```
 
@@ -391,9 +391,9 @@ resp = client.get_btc_mkt_ssr(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_mkt_mvrv(window="day", limit=365)
-  ```
+```
 
 - **Spent Output Profit Ratio (SOPR)**: Measures the overall profit ratio of market participants by comparing the value of spent outputs at the time they are spent to their value when they were created. It is calculated as the USD value of spent outputs at the spent time divided by the USD value of those outputs at their creation time. A SOPR value greater than 1 indicates that coins are being sold at a profit, while values below 1 imply that coins are being sold at a loss. This metric helps identify periods of profit-taking, market capitulation, or accumulation based on on-chain spending behavior.
 
@@ -402,7 +402,7 @@ resp = client.get_btc_mkt_mvrv(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_mkt_sopr(window="day", limit=365)
 ```
 
@@ -413,7 +413,7 @@ resp = client.get_btc_mkt_sopr(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_mkt_soprratio(window="day", limit=365)
 ```
 
@@ -424,7 +424,7 @@ resp = client.get_btc_mkt_soprratio(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_mkt_realizedprice(window="day", limit=365)
 ```
 
@@ -435,7 +435,7 @@ resp = client.get_btc_mkt_realizedprice(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_mkt_utxo(window="day", limit=180)
 ```
 
@@ -464,9 +464,9 @@ resp = client.get_btc_mkt_utxo(window="day", limit=180)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_stock2flow(window="day", limit=365)
-  ```
+```
 
 - **Network Value to Transactions (NVT) Ratio**: Calculated as Bitcoin’s network value (total supply multiplied by price in USD) divided by the total value of tokens transferred on-chain. This metric is often used to assess whether Bitcoin is overvalued or undervalued relative to its transaction activity. The underlying theory is that the fundamental value of the network is derived from its usage — when the NVT ratio is high, it may indicate overvaluation or reduced transactional utility, while a low NVT suggests that network activity is strong relative to valuation.
 
@@ -475,7 +475,7 @@ resp = client.get_btc_ntw_stock2flow(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_nvt(window="day", limit=365)
 ```
 
@@ -486,7 +486,7 @@ resp = client.get_btc_ntw_nvt(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_nvtgoldencross(window="day", limit=365)
 ```
 
@@ -497,7 +497,7 @@ resp = client.get_btc_ntw_nvtgoldencross(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_nvm(window="day", limit=365)
 ```
 
@@ -509,7 +509,7 @@ resp = client.get_btc_ntw_nvm(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_puell(window="day", limit=365)
 ```
 
@@ -522,7 +522,7 @@ resp = client.get_btc_ntw_puell(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_cdd(window="day", limit=365)
 ```
 
@@ -533,7 +533,7 @@ resp = client.get_btc_ntw_cdd(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_mca(window="day", limit=365)
 ```
 
@@ -547,7 +547,7 @@ resp = client.get_btc_ntw_mca(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_sca(window="day", limit=365)
 ```
 
@@ -558,7 +558,7 @@ resp = client.get_btc_ntw_sca(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_scad(window="day", limit=365)
 ```
 
@@ -569,7 +569,7 @@ resp = client.get_btc_ntw_scad(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_nupl(window="day", limit=365)
 ```
 
@@ -580,7 +580,7 @@ resp = client.get_btc_ntw_nupl(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_nrpl(window="day", limit=365)
 ```
 
@@ -594,7 +594,7 @@ resp = client.get_btc_ntw_nrpl(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_pnlutxo(window="day", limit=365)
 ```
 
@@ -605,7 +605,7 @@ resp = client.get_btc_ntw_pnlutxo(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_pnlsupply(window="day", limit=365)
 ```
 
@@ -629,7 +629,7 @@ resp = client.get_btc_ntw_dormancy(window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_utxo_age_distr(window="day", limit=180)
 ```
 
@@ -640,7 +640,7 @@ resp = client.get_btc_ntw_utxo_age_distr(window="day", limit=180)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_utxo_realized_age_dstr(window="day", limit=180)
 ```
 
@@ -651,7 +651,7 @@ resp = client.get_btc_ntw_utxo_realized_age_dstr(window="day", limit=180)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_utxo_count_age_dstr(window="day", limit=180)
 ```
 
@@ -662,7 +662,7 @@ resp = client.get_btc_ntw_utxo_count_age_dstr(window="day", limit=180)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_spent_output_age_dstr(window="day", limit=180)
 ```
 
@@ -673,7 +673,7 @@ resp = client.get_btc_ntw_spent_output_age_dstr(window="day", limit=180)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_utxo_supply_dstr(window="day", limit=180)
 ```
 
@@ -684,7 +684,7 @@ resp = client.get_btc_ntw_utxo_supply_dstr(window="day", limit=180)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_utxo_realized_supply_dstr(window="day", limit=180)
 ```
 
@@ -695,7 +695,7 @@ resp = client.get_btc_ntw_utxo_realized_supply_dstr(window="day", limit=180)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_ntw_utxo_count_supply_dstr(window="day", limit=180)
 ```
 
@@ -736,7 +736,7 @@ resp = client.get_btc_ntw_spent_output_supply_dstr(window="day", limit=180)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_miner_reserve(miner="viabtc", window="day", limit=365)
 ```
 
@@ -747,7 +747,7 @@ resp = client.get_btc_miner_reserve(miner="viabtc", window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_miner_netflow(miner="all_miner", window="day", limit=365)
 ```
 
@@ -758,7 +758,7 @@ resp = client.get_btc_miner_netflow(miner="all_miner", window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_miner_inflow(miner="all_miner", window="day", limit=365)
 ```
 
@@ -769,7 +769,7 @@ resp = client.get_btc_miner_inflow(miner="all_miner", window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_miner_outflow(miner="all_miner", window="day", limit=365)
 ```
 
@@ -780,7 +780,7 @@ resp = client.get_btc_miner_outflow(miner="all_miner", window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_miner_txn_count(miner="all_miner", window="day", limit=365)
 ```
 
@@ -791,7 +791,7 @@ resp = client.get_btc_miner_txn_count(miner="all_miner", window="day", limit=365
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_miner_addr_count(miner="all_miner", window="day", limit=365)
 ```
 
@@ -802,9 +802,9 @@ resp = client.get_btc_miner_addr_count(miner="all_miner", window="day", limit=36
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_miner_inhouse_flow(miner="all_miner", window="day", limit=365)
-  ```
+```
 
 #### Inter Entity Flows [:arrow_up:](#cryptoquant-sdk)
 Inter-entity flows help assess capital movements between structural actors in the ecosystem. For example, a sustained increase in `miner_2_exch` suggests selling pressure, while increases in `exch_2_exch` may reflect liquidity adjustments or arbitrage.
