@@ -28,6 +28,7 @@
         - [Miner Flows](#miner-flows-arrow_up)
         - [Inter Entity Flows](#inter-entity-flows-arrow_up)
         - [Fund Data](#fund-data-arrow_up)
+        - [Market or Liquidity Data](#market-or-liquidity-data-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -866,7 +867,7 @@ resp = client.get_btc_inter_exch_2_miner(from_exchange="kraken", to_miner="f2poo
         - ```to_miner```(str): Required — Destination miner or pool name (e.g., `f2pool`, `viabtc`, `antpool`, etc).  
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
-  - **Usage**  
+    - **Usage**  
 ```python
 resp = client.get_btc_inter_miner_2_miner(from_miner="f2pool", to_miner="antpool", window="day", limit=365)
 ```
@@ -895,7 +896,7 @@ This section is key for analyzing the behavior of institutional capital, as it r
         - ```fund```(str): Required — Fund manager name (e.g., `grayscale`, `blackrock`, `fidelity`, etc).  
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
-  - **Usage**  
+    - **Usage**  
 ```python
 resp = client.get_btc_fund_mkt_price(symbol="gbtc", window="day", limit=365)
 ```
@@ -906,7 +907,7 @@ resp = client.get_btc_fund_mkt_price(symbol="gbtc", window="day", limit=365)
         - ```symbol```(str): Required — Fund symbol (e.g., `gbtc`, `ibit`, `fbtc`, etc).  
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
-  - **Usage**  
+    - **Usage**  
 ```python
 resp = client.get_btc_fund_mkt_volume(symbol="gbtc", window="day", limit=365)
 ```
@@ -917,7 +918,7 @@ resp = client.get_btc_fund_mkt_volume(symbol="gbtc", window="day", limit=365)
         - ```symbol```(str): Required — Fund symbol (e.g., `gbtc`, `ibit`, `fbtc`, etc).  
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
-  - **Usage**  
+    - **Usage**  
 ```python
 resp = client.get_btc_fund_mkt_premium(symbol="gbtc", window="day", limit=365)
 ```
@@ -928,10 +929,108 @@ resp = client.get_btc_fund_mkt_premium(symbol="gbtc", window="day", limit=365)
         - ```symbol```(str): Required — Fund symbol (e.g., `gbtc`, `ibit`, `fbtc`).  
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
-  - **Usage**  
+    - **Usage**  
 ```python
 resp = client.get_btc_fund_digital_assets_holdings(symbol="gbtc", window="day", limit=365)
 ```
+
+#### Market or Liquidity Data [:arrow_up:](#cryptoquant-sdk)
+This section is used to monitor liquidity, leverage, and market microstructure. It allows for the assessment of phases of over-leveraging, imbalances between orders, or liquidity stress that can anticipate price movements.
+
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+- **BTC Price OHLCV**: Returns Bitcoin price metrics across spot and perpetual markets, including CryptoQuant’s BTC Index Price and USD or USDT-denominated prices from individual exchanges. It provides `open`, `close`, `high`, `low`, and `volume` values for each interval (minute, hour, day). The BTC Index Price is calculated using VWAP aggregated from major exchanges such as Binance, Bitfinex, Bittrex, Bitmex, Bybit, Deribit, Gemini, HTX Global, Kraken, and OKX. For exchange-specific data, specify `market`, `exchange`, and `symbol`. Volume units vary by exchange (BTC, USD, or USDT), and daily data are computed from UTC 00:00:00, except for HTX and OKX, which use UTC 16:00:00.
+
+    - **Specific Parameters**  
+        - ```market```(str): Optional — Market type (`spot` or `perpetual`).  
+        - ```exchange```(str): Optional — Exchange name (e.g., `binance`, `bitmex`, `kraken`, `okx`, etc).  
+        - ```symbol```(str): Optional — Trading pair symbol (e.g., `btc_usd`, `btc_usdt`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_liq_ohlcv(market="spot", exchange="binance", symbol="btc_usdt", window="day", limit=365)
+```
+
+- **BTC Perpetual Open Interest**: Returns the total USD-denominated open interest for Bitcoin perpetual futures across major derivative exchanges. This metric represents the total value of outstanding derivative contracts and provides insight into market leverage and trader positioning. Open interest is unified to USD across all exchanges, regardless of contract specifications. Supported exchanges include Binance, Bitfinex, Bitmex, Bybit, Deribit, Gate.io, HTX Global, Kraken, and OKX. Higher open interest levels often indicate increased speculative activity or leverage buildup, while declining values suggest position unwinding or reduced participation.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `bitmex`, `bybit`, `okx`, etc).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_liq_open_interest(exchange="binance", window="day", limit=365)
+```
+
+- **BTC Funding Rates**: Returns the funding rates for Bitcoin perpetual swap contracts across major derivative exchanges. Funding rates reflect traders’ sentiment and the directional bias of open positions in the perpetual futures market. Positive funding rates indicate that long traders are dominant and paying funding to short traders (bullish sentiment), while negative rates indicate that short traders are dominant and paying funding to long traders (bearish sentiment). Supported exchanges include Binance, Bybit, Bitmex, Deribit, HTX Global, and OKX.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `bitmex`, `bybit`, `okx`, etc).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_liq_funding_rates(exchange="binance", window="day", limit=365)
+```
+
+- **BTC Taker Buy/Sell Stats**: Returns metrics representing taker activity and sentiment in the Bitcoin perpetual swap market across major derivative exchanges. These metrics include `taker_buy_volume` (volume bought by takers), `taker_sell_volume` (volume sold by takers), `taker_total_volume` (sum of buy and sell volume), `taker_buy_ratio` (buy volume divided by total volume), `taker_sell_ratio` (sell volume divided by total volume), and `taker_buy_sell_ratio` (buy volume divided by sell volume). All values are standardized in USD to ensure comparability across exchanges. Supported exchanges include Binance, Bybit, Bitmex, Deribit, HTX Global, and OKX.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `bitmex`, `bybit`, `okx`, etc).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_liq_taker_stats(exchange="binance", window="day", limit=365)
+```
+
+- **BTC Liquidations**: Returns the total value of forced market orders triggered to close leveraged positions across major derivative exchanges. Liquidations occur when traders’ margins are insufficient to maintain positions during price volatility and thus provide insight into leverage imbalances and trader sentiment. High liquidation volumes often coincide with sharp market moves and increased volatility. Note that Binance’s liquidation data collection policy changed after 2021-04-27, which may affect data distribution post-update. Supported exchanges include Binance, Bitfinex, Bitmex, Bybit, Deribit, Gate.io, HTX Global, and OKX.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange name (e.g., `binance`, `bitmex`, `bybit`, `okx`, etc).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_liq_liquidations(exchange="binance", window="day", limit=365)
+```
+
+- **BTC Market Capitalization**: Returns Bitcoin market capitalization metrics, including standard and adjusted on-chain valuation models. The `market_cap` represents the total market capitalization, calculated by multiplying total supply by USD price. The `realized_cap` measures the aggregate value of all UTXOs at the price they last moved, discounting coins that are lost or dormant for long periods—essentially serving as an on-chain version of VWAP. The `average_cap` is a lifetime moving average of market capitalization, derived by dividing the cumulative daily market cap by the network’s age, representing the true historical mean. The `delta_cap` is calculated as `realized_cap − average_cap` and is often used to identify market bottoms, while `thermo_cap` represents the cumulative value of mined coins weighted by price, offering a perspective on total on-chain investment and potential overvaluation.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_liq_capitalization(window="day", limit=365)
+```
+
+- **Coinbase Premium Index**: Measures the price difference between Coinbase (BTC/USD) and Binance (BTC/USDT) to assess spot market buying pressure from U.S.-based investors. The metric includes the Coinbase Premium Index, calculated as the percentage difference between Coinbase and Binance prices, and the Coinbase Premium Gap, which represents the absolute price difference between the two exchanges. A higher premium indicates stronger buying demand on Coinbase, often interpreted as institutional or U.S. market-driven accumulation.
+
+    - **Specific Parameters**  
+        - No exchange parameter required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_liq_coinbase_idx(window="day", limit=365)
+```
+
+
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
