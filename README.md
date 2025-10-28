@@ -831,7 +831,7 @@ Inter-entity flows help assess capital movements between structural actors in th
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_inter_exch_2_exch(from_exchange="binance", to_exchange="kraken", window="day", limit=365)
 ```
 
@@ -843,7 +843,7 @@ resp = client.get_btc_inter_exch_2_exch(from_exchange="binance", to_exchange="kr
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_inter_miner_2_exch(from_miner="antpool", to_exchange="binance", window="day", limit=365)
 ```
 
@@ -855,7 +855,7 @@ resp = client.get_btc_inter_miner_2_exch(from_miner="antpool", to_exchange="bina
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_inter_exch_2_miner(from_exchange="kraken", to_miner="f2pool", window="day", limit=365)
 ```
 
@@ -867,9 +867,9 @@ resp = client.get_btc_inter_exch_2_miner(from_exchange="kraken", to_miner="f2poo
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_inter_miner_2_miner(from_miner="f2pool", to_miner="antpool", window="day", limit=365)
-  ```
+```
 
 #### Fund Data [:arrow_up:](#cryptoquant-sdk)
 This section is key for analyzing the behavior of institutional capital, as it reflects whether funds are receiving net inflows, whether the market values the products above or below their NAV, and how institutional adoption in Bitcoin is evolving.
@@ -896,9 +896,9 @@ This section is key for analyzing the behavior of institutional capital, as it r
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_fund_mkt_price(symbol="gbtc", window="day", limit=365)
-  ```
+```
 
 - **Fund Market Volume**: Returns the traded volume of fund-related securities such as GBTC on regulated markets. The trading volume of these instruments reflects investor sentiment and market participation among institutional and retail investors. Metrics are calculated on a daily basis and include `volume`, representing the total traded volume within the specified window.
 
@@ -907,9 +907,9 @@ resp = client.get_btc_fund_mkt_price(symbol="gbtc", window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_fund_mkt_volume(symbol="gbtc", window="day", limit=365)
-  ```
+```
 
 - **Fund Market Premium**: Measures the premium or discount of fund-related securities such as GBTC by comparing their market price to their Net Asset Value (NAV). It is calculated as `(market price − NAV) / NAV`, where NAV represents the current value of the underlying holdings (e.g., BTC price multiplied by BTC per share). A higher premium suggests bullish market sentiment but may also signal increased downside risk, while a lower or negative premium indicates bearish sentiment with potential upside opportunity. For all supported symbols, the market premium is calculated using the volume-weighted average ratio (VWAP) based on USD-denominated trading volume.
 
@@ -918,9 +918,9 @@ resp = client.get_btc_fund_mkt_volume(symbol="gbtc", window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_fund_mkt_premium(symbol="gbtc", window="day", limit=365)
-  ```
+```
 
 - **Fund Digital Asset Holdings**: Returns the total digital asset holdings of each fund, representing how much Bitcoin is held under management. For example, the Grayscale Bitcoin Trust (GBTC) metric reflects the amount of BTC Grayscale holds for its investors. This indicator serves as a proxy for institutional sentiment, as increasing holdings generally signal growing investor confidence and bullish outlooks in regulated markets, while declining holdings may indicate profit-taking or reduced exposure.
 
@@ -929,9 +929,9 @@ resp = client.get_btc_fund_mkt_premium(symbol="gbtc", window="day", limit=365)
         - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
 
   - **Usage**  
-  ```python
+```python
 resp = client.get_btc_fund_digital_assets_holdings(symbol="gbtc", window="day", limit=365)
-  ```
+```
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
