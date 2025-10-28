@@ -37,6 +37,7 @@
             - [Structure of the UTXO set](#structure-of-the-utxo-set-arrow_up)
             - [Fees](#fees-arrow_up)
             - [Mining economy](#mining-economy-arrow_up)
+        - [Mempool Statistics](#mempool-statistics-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -1234,6 +1235,45 @@ resp = client.get_btc_net_difficulty(window="day", limit=365)
     - **Usage**  
 ```python
 resp = client.get_btc_net_hashrate(window="day", limit=365)
+```
+
+#### Mempool Statistics [:arrow_up:](#cryptoquant-sdk)
+Mempool data allows anticipating fee pressure, detecting confirmation bottlenecks, and analyzing transactional activity in real time. Essentially, they reflect the demand for block space before actual confirmation.
+
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+- **Mempool Stats by Relative Fee**: Returns statistics of unconfirmed Bitcoin transactions in the mempool, categorized by fee levels. It provides three metrics: `tx_count` (total number of unconfirmed transactions), `total_size` (aggregate size of pending transactions in megabytes), and `total_fee` (total fees of unconfirmed transactions in BTC). These metrics help analyze network congestion and estimate the fee levels required for timely confirmation. Metrics are available for hourly and daily windows.
+
+    - **Specific Parameters**  
+        - ```metric_type```(str): Required — Type of metric to query (`tx_count`, `total_size`, `total_fee`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_mem_stats_by_relative_fee(metric_type="tx_count", window="day", limit=365)
+```
+
+- **Mempool Stats in Total**: Returns aggregated statistics of unconfirmed Bitcoin transactions across the entire mempool. It provides three metrics: `tx_count` (average number of unconfirmed transactions within the selected time range), `total_size` (average aggregate size of transactions in megabytes), and `total_fee` (average total fee of unconfirmed transactions in BTC). These metrics reflect overall network congestion and fee market pressure, helping assess how busy the network is during specific periods. Metrics are available for hourly and daily windows.
+
+    - **Specific Parameters**  
+        - ```metric_type```(str): Required — Type of metric to query (`tx_count`, `total_size`, `total_fee`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_btc_mem_stats_in_total(metric_type="tx_count", window="day", limit=365)
 ```
 ---
 
