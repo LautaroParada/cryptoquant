@@ -46,6 +46,7 @@
         - [ETH Market Indicators](#eth-market-indicators-arrow_up)
         - [ETH 2.0](#eth-20-arrow_up)
         - [ETH Fund Data](#eth-fund-data-arrow_up)
+        - [ETH Market Data](#eth-market-data-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -1636,6 +1637,193 @@ resp = client.get_eth_fund_market_premium(symbol="etha", window="day", limit=90)
     - **Usage**  
 ```python
 resp = client.get_eth_fund_digital_asset_holdings(symbol="ceth", window="day", limit=180)
+```
+
+#### ETH Market Data [:arrow_up:](#cryptoquant-sdk)
+CQ provide USD and USDT spot price of ETH from global exchanges and ETH index price. CryptoQuant's ETH index price is VWAP(Volume Weighted Average Price) of aggregated price data from all exchanges we provide. For more detailed information, please refer to the description of each metric.
+
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+Supported Exchanges By Market
+
+| Name | Market | Supported Exchanges |
+| :--- | :--- | :--- |
+| Spot | `spot` | All Exchange\*, Binance, Binance US, Bitfinex, Bittrex, Coinbase Advanced, FTX\*\*, Gemini, HTX Global, Kraken, OKX |
+| Perpetual | `perpetual` | All Exchange\*, Binance, Bitmex, Bybit, Deribit, FTX\*\*, HTX Global, OKX |
+
+\* Default exchange
+\*\* Use in cautions due to the deprecation (no data update)
+
+Supported Pairs By Exchange
+- Spot
+
+| Name | Exchange | Symbol | Volume Unit | Available Since |
+| :--- | :--- | :--- | :--- | :--- |
+| All Exchange | `all_exchange` | `eth_usd` | ETH | The earliest time in the exchanges below. |
+| Binance | `binance` | `eth_usd` `eth_usdt` | ETH | 2017-08-17 04:00:00 |
+| Binance US | `binance_us` | `eth_usd` `eth_usdt` | ETH | 2019-09-18 14:58:00 2019-09-23 08:36:00 |
+| Bitfinex | `bitfinex` | `eth_usd` `eth_usdt` | ETH | 2016-03-09 16:04:00 2019-03-11 10:03:00 |
+| Bittrex | `bittrex` | `eth_usd` `eth_usdt` | USD USDT | 2018-06-21 02:17:00 2017-04-21 13:30:00 |
+| Coinbase Advanced | `coinbase_advanced` | `eth_usd` | ETH | 2016-05-18 00:14:00 |
+| FTX** | `ftx` | `eth_usd` `eth_usdt` | USD USDT | 2019-09-14 21:07:00 2020-03-28 14:40:00 |
+| Gemini | `gemini` | `eth_usd` | ETH | 2019-08-30 00:00:00 |
+| HTX Global | `htx_global` | `eth_usd` `eth_usdt` | ETH | 2019-11-19 00:00:00 |
+| Kraken | `kraken` | `eth_usd` `eth_usdt` | ETH | 2015-08-07 14:03:00 2019-12-19 16:49:00 |
+| OKX | `okx` | `eth_usd` `eth_usdt` | ETH | 2019-10-01 00:00:00 |
+
+\*\* Use in cautions due to the deprecation (no data update)
+
+| Market | Supported Windows |
+| :--- | :--- |
+| Spot | `min`, `hour`, `day`* |
+| Perpetual | `min`, `hour`, `day`* |
+
+\* Default symbol
+
+- **Market OHLCV**: Returns Open, High, Low, Close, and Volume (OHLCV) metrics for Ethereum prices. This endpoint provides two types of prices: CryptoQuant’s ETH Index Price and the USD or USDT price aggregated from global exchanges. Metrics are available for minute, hour, and day intervals. The OHLCV dataset includes five metrics per window: `open` (opening price), `close` (closing price), `high` (highest price), `low` (lowest price), and `volume` (total traded volume). The ETH Index Price is calculated as the Volume Weighted Average Price (VWAP) of ETH data aggregated across all supported exchanges.
+
+    - **Specific Parameters** 
+        - ```market```(str): Optional - Market type, `spot` or `perpetual`
+        - ```exchange```(str): Optional — Name of the exchange (e.g., `binance`, `kraken`, `bitmex`). Defaults to aggregated index data if not specified.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_mkt_ohlcv(exchange="binance", window="day", limit=180)
+```
+
+- **Market Open Interest**: Returns ETH perpetual futures open interest from major derivative exchanges. This metric represents the total value of outstanding derivative contracts and is standardized to USD across exchanges, regardless of contract specifications. Rising open interest alongside price increases often indicates strong bullish sentiment, while rising open interest during price declines may suggest growing short positions.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Name of the derivatives exchange (e.g., `binance`, `bitmex`, `kraken`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_mkt_open_interest(exchange="bitmex", window="day", limit=90)
+```
+
+| Name | Exchange | Symbol | Available Since |
+| :--- | :--- | :--- | :--- |
+| All Exchanges | `all_exchange` | `all_symbol` | The earliest time in the exchanges below. |
+| Binance | `binance` | `all_symbol` `eth_usd` `eth_usdt` | The earliest time in the symbols. 2020-08-18 00:00:00 2020-05-14 00:00:00 |
+| Bitfinex | `bitfinex` | `all_symbol` `eth_usdt` | The earliest time in the symbols. 2020-06-01 00:00:00 |
+| Bitmex | `bitmex` | `all_symbol` `eth_usd` | The earliest time in the symbols. 2019-03-30 00:00:00 |
+| Bybit | `bybit` | `all_symbol` `eth_usd` `eth_usdt` | The earliest time in the symbols. 2019-11-07 00:00:00 2020-10-21 00:00:00 |
+| Deribit | `deribit` | `all_symbol` `eth_usd` | The earliest time in the symbols. 2019-03-31 00:00:00 |
+| FTX\*\* | `ftx` | `all_symbol` `eth_usd` | The earliest time in the symbols. 2020-05-09 00:00:00 |
+| Gate.io | `gate_io` | `all_symbol` `eth_usd` `eth_usdt` | The earliest time in the symbols. 2020-07-01 00:00:00 2020-07-01 00:00:00 |
+| HTX | `htx_global` | `all_symbol` `eth_usd` `eth_usdt` | The earliest time in the symbols. 2020-06-24 00:00:00 2021-08-26 05:00:00 |
+| Kraken | `kraken` | `all_symbol` `eth_usd` | The earliest time in the symbols. 2019-03-30 00:00:00 |
+| OKX | `okx` | `all_symbol` `eth_usd` `eth_usdt` | The earliest time in the symbols. 2019-09-05 00:00:00 2020-01-01 00:00:00 |
+
+\*\* Use in cautions due to the deprecation (no data update)
+
+- **Market Funding Rates**: Returns the funding rates of ETH perpetual swap markets across supported derivative exchanges. Funding rates represent trader sentiment and the balance between long and short positions. Positive funding rates indicate that traders are predominantly long (bullish) and pay funding to short traders, while negative rates indicate a bearish bias where short traders pay funding to longs.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Name of the derivatives exchange (e.g., `binance`, `bitmex`, `kraken`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_mkt_funding_rates(exchange="binance", window="day", limit=60)
+```
+
+| Name | Exchange | Symbol | Available Since |
+| :--- | :--- | :--- | :--- |
+| All Exchanges | `all_exchange` | | The earliest time in the exchanges below. |
+| Binance | `binance` | ETH-USDT | 2019-11-29 00:00:00 |
+| Bybit | `bybit` | ETH-USD | 2019-01-25 08:00:00 |
+| Bitmex | `bitmex` | ETH-USD | 2018-08-02 12:00:00 |
+| Deribit | `deribit` | ETH-PERPETUAL | 2019-10-04 00:00:00 |
+| HTX Global | `htx_global` | ETH-USD | 2020-07-04 00:01:00 |
+| OKX | `okx` | ETH-USD | 2019-04-02 02:00:00 |
+
+- **Market Taker Buy/Sell Stats**: Returns taker-side trading statistics from ETH perpetual swap markets. These metrics reflect real-time trader sentiment and activity balance between buyers and sellers.  
+  The dataset includes:  
+  `taker_buy_volume` — total USD volume bought by takers,  
+  `taker_sell_volume` — total USD volume sold by takers,  
+  `taker_total_volume` — sum of buy and sell volume,  
+  `taker_buy_ratio` — buy volume divided by total volume,  
+  `taker_sell_ratio` — sell volume divided by total volume,  
+  and `taker_buy_sell_ratio` — buy volume divided by sell volume.  
+  All values are unified to USD across exchanges regardless of contract specifications.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Name of the derivatives exchange (e.g., `binance`, `bitmex`, `kraken`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_mkt_taker_buy_sell_stats(exchange="kraken", window="day", limit=90)
+```
+
+| Name | Exchange | Symbol | Available Since |
+| :--- | :--- | :--- | :--- |
+| All Exchanges | `all_exchange` | | The earliest time in the exchanges below. |
+| Binance | `binance` | ETH-USDT | 2019-12-04 00:00:00 |
+| Bybit | `bybit` | ETH-USD | 2019-12-04 00:00:00 |
+| Bitmex | `bitmex` | ETH-USD | 2018-09-01 00:00:00 |
+| Deribit | `deribit` | ETH-PERPETUAL | 2019-09-04 00:00:00 |
+| HTX Global | `htx_global` | ETH-USD | 2020-04-18 00:00:00 |
+| OKX | `okx` | ETH-USD | 2019-08-04 00:00:00 |
+
+- **Market Liquidations**: Returns the total value of forced market orders (liquidations) triggered by price volatility in ETH perpetual markets. Liquidations occur when leveraged positions are forcibly closed, offering insights into trader sentiment and market stress. Large liquidation events typically correspond to high volatility periods. *Note:* Binance’s liquidation data collection policy changed on **2021-04-27**, which may cause a structural shift in the data distribution after that date.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Name of the derivatives exchange (e.g., `binance`, `bitmex`, `kraken`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+    ```python
+    resp = client.get_eth_mkt_liquidations(exchange="binance", window="day", limit=60)
+    ```
+| Name | Exchange | Symbol | Available Since |
+| :--- | :--- | :--- | :--- |
+| All Exchanges | `all_exchange` | `all_symbol` | The earliest time in the exchanges below. |
+| Binance | `binance` | `all_symbol` `eth_usdt` `eth_usd` | The earliest time in the symbols. 2019-11-30 00:00:00 2020-08-21 00:00:00 |
+| Bitfinex | `bitfinex` | `all_symbol` `eth_usdt` | The earliest time in the symbols. 2019-09-17 00:00:00 |
+| Bitmex | `bitmex` | `all_symbol` `eth_usd` | The earliest time in the symbols. 2019-04-02 00:00:00 |
+| Bybit | `bybit` | `all_symbol` `eth_usd` `eth_usdt` | The earliest time in the symbols. 2020-12-20 00:00:00 2020-12-18 00:00:00 |
+| Deribit | `deribit` | `all_symbol` `eth_usd` | The earliest time in the symbols. 2019-05-25 00:00:00 |
+| FTX** | `ftx` | `all_symbol` `eth_usd` | The earliest time in the symbols. 2019-08-04 00:00:00 |
+| Gate.io | `gate_io` | `all_symbol` `eth_usd` `eth_usdt` | The earliest time in the symbols. 2018-12-28 11:00:00 2019-11-21 11:00:00 |
+| HTX Global | `htx_global` | `all_symbol` `eth_usd` `eth_usdt` | The earliest time in the symbols. 2020-06-26 00:00:00 2021-09-23 14:00:00 |
+| OKX | `okx` | `all_symbol` `eth_usd` `eth_usdt` | The earliest time in the symbols. 2020-12-20 00:00:00 2020-12-17 00:00:00 |
+
+\*\* Use in cautions due to the deprecation (no data update)
+
+- **Coinbase Premium Index**: Returns the Coinbase Premium Index and Premium Gap, which measure the price difference between Coinbase (ETH/USD) and Binance (ETH/USDT). The Coinbase Premium Index represents the percentage difference between the two prices, while the Coinbase Premium Gap represents the absolute gap in USD. A higher premium indicates stronger spot buying pressure from Coinbase, often reflecting heightened demand from U.S.-based institutional investors.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_mkt_coinbase_premium_index(window="day", limit=180)
+```
+
+- **Market Capitalization**: Returns the total market capitalization of Ethereum, calculated by multiplying the circulating supply by its USD price. This metric reflects the overall market valuation of ETH and is commonly used to gauge its relative size, growth, and dominance within the crypto asset class.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_mkt_capitalization(window="day", limit=180)
 ```
 
 ---
