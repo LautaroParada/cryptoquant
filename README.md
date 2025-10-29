@@ -55,6 +55,7 @@
             - [Failed Transactions](#failed-transactions-arrow_up)
             - [ETH Block Metrics](#eth-block-metrics-arrow_up)
             - [Fees and Gas Metrics](#fees-and-gas-metrics-arro_up)
+            - [ETH Mining and Network Performance](#eth-mining-and-network-performance)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -2276,6 +2277,29 @@ resp = client.get_eth_ntx_max_fee(window="day", limit=180)
     - **Usage**  
 ```python
 resp = client.get_eth_ntx_max_priority_fee(window="day", limit=180)
+```
+
+#### Mining and Network Performance [:arrow_up:](#cryptoquant-sdk)
+Difficulty, hash rate, and other security/block processing indicators.
+
+- **Difficulty**: Returns the mean mining difficulty for new blocks on the Ethereum network within the selected time window. This metric reflects how computationally hard it was to mine a block and serves as an indicator of network security and total hash power participation, particularly relevant for the pre-Merge Proof-of-Work era.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_difficulty(window="day", limit=180)
+```
+
+- **Hashrate**: Returns the mean speed at which miners on the Ethereum network solved cryptographic hash problems, measured in gigahashes per second (GH/s). This metric represents the total computational power securing the network and is a key indicator of network security and miner participation during the Proof-of-Work era.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_hashrate(window="day", limit=180)
 ```
 
 ---
