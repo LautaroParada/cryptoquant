@@ -54,8 +54,8 @@
             - [Token Transfers](#token-transfers-arrow_up)
             - [Failed Transactions](#failed-transactions-arrow_up)
             - [ETH Block Metrics](#eth-block-metrics-arrow_up)
-            - [Fees and Gas Metrics](#fees-and-gas-metrics-arro_up)
-            - [ETH Mining and Network Performance](#eth-mining-and-network-performance)
+            - [Fees and Gas Metrics](#fees-and-gas-metrics-arrow_up)
+            - [ETH Mining and Network Performance](#eth-mining-and-network-performance-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
