@@ -54,6 +54,7 @@
             - [Token Transfers](#token-transfers-arrow_up)
             - [Failed Transactions](#failed-transactions-arrow_up)
             - [ETH Block Metrics](#eth-block-metrics-arrow_up)
+            - [Fees and Gas Metrics](#fees-and-gas-metrics-arro_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -2172,6 +2173,109 @@ resp = client.get_eth_ntx_uncle_block_count(window="day", limit=180)
     - **Usage**  
 ```python
 resp = client.get_eth_ntx_uncle_blockreward(window="day", limit=180)
+```
+
+#### Fees and Gas Metrics [:arrow_up:](#cryptoquant-sdk)
+Network usage cost, burns, tips, and base/maximum fees.
+
+- **Fees**: Returns statistics related to transaction fees paid on the Ethereum network. This endpoint provides three metrics: `fees_total`, the total sum of all fees; `fees_block_mean`, the average fee per block; and `fees_reward_percent`, the percentage of total fees relative to the overall block reward. All metrics are provided in both ETH and USD units. These values help assess network congestion, user demand, and miner/validator revenue composition.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_fees(window="day", limit=180)
+```
+
+- **Fees Burnt**: Returns statistics related to the total amount of transaction fees burnt on the Ethereum network, introduced after the London upgrade (EIP-1559). This endpoint provides two metrics: `fees_burnt_total` (in ETH) and `fees_burnt_total_usd` (in USD). Data is available from block height **12,965,000** (timestamp: *2021-08-05 12:33:42 UTC*) onward. These metrics reflect ETH’s deflationary pressure and the impact of fee-burning on overall supply dynamics.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_fees_burnt(window="day", limit=180)
+```
+
+- **Fees Tips**: Returns statistics related to transaction fees directly paid to Ethereum miners (or validators), introduced after the London upgrade (EIP-1559). This endpoint provides two metrics: `fees_tips_total` (in ETH) and `fees_tips_total_usd` (in USD). Data is available from block height **12,965,000** (timestamp: *2021-08-05 12:33:42 UTC*) onward. These metrics represent miner/validator revenue from priority fees and help assess transaction urgency dynamics post-upgrade.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_fees_tips(window="day", limit=180)
+```
+
+- **Fees per Transaction**: Returns statistics related to the fees paid per transaction on the Ethereum network. This endpoint provides two metrics: `fees_transaction_mean`, the average fee per transaction, and `fees_transaction_median`, the median fee per transaction. Both metrics are available in ETH and USD units. These values are useful for analyzing transaction cost trends and user behavior during varying network congestion levels.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_fees_trx(window="day", limit=180)
+```
+
+- **Fees per Transaction (Burnt)**: Returns statistics related to the average and median amount of transaction fees burnt on the Ethereum network, introduced after the London upgrade (EIP-1559). This endpoint provides two metrics: `fees_burnt_transaction_mean`, the average burnt fee per transaction, and `fees_burnt_transaction_median`, the median burnt fee per transaction. Both metrics are available in ETH and USD units. Data is available from block height **12,965,000** (timestamp: *2021-08-05 12:33:42 UTC*) onward.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_fees_trx_burnt(window="day", limit=180)
+```
+
+- **Fees per Transaction (Tips)**: Returns statistics related to the average and median amount of transaction fees directly paid to Ethereum miners or validators, introduced after the London upgrade (EIP-1559). This endpoint provides two metrics: `fees_tips_transaction_mean`, the average tip fee per transaction, and `fees_tips_transaction_median`, the median tip fee per transaction. Both metrics are available in ETH and USD units. Data is available from block height **12,965,000** (timestamp: *2021-08-05 12:33:42 UTC*) onward.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_fees_trx_tips(window="day", limit=180)
+```
+
+- **Gas**: Returns statistics related to gas usage across all Ethereum transactions. This endpoint provides four metrics: `gas_used_total`, the total amount of gas used; `gas_used_mean`, the average amount of gas used; `gas_price_mean`, the average gas price (in Gwei per gas); and `gas_limit_mean`, the average gas limit. These metrics are essential for analyzing network efficiency, transaction cost dynamics, and gas utilization trends over time.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_gas(window="day", limit=180)
+```
+
+- **Base Fee**: Returns the base fee per gas used to burn transaction fees on the Ethereum network, introduced after the London upgrade (EIP-1559). This endpoint provides the metric `base_fee_mean`, representing the average base fee per gas (in Gwei) over the selected blocks. The base fee is a critical component of Ethereum’s fee mechanism, determining the portion of transaction fees that are permanently burnt.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_base_fee(window="day", limit=180)
+```
+
+- **Max Fee**: Returns the maximum fee per gas that users are willing to pay when submitting transactions, introduced after the London upgrade (EIP-1559). This endpoint provides the metric `max_fee_mean`, representing the average maximum fee per gas (in Gwei) across transactions within the selected time window. This metric helps evaluate users’ willingness to pay for block inclusion and their response to network congestion.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_max_fee(window="day", limit=180)
+```
+
+- **Max Priority Fee**: Returns the maximum priority fee per gas paid as a tip to miners or validators, introduced after the London upgrade (EIP-1559). This endpoint provides the metric `max_priority_fee_mean`, representing the average maximum priority fee per gas (in Gwei) across transactions within the selected time window. This metric helps analyze user incentives for faster transaction inclusion and the dynamics of priority bidding in the Ethereum network.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_max_priority_fee(window="day", limit=180)
 ```
 
 ---
