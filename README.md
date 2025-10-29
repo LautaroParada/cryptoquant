@@ -43,7 +43,8 @@
         - [ETH Entity Status](#eth-entity-status-arrow_up)
         - [Exchange Flows](#exchange-flows-arrow_up)
         - [ETH Flow Indicators](#eth-flow-indicators-arrow_up)
-        - [ETH Market Indicators](#eth-market_indicators-arrow_up)
+        - [ETH Market Indicators](#eth-market-indicators-arrow_up)
+        - [ETH 2.0](#eth-2.0-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -1461,6 +1462,103 @@ resp = client.get_eth_flow_exch_supply_ratio(exchange="kraken", window="day", li
     - **Usage**  
 ```python
 resp = client.get_eth_mkt_estimated_leverage_ratio(exchange="bitmex", window="day", limit=90)
+```
+
+#### ETH 2.0 [:arrow_up:](#cryptoquant-sdk)
+Genesis event of ETH 2.0 requires at least 16,384 of 32-ETH validator deposits seven days before Dec 1. If not, the genesis event would postpone seven days after. CQ have only valid transactions in the calculations. Looking at the ETH2 deposit contract, Only from 32 to 1000 deposits are considered as valid deposits. When Phase 0 success rate hits 100% and Phase 0 unique validator hits 16,384, the Ethereum genesis event starts.
+
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+- **Total Value Staked**: Returns the valid ETH balance of the Ethereum 2.0 deposit contract. This metric represents the total amount of ETH locked for staking and actively participating in network validation. An increasing value staked indicates growing validator participation and overall network security, while stagnation or decline can signal reduced staking activity or withdrawals post-Shanghai upgrade.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_20_total_value_staked(window="day", limit=90)
+```
+
+- **Total Inflow Staking**: Returns the total amount of ETH deposited into the Ethereum 2.0 deposit contract within the selected time window. This metric tracks staking inflows, helping identify trends in validator onboarding and overall network participation. Higher inflows indicate increased staking activity and confidence in network rewards or security.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_20_total_inflow_staking(window="day", limit=60)
+```
+
+- **Staking Transaction Count**: Returns the total number of valid transactions sent to the Ethereum 2.0 deposit contract. This metric measures how many staking deposits occurred within a given period and can be used to assess validator onboarding activity and overall staking momentum.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_20_staking_trx_count(window="day", limit=30)
+```
+
+- **Validator Count Total**: Returns the total number of active validators participating in Ethereum 2.0 staking. This metric reflects the size and decentralization of the validator set. A growing number of validators generally indicates stronger network participation and security, while plateaus may suggest saturation or changing staking incentives.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_20_staking_validator_total(window="day", limit=180)
+```
+
+- **Depositor Count Total**: Returns the total number of unique accounts that have deposited at least 32 ETH into the Ethereum 2.0 deposit contract. This metric indicates the total number of independent staking participants and serves as a proxy for network decentralization and validator diversity.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_20_depositor_count_total(window="day", limit=180)
+```
+
+- **Depositor Count New**: Returns the number of new unique accounts that deposited at least 32 ETH into the Ethereum 2.0 deposit contract during the selected time window. This metric highlights the pace of new validator entries and provides insight into the growth rate of staking participation over time.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_20_depositor_count_new(window="day", limit=90)
+```
+
+- **Staking Rate**: Returns the percentage of the total ETH supply currently locked in the Ethereum 2.0 deposit contract. This metric measures the share of circulating ETH actively staked, providing insights into network participation and capital commitment. A higher staking rate generally reflects stronger confidence in protocol stability and long-term yield expectations.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_20_staking_rate(window="day", limit=90)
+```
+
+- **Phase 0 Success Rate**: Returns the percentage of the valid ETH balance in the Ethereum 2.0 deposit contract relative to the initial 524,288 ETH target required for network activation. This metric historically indicated the progress toward launching the Beacon Chain and can still be referenced to assess staking milestones and validator participation thresholds.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_20_phase_0_success_rate(window="day", limit=180)
 ```
 
 ---
