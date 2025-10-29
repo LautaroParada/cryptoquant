@@ -45,6 +45,7 @@
         - [ETH Flow Indicators](#eth-flow-indicators-arrow_up)
         - [ETH Market Indicators](#eth-market-indicators-arrow_up)
         - [ETH 2.0](#eth-20-arrow_up)
+        - [ETH Fund Data](#eth-fund-data-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -1559,6 +1560,82 @@ resp = client.get_eth_20_staking_rate(window="day", limit=90)
     - **Usage**  
 ```python
 resp = client.get_eth_20_phase_0_success_rate(window="day", limit=180)
+```
+
+#### Fund Data [:arrow_up:](#cryptoquant-sdk)
+Retreive metrics related to regulated funds such as trust, including market price, market volume, market premium, and digital asset holdings. These metrics are useful to measure sentiments of investors such as institutions in regulated market. All Symbol will be updated no later then UTC 12:00, this may be changed depending on update time of source data. Also the return value may be changed because of late updated fund.
+
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+**Supported Symbols**  
+| Fund Name | Symbol | Source | Status |
+| :--- | :--- | :--- | :--- |
+| All Symbol (ETH) | `all_symbol` | All Fund | Validated |
+| Grayscale Ethereum Trust | `ethe` | Grayscale Investments | Validated |
+| Grayscale Ethereum Mini Trust | `eth` | Grayscale Investments | Validated |
+| iShares Ethereum Trust ETF | `etha` | BlackRock | Validated |
+| Fidelity Ethereum Fund ETF | `feth` | Fidelity | Validated |
+| Bitwise Ethereum ETF | `ethw` | Bitwise | Validated |
+| 21Shares Ethereum Core ETP | `ceth` | 21Shares | Validated |
+| Invesco Galaxy Ethereum ETF | `qeth` | Invesco | Validated |
+| VanEck Ethereum ETF | `ethv` | VanEck | Validated |
+| Franklin Ethereum ETF | `ezet` | Franklin Templeton | Validated |
+| Purpose Ether ETF | `ethh_u` | Purpose Investments | Validated |
+
+- **Fund Market Price**: Returns USD-denominated price metrics for regulated Ethereum-related funds (e.g., ETHE, ETHA, FETH). This endpoint provides five metrics per time window: `price_usd_open`, `price_usd_close`, `price_usd_high`, `price_usd_low`, and `price_usd_adj_close`. These values represent the market valuation of ETH-backed products and are useful for assessing investor sentiment and pricing dynamics in traditional financial markets.
+
+    - **Specific Parameters**  
+        - ```symbol```(str): Required — Fund symbol to query (e.g., `ethe`, `feth`, `ethv`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_fund_market_price(symbol="ethe", window="day", limit=90)
+```
+
+- **Fund Market Volume**: Returns the traded volume of Ethereum-related fund stocks (e.g., ETHE, FETH, ETHV) in USD. This metric reflects investor sentiment and trading activity in regulated markets. The data is aggregated daily, providing one metric — `volume` — which represents the total traded volume within each time window.
+
+    - **Specific Parameters**  
+        - ```symbol```(str): Required — Fund symbol to query (e.g., `ethe`, `feth`, `ethv`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_fund_market_volumen(symbol="ethv", window="day", limit=60)
+```
+
+- **Fund Market Premium**: Returns the premium of Ethereum-related fund symbols (e.g., ETHE, ETHA, FETH) relative to their Net Asset Value (NAV). The premium is calculated as `(market price - NAV) / NAV`, where NAV represents the current value of underlying holdings (ETH price × ETH per share). A higher premium indicates bullish market sentiment but also increased downside risk, while a lower premium indicates bearish sentiment with potential upside. The `All Symbol` premium is derived using the Volume Weighted Average Ratio (VWAP) across all validated funds.
+
+    - **Specific Parameters**  
+        - ```symbol```(str): Required — Fund symbol to query (e.g., `ethe`, `etha`, `ethv`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_fund_market_premium(symbol="etha", window="day", limit=90)
+```
+
+- **Fund Digital Asset Holdings**: Returns the total ETH holdings of each regulated fund (e.g., ETHE, ETHA, CETH). This metric represents the amount of ETH held by institutional investment vehicles such as trusts and ETFs. Larger holdings generally indicate stronger institutional demand and bullish sentiment in traditional markets, while reductions can signal redemptions or decreased investor exposure.
+
+    - **Specific Parameters**  
+        - ```symbol```(str): Required — Fund symbol to query (e.g., `ethe`, `ceth`, `ethv`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_fund_digital_asset_holdings(symbol="ceth", window="day", limit=180)
 ```
 
 ---
