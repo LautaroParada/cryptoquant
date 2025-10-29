@@ -39,6 +39,8 @@
             - [Mining economy](#mining-economy-arrow_up)
         - [Mempool Statistics](#mempool-statistics-arrow_up)
         - [Lightning Network Statistics](#lightning-network-statistics-arrow_up)
+    - [Ethereum](#ethereum-arrow_up)
+        - [Entity Status](#entity-status-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -1302,6 +1304,21 @@ Monitoring the Lightning Network allows for analyzing the evolution of Bitcoin's
     - **Usage**  
 ```python
 resp = client.get_btc_light_stats(window="day", limit=365)
+```
+
+### Ethereum [:arrow_up:](#cryptoquant-sdk)
+
+#### Entity Status [:arrow_up:](#cryptoquant-sdk)
+
+- **Entities**: Returns the list of Bitcoin-related entities, such as exchanges, banks, and miners.  
+    - Parameters:  
+        - ```type_```(str): Required — Specifies the entity type to query.  
+          For exchange entities, the `market_type` field indicates whether the exchange operates in the **spot** or **derivatives** market.  
+          Entities without a `market_type` (e.g., miners) will return `0` for this field.  
+        - ```format_```(str): Optional — Default: `json`. Defines the response format. Supported formats: `json`, `csv`.  
+    - Usage:  
+```python
+resp = client.get_eth_entity_list(type_="exchange")
 ```
 ---
 
