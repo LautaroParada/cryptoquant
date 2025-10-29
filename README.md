@@ -43,6 +43,7 @@
         - [ETH Entity Status](#eth-entity-status-arrow_up)
         - [Exchange Flows](#exchange-flows-arrow_up)
         - [ETH Flow Indicators](#eth-flow-indicators-arrow_up)
+        - [ETH Market Indicators](#eth-market_indicators-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -1432,6 +1433,34 @@ resp = client.get_eth_exch_addrs_count(exchange="binance", window="day", limit=6
     - **Usage**  
 ```python
 resp = client.get_eth_flow_exch_supply_ratio(exchange="kraken", window="day", limit=180)
+```
+
+#### ETH Market Indicators [:arrow_up:](#cryptoquant-sdk)
+
+
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+- **Estimated Leverage Ratio**: Estimates the average leverage level of traders on a given exchange by dividing its open interest by the exchange’s ETH reserve. This ratio provides a refined view of market sentiment—higher values suggest aggressive positioning and potential volatility, while lower values indicate more conservative behavior. Unlike raw open interest, this metric adjusts for the growth of the exchange’s reserves, offering a normalized perspective on leverage exposure.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Name of the exchange supported by CryptoQuant (e.g., `binance`, `kraken`, `bitmex`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_mkt_estimated_leverage_ratio(exchange="bitmex", window="day", limit=90)
 ```
 
 ---
