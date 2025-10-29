@@ -1086,7 +1086,7 @@ class Ethereum(RequestHandler):
         """
         return super().handle_request(self.ETH_MARKET_OPEN_INTEREST, query_params)
     
-    def get_eth_mkt_fundind_rates(self, **query_params):
+    def get_eth_mkt_funding_rates(self, **query_params):
         """
         Funding rates represents traders' sentiments of which position they bet
         on in perpetual swaps market. Positive funding rates implies that many

@@ -1562,7 +1562,7 @@ resp = client.get_eth_20_staking_rate(window="day", limit=90)
 resp = client.get_eth_20_phase_0_success_rate(window="day", limit=180)
 ```
 
-#### Fund Data [:arrow_up:](#cryptoquant-sdk)
+#### ETH Fund Data [:arrow_up:](#cryptoquant-sdk)
 Retreive metrics related to regulated funds such as trust, including market price, market volume, market premium, and digital asset holdings. These metrics are useful to measure sentiments of investors such as institutions in regulated market. All Symbol will be updated no later then UTC 12:00, this may be changed depending on update time of source data. Also the return value may be changed because of late updated fund.
 
 ##### Common Parameters (applies to all methods of this section)
