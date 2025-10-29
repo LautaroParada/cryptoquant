@@ -52,6 +52,7 @@
             - [Contracts and Transactions](#contracts-and-transactions-arrow_up)
             - [ETH Addresses](#eth-addresses-arrow_up)
             - [Token Transfers](#token-transfers-arrow_up)
+            - [Failed Transactions](#failed-transactions-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -2076,6 +2077,28 @@ resp = client.get_eth_ntx_tokens_transferred_calls(window="day", limit=90)
 resp = client.get_eth_ntx_tokens_transferred_all(window="day", limit=180)
 ```
 
+#### Failed Transactions [:arrow_up:](#cryptoquant-sdk)
+Monitoring failures in transactions and token transfers.
+
+- **Failed Transaction Count**: Returns metrics related to the number of failed transactions on the Ethereum network. This endpoint provides the metric `failed_transactions_count_total`, representing the total number of transactions that did not successfully execute. Monitoring failed transactions helps assess network congestion, gas price inefficiencies, and smart contract execution errors.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_failed_trx_count(window="day", limit=90)
+```
+
+- **Failed Token Transfer Count**: Returns metrics related to the number of failed transactions involving token transfers. This endpoint provides the metric `failed_tokens_transferred_count_total`, representing the total number of token transfer transactions that failed to execute successfully. Tracking failed token transfers helps identify contract issues, gas misconfigurations, and stress conditions in ERC-20 token activity.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_failed_tokens_transferred_count(window="day", limit=90)
+```
 
 ---
 
