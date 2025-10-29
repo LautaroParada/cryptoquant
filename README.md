@@ -42,6 +42,7 @@
     - [Ethereum](#ethereum-arrow_up)
         - [ETH Entity Status](#eth-entity-status-arrow_up)
         - [Exchange Flows](#exchange-flows-arrow_up)
+        - [ETH Flow Indicators](#eth-flow-indicators-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -1403,6 +1404,34 @@ resp = client.get_eth_exch_trx_count(exchange="bitmex", window="day", limit=90)
     - **Usage**  
 ```python
 resp = client.get_eth_exch_addrs_count(exchange="binance", window="day", limit=60)
+```
+
+#### ETH Flow Indicators [:arrow_up:](#cryptoquant-sdk)
+
+
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+- **Exchange Supply Ratio**: Calculates the proportion of ETH reserves held on exchanges relative to the total circulating supply. This metric helps assess how much of the overall supply is kept in exchange wallets and is often used to gauge market liquidity and potential selling pressure. A lower ratio generally suggests reduced exchange-held supply, implying stronger long-term holding sentiment.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Name of the exchange supported by CryptoQuant (e.g., `binance`, `kraken`, `bitmex`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_flow_exch_supply_ratio(exchange="kraken", window="day", limit=180)
 ```
 
 ---
