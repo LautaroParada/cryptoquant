@@ -40,7 +40,8 @@
         - [Mempool Statistics](#mempool-statistics-arrow_up)
         - [Lightning Network Statistics](#lightning-network-statistics-arrow_up)
     - [Ethereum](#ethereum-arrow_up)
-        - [Entity Status](#entity-status-arrow_up)
+        - [ETH Entity Status](#eth-entity-status-arrow_up)
+        - [Exchange Flows](#exchange-flows-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -1308,7 +1309,7 @@ resp = client.get_btc_light_stats(window="day", limit=365)
 
 ### Ethereum [:arrow_up:](#cryptoquant-sdk)
 
-#### Entity Status [:arrow_up:](#cryptoquant-sdk)
+#### ETH Entity Status [:arrow_up:](#cryptoquant-sdk)
 
 - **Entities**: Returns the list of Bitcoin-related entities, such as exchanges, banks, and miners.  
     - Parameters:  
@@ -1320,6 +1321,90 @@ resp = client.get_btc_light_stats(window="day", limit=365)
 ```python
 resp = client.get_eth_entity_list(type_="exchange")
 ```
+
+#### Exchange Flows [:arrow_up:](#cryptoquant-sdk)
+
+
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+- **Exchange Reserve**: Returns the full historical on-chain balance of Ethereum exchanges. This metric represents the total amount of ETH held in exchange wallets over time and is commonly used to analyze accumulation or distribution trends among market participants. A decreasing exchange reserve may indicate withdrawals to cold wallets (bullish signal), while an increasing reserve can imply potential selling pressure.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Name of the exchange supported by CryptoQuant (e.g., `binance`, `kraken`, `bitmex`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_exch_reserve(exchange="binance")
+```
+
+- **Exchange Netflow**: Returns the difference between ETH flowing into exchanges and ETH flowing out of exchanges. This metric helps identify whether coins are moving toward exchanges (potential selling pressure) or being withdrawn to external wallets (potential accumulation). Positive netflow indicates more ETH entering exchanges, while negative netflow indicates more ETH leaving them.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Name of the exchange supported by CryptoQuant (e.g., `binance`, `kraken`, `bitmex`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_exch_netflow(exchange="kraken", window="day", limit=90)
+```
+
+- **Exchange Inflow**: Returns the total inflow of ETH into exchange wallets over time. This metric measures the amount of ETH deposited to exchanges and helps identify potential increases in selling pressure or liquidity movements. Higher inflows often suggest traders are preparing to sell or rebalance positions on centralized exchanges.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Name of the exchange supported by CryptoQuant (e.g., `binance`, `kraken`, `bitmex`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_exch_inflow(exchange="bitmex", window="day", limit=30)
+```
+
+- **Exchange Outflow**: Returns the total outflow of ETH from exchange wallets over time. This metric represents the amount of ETH withdrawn from exchanges, often interpreted as a signal of accumulation or reduced short-term selling pressure. Sustained high outflows may indicate investor confidence and long-term holding behavior.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Name of the exchange supported by CryptoQuant (e.g., `binance`, `kraken`, `bitmex`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_exch_outflow(exchange="bitmex", window="day", limit=30)
+```
+
+- **Exchange Transaction Count**: Returns the total number of transactions flowing in and out of Ethereum exchanges within a given time window. This metric reflects the overall activity of exchange wallets and can indicate shifts in user behavior or liquidity dynamics. A surge in transaction count may signal increased market participation or heightened volatility.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Name of the exchange supported by CryptoQuant (e.g., `binance`, `kraken`, `bitmex`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_exch_trx_count(exchange="bitmex", window="day", limit=90)
+```
+
+- **Exchange Addresses Count**: Returns the number of unique addresses involved in inflow and outflow transactions for Ethereum exchanges. This metric indicates the level of on-chain activity interacting with exchange wallets and can be used to gauge participation intensity or wallet concentration dynamics over time.
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Name of the exchange supported by CryptoQuant (e.g., `binance`, `kraken`, `bitmex`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_exch_addrs_count(exchange="binance", window="day", limit=60)
+```
+
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
