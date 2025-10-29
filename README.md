@@ -47,6 +47,9 @@
         - [ETH 2.0](#eth-20-arrow_up)
         - [ETH Fund Data](#eth-fund-data-arrow_up)
         - [ETH Market Data](#eth-market-data-arrow_up)
+        - [ETH Network Data](#eth-network-data-arrow_up)
+            - [Supply and Velocity](#supply-and-velocity-arrow_up)
+            - [Contracts and Transactions](#contracts-and-transactions-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -1824,6 +1827,105 @@ resp = client.get_eth_mkt_coinbase_premium_index(window="day", limit=180)
     - **Usage**  
 ```python
 resp = client.get_eth_mkt_capitalization(window="day", limit=180)
+```
+
+#### ETH Network Data [:arrow_up:](#cryptoquant-sdk)
+Ethereum on-chain network data including but not limited to token movements, fees, supply, address movements, etc. All metrics have data entries starting from the genesis block (block height 0, datetime 2015-07-30 15:26:13).
+
+#### Supply and Velocity [:arrow_up:](#cryptoquant-sdk)
+Basic macroeconomic metrics that reflect the circulation and use of ETH.
+
+- **Supply**: Returns metrics related to the total and newly issued supply of Ethereum. This endpoint provides two key metrics: `supply_total`, representing the total amount of ETH in existence (sum of all ETH issued through block rewards), and `supply_new`, representing the amount of newly issued ETH within the selected time window. These metrics help track ETH’s monetary base and inflation dynamics over time.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_supply(window="day", limit=365)
+```
+
+- **Velocity**: Returns metrics related to Ethereum’s monetary velocity. Velocity is calculated by dividing the trailing 1-year estimated transaction volume (the cumulative sum of transferred tokens) by the current supply. This metric indicates how actively ETH circulates in the economy — higher velocity suggests more transactional use, while lower velocity indicates a tendency toward holding or staking behavior.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_velocity(window="day", limit=180)
+```
+
+#### Contracts and Transactions [:arrow_up:](#cryptoquant-sdk)
+Smart contract activity and transaction volume. Includes total count, EOA, internal/external contracts.
+
+- **Contracts Count**: Returns metrics related to the number of smart contracts on the Ethereum network. This endpoint provides three key metrics: `contracts_created_new`, the number of newly created contracts; `contracts_destroyed_new`, the number of contracts destroyed; and `contracts_count_total`, the total unique number of existing contracts. These metrics help evaluate the growth and churn of the smart contract ecosystem over time.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_contracts_count(window="day", limit=180)
+```
+
+- **Transaction Count**: Returns metrics related to the number of transactions processed on the Ethereum network. This endpoint provides two key metrics: `transactions_count_total`, representing the total number of transactions within each time window, and `transactions_count_mean`, representing the average number of transactions. These metrics are useful for analyzing on-chain activity, throughput, and overall network utilization.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_trx_count(window="day", limit=180)
+```
+
+- **Transactions Between EOAs**: Returns the number of transactions occurring between Externally Owned Accounts (EOAs) on the Ethereum network. This metric isolates peer-to-peer activity, excluding smart contract interactions, and is useful for assessing organic user-driven transaction behavior.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_trx_eoa(window="day", limit=90)
+```
+
+- **Contract Calls External**: Returns the number of external smart contract calls executed on the Ethereum network. External contract calls are transactions initiated from Externally Owned Accounts (EOAs) to smart contracts. This metric helps measure user interaction with decentralized applications and on-chain protocols.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_trx_contract_calls_external(window="day", limit=90)
+```
+
+- **Contract Calls Internal**: Returns the number of internal smart contract calls on the Ethereum network. Internal calls occur when one smart contract interacts with another during transaction execution. This metric reflects the level of composability and complexity within decentralized applications and protocol interactions.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_trx_contract_calls_internal(window="day", limit=90)
+```
+
+- **Contract Calls Count**: Returns the total number of smart contract calls on the Ethereum network, including both internal and external calls. This metric provides a comprehensive view of smart contract activity and is useful for assessing overall dApp usage, protocol complexity, and on-chain computational demand.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_trx_contract_calls_count(window="day", limit=180)
+```
+
+- **Transaction Count (All)**: Returns the total number of Ethereum transactions, including both regular transactions and internal contract calls. This metric provides a complete picture of on-chain activity by capturing all executions occurring within the Ethereum network.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_trx_count_all(window="day", limit=180)
 ```
 
 ---
