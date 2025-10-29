@@ -50,6 +50,7 @@
         - [ETH Network Data](#eth-network-data-arrow_up)
             - [Supply and Velocity](#supply-and-velocity-arrow_up)
             - [Contracts and Transactions](#contracts-and-transactions-arrow_up)
+            - [ETH Addresses](#eth-addresses-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -1926,6 +1927,29 @@ resp = client.get_eth_ntx_trx_contract_calls_count(window="day", limit=180)
     - **Usage**  
 ```python
 resp = client.get_eth_ntx_trx_count_all(window="day", limit=180)
+```
+
+#### ETH Addresses [:arrow_up:](#cryptoquant-sdk)
+Number of active addresses or participants.
+
+- **Address Count**: Returns metrics related to the number of active Ethereum addresses. This endpoint provides three metrics: `addresses_count_active`, the total number of unique addresses active as either sender or receiver; `addresses_count_sender`, the number of addresses active as senders; and `addresses_count_receiver`, the number of addresses active as receivers. These metrics help measure network participation, user growth, and transaction activity dynamics.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_addr_count(window="day", limit=180)
+```
+
+- **Address Count (All)**: Returns metrics related to the number of used Ethereum addresses, including those involved in internal contract calls. This endpoint provides three metrics: `addresses_count_active`, the total number of unique addresses active as either sender or receiver; `addresses_count_sender`, the number of addresses active as senders; and `addresses_count_receiver`, the number of addresses active as receivers. This comprehensive metric captures both direct and contract-mediated activity, offering a full view of network address utilization.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_addr_count_all(window="day", limit=180)
 ```
 
 ---

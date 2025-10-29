@@ -56,6 +56,7 @@ class Ethereum(RequestHandler):
         self.ETH_NETWORK_CONTRACT_CALLS_COUNT = "eth/network-data/contract-calls-count"
         self.ETH_NETWORK_TRANSACTIONS_COUNT_ALL = "eth/network-data/transactions-count-all"
         self.ETH_NETWORK_ADDRESSES_COUNT = "eth/network-data/addresses-count"
+        self.ETH_NETWORK_ADDRESSES_COUNT_ALL = "eth/network-data/addresses-count-all"
         self.ETH_NETWORK_TOKENS_TRANSFERRED_COUNT = "eth/network-data/tokens-transferred-count"
         self.ETH_NETWORK_TOKENS_TRANSFERRED_COUNT_BETWEEN_EOA = "eth/network-data/tokens-transferred-count-between-eoa"
         self.ETH_NETWORK_TOKENS_TRANSFERRED_COUNT_BY_CONTRACT_CALLS_EXTERNAL = "eth/network-data/tokens-transferred-count-by-contract-calls-external"
@@ -1726,6 +1727,9 @@ class Ethereum(RequestHandler):
 
         """
         return super().handle_request(self.ETH_NETWORK_ADDRESSES_COUNT, query_params)
+    
+    def get_eth_ntx_addr_count_all(self, **query_params):
+        return super().handle_request(self.ETH_NETWORK_ADDRESSES_COUNT_ALL, query_params)
     
     def get_eth_ntx_tokens_transferred_count(self, **query_params):
         """
