@@ -53,6 +53,7 @@
             - [ETH Addresses](#eth-addresses-arrow_up)
             - [Token Transfers](#token-transfers-arrow_up)
             - [Failed Transactions](#failed-transactions-arrow_up)
+            - [ETH Block Metrics](#eth-block-metrics-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -2098,6 +2099,79 @@ resp = client.get_eth_ntx_failed_trx_count(window="day", limit=90)
     - **Usage**  
 ```python
 resp = client.get_eth_ntx_failed_tokens_transferred_count(window="day", limit=90)
+```
+
+#### ETH Block Metrics [:arrow_up:](#cryptoquant-sdk)
+Structural information of the blockchain: size, count, interval, rewards.
+
+- **Block Bytes**: Returns the mean size (in bytes) of all blocks generated on the Ethereum network within the selected time window. This metric reflects the average block utilization and data throughput of the blockchain, helping to assess network congestion and on-chain activity density.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_block_bytes(window="day", limit=180)
+```
+
+- **Block Count**: Returns the total number of blocks generated on the Ethereum network within the selected time window. This metric helps evaluate block production consistency, network health, and potential variations in block generation rates over time.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_block_count(window="day", limit=180)
+```
+
+- **Block Interval**: Returns the average time (in seconds) between blocks generated on the Ethereum network within the selected time window. This metric reflects block production speed and can indicate changes in network difficulty, validator performance, or overall network conditions.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_block_interval(window="day", limit=180)
+```
+
+- **Block Reward**: Returns the total sum of block rewards generated on the Ethereum network, including both mining or staking rewards and transaction fees. The value is also available in USD units. This metric provides insight into validator/miner incentives and overall network revenue distribution within the selected time window.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_blockreward(window="day", limit=180)
+```
+
+- **Block Reward (Excluding Uncle Blocks)**: Returns the total sum of block rewards on the Ethereum network, excluding uncle blocks. The value is also provided in USD units. This metric isolates rewards from successfully validated canonical blocks, helping to analyze validator earnings and network efficiency without the influence of uncle block rewards.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_blockreward_except_uncle(window="day", limit=180)
+```
+
+- **Uncle Block Count**: Returns the total number of uncle blocks generated on the Ethereum network within the selected time window. Uncle blocks are valid blocks that were not included in the main chain but still contribute to network security and decentralization. This metric helps evaluate block propagation efficiency and network latency.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_uncle_block_count(window="day", limit=180)
+```
+
+- **Uncle Block Reward**: Returns the total sum of uncle block rewards on the Ethereum network, including mining or staking rewards and transaction fees. The value is also available in USD units. This metric provides insight into the additional rewards distributed for uncle blocks, reflecting network redundancy and participation efficiency.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_uncle_blockreward(window="day", limit=180)
 ```
 
 ---
