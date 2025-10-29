@@ -44,7 +44,7 @@
         - [Exchange Flows](#exchange-flows-arrow_up)
         - [ETH Flow Indicators](#eth-flow-indicators-arrow_up)
         - [ETH Market Indicators](#eth-market-indicators-arrow_up)
-        - [ETH 2.0](#eth-2.0-arrow_up)
+        - [ETH 2.0](#eth-20-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
