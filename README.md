@@ -2279,7 +2279,7 @@ resp = client.get_eth_ntx_max_fee(window="day", limit=180)
 resp = client.get_eth_ntx_max_priority_fee(window="day", limit=180)
 ```
 
-#### Mining and Network Performance [:arrow_up:](#cryptoquant-sdk)
+#### ETH Mining and Network Performance [:arrow_up:](#cryptoquant-sdk)
 Difficulty, hash rate, and other security/block processing indicators.
 
 - **Difficulty**: Returns the mean mining difficulty for new blocks on the Ethereum network within the selected time window. This metric reflects how computationally hard it was to mine a block and serves as an indicator of network security and total hash power participation, particularly relevant for the pre-Merge Proof-of-Work era.
