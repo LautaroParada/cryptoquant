@@ -51,6 +51,7 @@
             - [Supply and Velocity](#supply-and-velocity-arrow_up)
             - [Contracts and Transactions](#contracts-and-transactions-arrow_up)
             - [ETH Addresses](#eth-addresses-arrow_up)
+            - [Token Transfers](#token-transfers-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -1951,6 +1952,130 @@ resp = client.get_eth_ntx_addr_count(window="day", limit=180)
 ```python
 resp = client.get_eth_ntx_addr_count_all(window="day", limit=180)
 ```
+
+#### Token Transfers [:arrow_up:](#cryptoquant-sdk)
+Count and volume of transferred tokens, including EOAs, contracts, and totals.
+
+- **Tokens Transferred Count**: Returns metrics related to the number of token transfer executions on the Ethereum network. This endpoint provides two metrics: `tokens_transferred_count_total`, representing the total number of token transfers executed, and `tokens_transferred_count_mean`, representing the average number of token transfers within the selected time window. These metrics are useful for assessing token activity, user interaction with ERC-20 contracts, and overall network utilization.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_tokens_transferred_count(window="day", limit=180)
+```
+
+- **Tokens Transferred Count (EOA)**: Returns the number of token transfer executions between Externally Owned Accounts (EOAs) on the Ethereum network. This metric isolates peer-to-peer token movements that exclude smart contract interactions, helping to analyze organic user-driven token activity and direct transfers between individual holders.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_tokens_transferred_count_eoa(window="day", limit=90)
+```
+
+- **Tokens Transferred Count (External Calls)**: Returns the number of token transfer executions triggered by external contract calls. These transactions are initiated from Externally Owned Accounts (EOAs) to smart contracts, reflecting user interactions with decentralized applications, DeFi protocols, and tokenized systems.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_tokens_transferred_count_calls_external(window="day", limit=90)
+```
+
+- **Tokens Transferred Count (Internal Calls)**: Returns the number of token transfer executions triggered by internal contract calls. These transfers occur when one smart contract interacts with another during transaction execution, reflecting the composability and internal activity of decentralized protocols on Ethereum.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_tokens_transferred_count_calls_internal(window="day", limit=90)
+```
+
+- **Tokens Transferred Count (All Contract Calls)**: Returns the number of token transfer executions triggered by smart contract calls, including both internal and external calls. This metric provides a comprehensive view of token movement facilitated through contract interactions, helping to assess overall DeFi and dApp transaction activity on Ethereum.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_tokens_transferred_count_calls(window="day", limit=90)
+```
+
+- **Tokens Transferred Count (All)**: Returns the total number of token transfer executions on the Ethereum network, including those triggered by internal contract calls. This metric captures all token movements across EOAs and smart contracts, offering a complete overview of token transfer activity and overall network usage.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_tokens_transferred_count_all(window="day", limit=180)
+```
+
+- **Tokens Transferred**: Returns metrics related to the total transaction volume of token transfers on the Ethereum network. This endpoint provides several metrics: `tokens_transferred_total`, the total number of tokens transferred within the window; `tokens_transferred_mean`, the average number of tokens transferred per transaction; and `tokens_transferred_median`, the median value of tokens transferred per transaction. All values are also available in USD units. These metrics help evaluate token flow intensity and economic activity within the Ethereum ecosystem.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_tokens_transferred(window="day", limit=180)
+```
+
+- **Tokens Transferred (EOA)**: Returns metrics related to the total transaction volume of token transfers between Externally Owned Accounts (EOAs). This endpoint isolates peer-to-peer token movements excluding smart contract interactions, providing insights into direct user-driven economic activity and organic token circulation on the Ethereum network.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_tokens_transferred_eoa(window="day", limit=90)
+```
+
+- **Tokens Transferred (External Calls)**: Returns metrics related to the transaction volume of token transfers executed through external contract calls. These transactions are initiated by Externally Owned Accounts (EOAs) interacting with smart contracts, and they reflect user engagement with decentralized applications, DeFi protocols, and tokenized ecosystems.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_tokens_transferred_calls_external(window="day", limit=90)
+```
+
+- **Tokens Transferred (Internal Calls)**: Returns metrics related to the transaction volume of token transfers executed through internal contract calls. These transfers occur when smart contracts interact with one another during execution, representing composable activity across DeFi protocols and automated on-chain processes within the Ethereum network.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_tokens_transferred_calls_internal(window="day", limit=90)
+```
+
+- **Tokens Transferred (All Contract Calls)**: Returns metrics related to the transaction volume of token transfers executed through smart contract calls, including both internal and external calls. This metric provides a complete view of token flow mediated by contract interactions, capturing activity across DeFi protocols, DEXs, and other on-chain applications.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_tokens_transferred_calls(window="day", limit=90)
+```
+
+- **Tokens Transferred (All)**: Returns metrics related to the total transaction volume of token transfers on the Ethereum network, including those executed through internal contract calls. This comprehensive metric captures all token movement — between EOAs and smart contracts — offering a complete picture of token flow and on-chain activity.
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.
+
+    - **Usage**  
+```python
+resp = client.get_eth_ntx_tokens_transferred_all(window="day", limit=180)
+```
+
 
 ---
 
