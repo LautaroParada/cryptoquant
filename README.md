@@ -67,6 +67,7 @@
         - [XRP AMM Data](#xrp-amm-data-arrow_up)
     5. [TRX](#trx-arrow_up)
         - [TRX Market data](#trx-market-data-arrow_up)
+        - [TRX Network Data](#trx-network-data-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -3029,6 +3030,136 @@ resp = client.get_trx_mkt_ohlcv()
 ```python
 resp = client.get_trx_mkt_capitalization()
 ```
+
+#### TRX Network Data [:arrow_up:](#cryptoquant-sdk)
+Retrieve metrics related to TRX Network Data.
+
+| Metric | Description |
+| :--- | :--- |
+| `supply_total` | The total amount of tokens in existence. |
+| `supply_circulating` | The amount of tokens that are circulating in the market. |
+| `supply_minted` | The amount of tokens minted in the given window. |
+| `supply_burned` | The amount of tokens burned in the given window. |
+| `supply_staked` | The amount of tokens staked in Tron Super Representative members. |
+
+- **Supply**: Returns metrics related to the supply of TRX. This dataset includes details on total, circulating, minted, burned, and staked supply, providing a comprehensive view of TRX’s monetary dynamics and issuance activity.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_trx_ntx_supply()
+```
+
+- **Transaction Count**: Returns metrics related to the total and average number of transactions on the TRON network. This metric provides insight into overall network activity, throughput, and user engagement over time.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_trx_ntx_trx_count()
+```
+
+| Metric | Description |
+| :--- | :--- |
+| `transactions_count_total` | The total number of transactions. |
+| `transactions_count_mean` | The mean number of transactions. |
+
+- **Active Addresses Count**: Returns metrics related to the number of unique TRX addresses used on the network. This metric measures on-chain participation and network activity, serving as an indicator of user growth and utilization of the TRON ecosystem.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_trx_ntx_addrs_count()
+```
+
+| Metric | Description |
+| :--- | :--- |
+| `addresses_count_active` | The total number of unique addresses that were active (either sender or receiver) on the blockchain in a given window. |
+| `addresses_count_sender` | The number of addresses that were active as a sender. |
+| `addresses_count_receiver` | The number of addresses that were active as a receiver. |
+
+
+- **Tokens Transferred**: Returns metrics related to the total number of TRX tokens transferred on-chain within each time window. This metric reflects the overall transaction volume in token units and helps assess liquidity flow, network usage, and transactional intensity in the TRON ecosystem.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_trx_ntx_tokens_transferred()
+```
+
+| Metric | Description |
+| :--- | :--- |
+| `tokens_transferred_total` | The total number of transferred tokens in that window. |
+| `tokens_transferred_mean` | The mean of transferred tokens per transaction in that window. |
+| `tokens_transferred_median` | The median of tokens transferred per transaction in that window. |
+
+
+- **Block Count**: Returns the total number of blocks generated on the TRON network within each time window. This metric reflects the block production rate and provides insight into network stability, validator performance, and overall chain activity.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_trx_ntx_block_count()
+```
+
+- **Network Fees**: Returns statistics related to the total fees paid from executing transactions on the TRON network. This dataset includes both aggregate and average fee metrics, expressed in TRX and USD, offering insight into network demand and transaction cost dynamics.  
+
+    **Metrics**  
+    - `fees_total`: Total amount of TRX paid as transaction fees.  
+    - `fees_total_usd`: Total transaction fees converted to USD.  
+    - `fees_block_mean`: Average transaction fee per block.  
+    - `fees_block_mean_usd`: Average transaction fee per block in USD.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_trx_ntx_fees()
+```
+
+- **Transactions Per Second (TPS)**: Returns statistics related to the number of transactions processed per second on the TRON network. This metric reflects network throughput and efficiency, serving as an indicator of scalability and system performance.  
+
+    **Metrics**  
+    - `tps`: The number of transactions per second.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_trx_ntx_tps()
+```
+
+- **Total Value Staked**: Returns the total amount of TRX locked under the TRON staking models Stake 1.0 and Stake 2.0. This metric measures the amount of TRX committed to securing the network and obtaining resources or staking rewards, reflecting validator participation and network security.  
+
+    **Metrics**  
+    - `v1_staking_amount`: The amount of TRX staked under Stake 1.0 (legacy staking model).  
+    - `v2_staking_amount`: The amount of TRX staked under Stake 2.0 (current staking model).  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_trx_ntx_total_value_staked()
+```
+
+- **Energy Stake**: Returns statistics related to the amount of TRX staked for Energy. This metric provides insights into how much TRX is locked to obtain computational resources within the TRON network, reflecting user demand for Energy and staking participation.  
+
+    **Metrics**  
+    - `total_energy_weight`: The total amount of TRX staked for Energy.  
+    - `energy_rate`: The percentage of TRX staked for Energy relative to total supply.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_trx_ntx_enery_stake()
+```
+
+
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
