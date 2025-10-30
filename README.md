@@ -56,6 +56,9 @@
             - [ETH Block Metrics](#eth-block-metrics-arrow_up)
             - [Fees and Gas Metrics](#fees-and-gas-metrics-arrow_up)
             - [ETH Mining and Network Performance](#eth-mining-and-network-performance-arrow_up)
+    4. [XRP](#xrp-arrow_up)
+        - [XRP Entity Status](#xrp-entity-status-arrow_up)
+        - [XRP Entity Flows](#xrp-entity-flows-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -1325,7 +1328,7 @@ resp = client.get_btc_light_stats(window="day", limit=365)
 
 #### ETH Entity Status [:arrow_up:](#cryptoquant-sdk)
 
-- **Entities**: Returns the list of Bitcoin-related entities, such as exchanges, banks, and miners.  
+- **Entities**: Returns the list of Ethereum-related entities, such as exchanges, banks, etc.  
     - Parameters:  
         - ```type_```(str): Required — Specifies the entity type to query.  
           For exchange entities, the `market_type` field indicates whether the exchange operates in the **spot** or **derivatives** market.  
@@ -2302,6 +2305,140 @@ resp = client.get_eth_ntx_difficulty(window="day", limit=180)
 resp = client.get_eth_ntx_hashrate(window="day", limit=180)
 ```
 
+### XRP [:arrow_up:](#cryptoquant-sdk)
+
+#### XRP Entity Status [:arrow_up:](#cryptoquant-sdk)
+
+- **Entities**: Returns tentity list to serve data. 
+    - Parameters:  
+        - ```type_```(str): Required — Specifies the entity type to query.  
+          For exchange entities, the `market_type` field indicates whether the exchange operates in the **spot** or **derivatives** market.  
+          Entities without a `market_type` (e.g., miners) will return `0` for this field.  
+        - ```format_```(str): Optional — Default: `json`. Defines the response format. Supported formats: `json`, `csv`.  
+    - Usage:  
+```python
+resp = client.get_eth_entity_list(type_="exchange")
+```
+
+| Entity Type | Description |
+| :--- | :--- |
+| exchange | centralized exchange |
+| builder | entities contributing to xrp ledger |
+| team | xrp project related team or related individuals |
+| foundation | xrp foundation |
+| custody | custody service |
+| otc | otc service |
+| bank | bank |
+| bridge | bridge |
+
+#### XRP Entity Flows [:arrow_up:](#cryptoquant-sdk)
+Retrieve metrics related to XRP Entity Flows. Currently, CQ only supports Exchanges for available entities:
+
+| Name |
+| :--- |
+| Binance |
+| Bitfinex |
+| Bitget |
+| Bithumb |
+| Bitstamp |
+| Bybit |
+| Gate.io |
+| HTX Global |
+| Kucoin |
+| OKX |
+| Upbit |
+
+**Note:** These methods does not support Point-In-Time (PIT) accuracy due to periodic updates to wallet address clustering. Historical data may change as new exchange wallets are discovered, added, and validated.
+
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+- **Entity Reserve**: Returns the full historical on-chain balance of XRP Ledger entities. This metric reflects the amount of XRP held in each supported entity wallet (e.g., exchanges or custodians) over time.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Entity or exchange supported by CryptoQuant (e.g., `binance`, `bitstamp`, `okx`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_entity_reserve(exchange="binance")
+```
+
+- **Entity Share**: Returns the proportion of XRP held by each entity relative to the total circulating supply. This metric is calculated by dividing the XRP holdings of the entity by the total XRP supply, providing insight into concentration and market share among major holders.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Entity or exchange supported by CryptoQuant (e.g., `binance`, `bitstamp`, `okx`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_entity_share(exchange="binance")
+```
+
+- **Entity Transaction Count**: Returns the total number of transactions flowing into or out of XRP entities. This metric captures the on-chain activity level of exchange wallets and other major entities, helping identify changes in transaction behavior over time.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Entity or exchange supported by CryptoQuant (e.g., `binance`, `bitstamp`, `okx`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_entity_trx_count(exchange="binance")
+```
+
+- **Entity Inflow**: Returns the total inflow of XRP into entity wallets for as far back as available. This metric measures the amount of XRP deposited into the addresses of supported entities, indicating accumulation pressure or exchange deposit activity.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Entity or exchange supported by CryptoQuant (e.g., `binance`, `bitstamp`, `okx`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_entity_inflow(exchange="binance")
+```
+
+- **Entity Outflow**: Returns the total outflow of XRP from entity wallets for as far back as available. This metric measures the amount of XRP withdrawn from the addresses of supported entities, indicating distribution pressure or withdrawal activity from exchanges.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Entity or exchange supported by CryptoQuant (e.g., `binance`, `bitstamp`, `okx`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_entity_outflow(exchange="binance")
+```
+
+- **Entity Addresses Count**: Returns the number of unique addresses involved in inflow or outflow transactions for a given entity. This metric reflects the breadth of wallet activity interacting with exchange or entity addresses over time.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Entity or exchange supported by CryptoQuant (e.g., `binance`, `bitstamp`, `okx`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_entity_addrs_count(exchange="binance")
+```
+
+- **Entity Whale Movements**: Returns the number of large transactions and their corresponding transfer volumes related to entity inflows and outflows. This metric tracks whale activity within the XRP Ledger, providing insights into significant on-chain movements that may influence market liquidity and sentiment.  
+
+    - **Specific Parameters**  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_entity_whale_movements(window="day")
+```
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
