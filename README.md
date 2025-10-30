@@ -3236,7 +3236,8 @@ resp = client.get_stable_entity_list(token="usdt")
 Returns the historical amount of stablecoin tokens held in exchange wallets for as far back as available. This metric reflects the balance of reserves across supported exchanges, helping to assess liquidity concentration and potential market pressure.  
   *Note:* Transfers to exchange wallets may occur some time after the contract creation event. Exchange wallet data is periodically updated every **Tuesday at 00:00 UTC**, which may lead to minor adjustments in recent data points.  
 
-    **Supported Aggregated Exchanges**  
+**Supported Aggregated Exchanges**
+
     | Name | Exchange | Supported Stablecoins |  
     | :---- | :-------- | :------------------- |  
     | All Exchanges | `all_exchange` | All Tokens |  
