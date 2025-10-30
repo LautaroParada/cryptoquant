@@ -2978,6 +2978,12 @@ resp = client.get_xrp_amm_swaps(amm="usdc-xrp")
 
 ### TRX [:arrow_up:](#cryptoquant-sdk)
 
+| Section Name | Objective | Number of Endpoints |
+| :------------ | :--------- | :----------------: |
+| **Market Data** | Provides TRX market performance metrics such as price OHLCV and market capitalization. Useful for analyzing market trends, valuation, and trading behavior. | 2 |
+| **Network Data** | Covers on-chain metrics related to TRON’s network activity, including supply, transactions, addresses, fees, staking, and throughput. Helps assess network health, scalability, and monetary policy. | 9 |
+| **DeFi Data** | Tracks decentralized finance activity within the TRON ecosystem, focusing on SunPump token creation and SunSwap trading activity to measure ecosystem growth and liquidity dynamics. | 2 |
+
 
 #### TRX Market data [:arrow_up:](#cryptoquant-sdk)
 Retrieve metrics related to TRX Market Data.
