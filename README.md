@@ -78,6 +78,7 @@
     7. [ERC20](#erc20-arrow_up)
         - [ERC20 Entity Status](#erc20-entity-status-arrow_up)
         - [ERC20 Exchange Flows](#erc20-exchange-flows-arrow_up)
+        - [ERC20 Flow Indicator](#erc20-flow-indicator-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -3545,6 +3546,22 @@ resp = client.get_erc20_exch_trx_count(token="omg", exchange="spot_exchange")
     - **Usage**  
 ```python
 resp = client.get_erc20_exch_addrs_count(token="uma", exchange="all_exchange")
+```
+
+#### ERC20 Flow Indicator [:arrow_up:](#cryptoquant-sdk)
+Retrieve entity flow based indicators. CQ provide certain indicators to avoid any risks, assume upside or downside potentials, and give insights on the value of bitcoin. For more detailed information, please refer to the description of each metric.
+
+- **Exchange Supply Ratio**: Calculates the ratio between the ERC-20 token reserve on exchanges and its total circulating supply. This metric measures how much of the token supply is held within exchanges, offering insight into liquidity concentration, potential sell-side pressure, and market exposure of a given token.  
+  The full list of supported ERC-20 tokens can be found in the [CryptoQuant Supported ERC-20 List](https://cryptoquant.com/docs#tag/Supported-ERC20-List).  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — ERC-20 token symbol supported by CryptoQuant (e.g., `sushi`, `uni`, `aave`, `mkr`, `omg`, `uma`).  
+        - ```exchange```(str): Optional — Exchange or aggregated exchange identifier (e.g., `spot_exchange`, `all_exchange`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_erc20_exch_supply_ratio(token="sushi", exchange="spot_exchange")
 ```
 ---
 
