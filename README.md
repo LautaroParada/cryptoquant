@@ -74,6 +74,7 @@
         - [StableCoin Exchange Flows](#stablecoin-exchange-flows-arrow_up)
         - [Stablecoin Flow Indicator](#stablecoin-flow-indicator-arrow_up)
         - [Stablecoin Market Data](#stablecoin-market-data-arrow_up)
+        - [Stablecoin Network Data](#stablcoin-network-data-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -3361,6 +3362,76 @@ resp = client.get_stable_mkt_ohlcv(token="usdt_eth")
 resp = client.get_stable_mkt_capitalization(token="usdt_eth")
 ```
 
+#### Stablecoin Network Data [:arrow_up:](#cryptoquant-sdk)
+See full explanation in the [following site](https://cryptoquant.com/docs#tag/Stablecoin-Network-Data)
+
+- **Token Supply**: Returns metrics related to the total supply of stablecoins — the amount of tokens currently in existence. This dataset includes six key metrics describing both total and circulating supply, as well as minting, burning, issuing, and redemption activity.  
+
+    **Metrics**  
+    - `supply_total`: The total amount of tokens in existence.  
+    - `supply_circulating`: An approximation of the amount of tokens circulating in the market (excluding treasury or issuer-controlled addresses).  
+    - `supply_minted`: The number of tokens newly created and added to total supply.  
+    - `supply_burned`: The number of tokens permanently removed from total supply.  
+    - `supply_issued`: The number of tokens issued and added to circulating supply.  
+    - `supply_redeemed`: The number of tokens redeemed and removed from circulating supply.  
+    *Note:* For some stablecoins, mint and issue (or redeem and burn) may occur simultaneously, while for others they occur separately.  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — Stablecoin symbol supported by CryptoQuant (e.g., `usdt_eth`, `usdc_eth`, `dai_eth`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_stable_ntx_supply(token="usdt_eth")
+```
+
+- **Events Count**: Returns metrics related to the number of on-chain events associated with stablecoin supply changes. This dataset tracks how frequently minting, issuing, burning, and redeeming actions occur, providing insight into the operational activity of the stablecoin’s supply management.  
+
+    **Metrics**  
+    - `events_mint_count`: The number of mint events (tokens newly created).  
+    - `events_issue_count`: The number of issue events (tokens added to circulating supply).  
+    - `events_burn_count`: The number of burn events (tokens permanently removed from total supply).  
+    - `events_redeem_count`: The number of redeem events (tokens withdrawn from circulation).  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — Stablecoin symbol supported by CryptoQuant (e.g., `usdt_eth`, `usdc_eth`, `dai_eth`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_stable_ntx_events_count(token="usdt_eth")
+```
+
+- **Tokens Transferred**: Returns metrics related to the total number of stablecoin tokens transferred on-chain, representing transaction volume. This dataset captures both the aggregate and average amounts of tokens moved, providing insight into liquidity activity and transaction scale.  
+
+    **Metrics**  
+    - `tokens_transferred_total`: The total number of tokens transferred during the specified window.  
+    - `tokens_transferred_mean`: The mean number of tokens transferred per transaction.  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — Stablecoin symbol supported by CryptoQuant (e.g., `usdt_eth`, `usdc_eth`, `dai_eth`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_stable_trx_tokens_transferred(token="usdt_eth")
+```
+
+- **Active Addresses Count**: Returns metrics related to the number of unique addresses involved in stablecoin transfers. This dataset captures the total number of active participants as well as the breakdown between senders and receivers, providing insight into network activity, user engagement, and transactional distribution.  
+
+    **Metrics**  
+    - `addresses_active_count`: The total number of unique addresses that were active (either as sender or receiver) within the given time window.  
+    - `addresses_active_sender_count`: The number of unique addresses that were active as senders.  
+    - `addresses_active_receiver_count`: The number of unique addresses that were active as receivers.  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — Stablecoin symbol supported by CryptoQuant (e.g., `usdt_eth`, `usdc_eth`, `dai_eth`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_stable_trx_addrs_count(token="usdt_eth")
+```
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
