@@ -142,7 +142,7 @@ resp = client.get_endpoints()
 
 I strongly recommend saving your API keys in your environment variables. You can find a short tutorial in the [following video](https://www.youtube.com/watch?v=IolxqkL7cD8):
 
-[![Demo enviroment variables](https://j.gifs.com/LZlj1D.gif)](https://www.youtube.com/watch?v=IolxqkL7cD8)
+[![Demo environment variables](https://j.gifs.com/LZlj1D.gif)](https://www.youtube.com/watch?v=IolxqkL7cD8)
 
 ---
 
@@ -155,6 +155,33 @@ from cryptoquant import CryptoQuant
 api_key = os.environ['CQ_API']
 client = CryptoQuant(api_key)
 ```
+### SDK Overview
+
+The following table summarizes the modular structure of the **Seraphim Data SDK (CryptoQuant Integration)**. Each class represents a distinct group of endpoints organized by asset type or technical standard within the crypto ecosystem from base layer blockchains (Bitcoin, Ethereum, Tron) to tokenized assets (ERC-20, Stablecoins, Altcoins).  
+
+The SDK is built with a focus on **consistency, scalability, and traceability** when interacting with the CryptoQuant API. All classes inherit from the base class `RequestHandler`, which manages authentication, response formatting (`json` or `csv`), and common parameters (`window`, `from_`, `to_`, `limit`).  
+
+Together, these modules provide full-spectrum market intelligence — covering both on-chain and off-chain analytics, including entity flows, derivatives, staking, institutional liquidity, and Layer-2 solutions such as the Lightning Network and Ethereum 2.0.  
+
+**General Summary:**  
+- **Total classes:** 7  
+- **Approximate total endpoints:** around 227  
+- **Coverage:** From on-chain fundamentals to derivatives, staking, institutional liquidity, and Layer-2 analytics.  
+- **Architecture:** API-first design with centralized inheritance through `RequestHandler`, ensuring uniform behavior across all endpoints and documentation.  
+
+The table below outlines each main module and its core functionality:  
+
+| Class / Module | Core Functionality | Approx. Number of Endpoints |
+| :-------------- | :----------------- | :-------------------------: |
+| **Bitcoin (BTC)** | Provides the most comprehensive set of on-chain, market, and entity-level metrics for Bitcoin. Covers exchange flows, miner behavior, derivatives, network health, valuation indicators, mempool activity, and Lightning Network data. | ~85 |
+| **Ethereum (ETH)** | Offers a full suite of on-chain, market, and ETH 2.0 staking metrics. Includes exchange flows, gas and fee analytics, validator performance, derivatives, DeFi activity, and smart contract-level statistics. | ~73 |
+| **XRP (Ripple)** | Focused on XRP Ledger analytics: exchange and entity flows, DEX and AMM activity, supply, transaction volume, and network velocity. | 26 |
+| **TRX (Tron)** | Tracks the TRON network ecosystem: supply, transactions, staking models (1.0/2.0), SunPump token creation, and SunSwap DEX metrics. | 13 |
+| **StableCoins** | Centralizes monitoring of major stablecoins (USDT, USDC, DAI, TUSD, etc.). Includes supply, issuance/redemption events, exchange flows, market capitalization, and liquidity ratios. | 14 |
+| **ERC20** | Provides standardized analytics for ERC-20 tokens (e.g., UNI, SUSHI, AAVE, MKR, OMG, UMA). Includes exchange flows, supply, velocity, transfers, and market OHLCV. | 15 |
+| **Altcoins** | Covers non-ERC20 and non-stable tokens (e.g., AVAX, SOL, ATOM). Provides VWAP-based market data (OHLCV) for aggregated price tracking. | 1 |
+
+---
 
 ### Available Endpoints [:arrow_up:](#cryptoquant-sdk)
 - **Endpoints**: Discover all available endpoints.
@@ -167,6 +194,22 @@ resp = client.get_endpoints()
 ```
 
 ### Bitcoin [:arrow_up:](#cryptoquant-sdk)
+
+| Section Name | Objective | Number of Endpoints |
+| :------------ | :--------- | :----------------: |
+| **Exchange Flows** | Tracks Bitcoin movements between exchanges and external wallets, including reserves, inflows, outflows, netflows, transaction counts, and address activity. Used to assess exchange liquidity, accumulation, and sell-side pressure. | 7 |
+| **Flow Indicators** | Provides composite metrics derived from entity-level data, including miner, whale, and exchange behaviors (MPI, ESR, CDD, Fund Flow Ratio, etc.). Useful for analyzing market sentiment and on-chain cycle phases. | 9 |
+| **Market Indicators** | Focuses on valuation and profitability metrics such as MVRV, SOPR, Realized Price, SSR, and Leverage Ratio. Helps identify overvaluation, market cycles, and investor profitability conditions. | 6 |
+| **Network Indicators** | Measures the structural and behavioral health of the Bitcoin network — NVT, NUPL, dormancy, stock-to-flow, realized and spent supply distributions, and coin age metrics. Enables analysis of on-chain fundamentals and long-term holders. | 18 |
+| **Miner Flows** | Tracks miner wallet activity, including reserves, inflows, outflows, and netflows. Provides visibility into miner selling behavior and potential market impact. | 7 |
+| **Inter-Entity Flows** | Captures on-chain transfers between major entity groups (miner↔exchange, exchange↔exchange, miner↔miner). Useful for tracing capital flows and liquidity routes. | 4 |
+| **Fund Data** | Covers Bitcoin fund and ETF activity, including holdings, premiums/discounts, and market volume. Used to track institutional investment dynamics. | 4 |
+| **Market & Liquidity Data** | Provides real-time market metrics from spot and derivatives markets: OHLCV, open interest, funding rates, taker stats, and liquidations. Includes capitalization variants (Market, Realized, Delta, Thermo). | 7 |
+| **Miner Companies** | Tracks on-chain and operational metrics for publicly listed mining companies holding Bitcoin. Supports transparency analysis for miner equity valuations. | 1 |
+| **Network Data (Raw)** | Includes fundamental blockchain-level metrics: supply, velocity, transaction count, active addresses, block interval, difficulty, hashrate, and fees. Forms the backbone for network performance assessment. | 15 |
+| **Mempool Data** | Reports on network congestion through mempool statistics segmented by relative fee and total volume. Useful for fee market and latency analysis. | 2 |
+| **Lightning Network** | Monitors Layer-2 activity, including total capacity, channels, nodes, and transaction fees across the Lightning Network. Measures scalability and payment-layer adoption. | 1 |
+
 
 #### Entity Status [:arrow_up:](#cryptoquant-sdk)
 - **Entities**: Returns the list of Bitcoin-related entities, such as exchanges, banks, and miners.  
@@ -1350,6 +1393,18 @@ resp = client.get_btc_light_stats(window="day", limit=365)
 
 ### Ethereum [:arrow_up:](#cryptoquant-sdk)
 
+| Section Name | Objective | Number of Endpoints |
+| :------------ | :--------- | :----------------: |
+| **Entity List** | Provides the list of supported Ethereum entities (exchanges, miners, validators, etc.) with classification by market type (spot, derivatives). | 1 |
+| **Exchange Flows** | Tracks ETH inflows, outflows, reserves, netflows, transaction counts, and addresses involved across centralized exchanges. Enables liquidity and exchange behavior analysis. | 6 |
+| **Flow Indicator** | Calculates the Exchange Supply Ratio — exchange reserves divided by total supply — reflecting how much ETH is held on exchanges versus total supply. | 1 |
+| **Market Indicator** | Contains leverage-related analytics such as the Estimated Leverage Ratio (open interest / exchange reserve). Indicates market risk and speculative exposure. | 1 |
+| **Ethereum 2.0 (Staking)** | Monitors ETH 2.0 network performance: total value staked, inflows, validator counts, depositors, staking rates, and success rate of Phase 0. Enables analysis of staking participation and network security. | 8 |
+| **Fund Data** | Tracks regulated ETH fund products (e.g., Grayscale ETHE): market prices, traded volume, NAV premium/discount, and underlying ETH holdings. Useful for institutional sentiment. | 4 |
+| **Market Data** | Provides price and derivatives metrics: OHLCV, open interest, funding rates, taker stats, liquidations, Coinbase premium, and capitalization. Used for price discovery and derivatives market monitoring. | 7 |
+| **Network Data** | Offers a comprehensive view of Ethereum on-chain activity: supply, velocity, contract creation, transactions, addresses, token transfers, failed transactions, gas metrics, fees, block rewards, and network performance (difficulty, hashrate, uncle blocks). | 45 |
+
+
 #### ETH Entity Status [:arrow_up:](#cryptoquant-sdk)
 
 - **Entities**: Returns the list of Ethereum-related entities, such as exchanges, banks, etc.  
@@ -2345,15 +2400,15 @@ resp = client.get_eth_ntx_hashrate(window="day", limit=180)
 
 #### XRP Entity Status [:arrow_up:](#cryptoquant-sdk)
 
-- **Entities**: Returns tentity list to serve data. 
+- **Entities**: Returns the entity list to serve data.
     - Parameters:  
-        - ```type_```(str): Required — Specifies the entity type to query.  
+        - `type_` (str): Required — Specifies the entity type to query.  
           For exchange entities, the `market_type` field indicates whether the exchange operates in the **spot** or **derivatives** market.  
           Entities without a `market_type` (e.g., miners) will return `0` for this field.  
-        - ```format_```(str): Optional — Default: `json`. Defines the response format. Supported formats: `json`, `csv`.  
-    - Usage:  
+        - `format_` (str): Optional — Default: `json`. Supported: `json`, `csv`.
+    - Usage:
 ```python
-resp = client.get_eth_entity_list(type_="exchange")
+resp = client.get_xrp_entity_list(type_="exchange")
 ```
 
 | Entity Type | Description |
@@ -2477,7 +2532,7 @@ resp = client.get_xrp_entity_whale_movements(window="day")
 ```
 
 #### XRP Flow Indicators [:arrow_up:](#cryptoquant-sdk)
-Rretrieve metrics related to XRP Flow Indicators.
+Retrieve metrics related to XRP Flow Indicators.
 
 ##### Common Parameters (applies to all methods of this section)
 
