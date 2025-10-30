@@ -72,6 +72,8 @@
     6. [StableCoins](#Stablecoins-arrow_up)
         - [StableCoin Entity List](#stablecoin-entity-list-arrow_up)
         - [StableCoin Exchange Flows](#stablecoin-exchange-flows-arrow_up)
+        - [Stablecoin Flow Indicator](#stablecoin-flow-indicator-arrow_up)
+        - [Stablecoin Market Data](#stablecoin-market-data-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -3319,6 +3321,45 @@ resp = client.get_stable_exch_trx_count(token="usdt_eth", exchange="binance")
 resp = client.get_stable_exch_addrs_count(token="usdt_eth", exchange="binance")
 ```
 
+#### Stablecoin Flow Indicator [:arrow_up:](#cryptoquant-sdk)
+Retrieve entity flow based indicators. CQ provide certain indicators to avoid any risks, assume upside or downside potentials, and give insights on the value of bitcoin. For more detailed information, please refer to the description of each metric.
+
+- **Exchange Supply Ratio**: Calculates the ratio between the stablecoin reserve on exchanges and the total circulating supply. This metric measures how much of the token supply is held within exchanges, providing insight into liquidity concentration and potential sell-side pressure in the market.  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — Stablecoin symbol supported by CryptoQuant (e.g., `usdt_eth`, `usdc_eth`, `dai_eth`).  
+        - ```exchange```(str): Optional — Exchange or aggregated exchange identifier (e.g., `all_exchange`, `spot_exchange`, `derivative_exchange`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_stable_flow_exch_supply_ratio(token="usdt_eth")
+```
+
+#### Stablecoin Market Data [:arrow_up:](#cryptoquant-sdk)
+Retrieve metrics related to the value of tokens, including price, market cap, etc.
+
+- **Price OHLCV (Index Price)**: Returns stablecoin price metrics including open, high, low, close, and volume (OHLCV). Metrics are calculated by minute, hour, and day intervals. The Stablecoin Index Price is derived using the Volume Weighted Average Price (VWAP) of aggregated global exchange data, providing a comprehensive and reliable reference for market valuation.  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — Stablecoin symbol supported by CryptoQuant (e.g., `usdt_eth`, `usdc_eth`, `dai_eth`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_stable_mkt_ohlcv(token="usdt_eth")
+```
+
+- **Market Capitalization**: Returns metrics related to the total market capitalization of a stablecoin. The `market_cap` value represents the circulating supply multiplied by the USD closing price (`circulating_supply * price_usd_close`). This metric reflects the total market valuation of the stablecoin and is useful for tracking issuance growth and market dominance over time.  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — Stablecoin symbol supported by CryptoQuant (e.g., `usdt_eth`, `usdc_eth`, `dai_eth`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_stable_mkt_capitalization(token="usdt_eth")
+```
 
 ---
 
