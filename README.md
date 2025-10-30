@@ -65,6 +65,8 @@
         - [XRP Network Indicator](#xrp-network-indicator-arrow_up)
         - [XRP Dex Data](#xrp-dex-data-arrow_up)
         - [XRP AMM Data](#xrp-amm-data-arrow_up)
+    5. [TRX](#trx-arrow_up)
+        - [TRX Market data](#trx-market-data-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -2970,6 +2972,62 @@ resp = client.get_xrp_amm_fee(amm="usdc-xrp")
     - **Usage**  
 ```python
 resp = client.get_xrp_amm_swaps(amm="usdc-xrp")
+```
+
+### TRX [:arrow_up:](#cryptoquant-sdk)
+
+
+#### TRX Market data [:arrow_up:](#cryptoquant-sdk)
+Retrieve metrics related to TRX Market Data.
+
+| Metric | Description |
+| :--- | :--- |
+| `open` | The opening price at the beginning of the window. |
+| `close` | The USD closing price at the end of the window. |
+| `high` | The highest USD price in a given window. |
+| `low` | The lowest USD price in a given window. |
+| `volume` | The total volume traded in a given window. |
+
+Supported Exchanges by market
+
+| Name | Market | Supported Exchanges |
+| :--- | :--- | :--- |
+| Spot | `spot` | All Exchange* |
+
+\* Default Exchange
+
+Supported Pairs By Exchange
+
+| Name | Exchange | Symbol |
+| :--- | :--- | :--- |
+| All Exchanges | `all_exchange` | `trx_usd` * |
+
+Supported Windows By Market
+
+| Market | Supported Windows |
+| :--- | :--- |
+| Spot | `day`* |
+
+- **Price OHLCV**: Returns TRX price metrics including open, high, low, close, and volume (OHLCV). This dataset provides the USD-denominated opening price at the start of each window, the closing price at the end, the highest and lowest prices within the interval, and the total traded token volume.  
+
+    - **Specific Parameters**  
+        - ```market```(str): Optional — Market type supported by CryptoQuant.  
+        - ```exchange```(str): Optional — Exchange supported by CryptoQuant (e.g., `binance`, `bitget`, `okx`).  
+        - ```symbol```(str): Optional — TRX trading pair symbol supported by CryptoQuant.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_trx_mkt_ohlcv()
+```
+
+- **Market Capitalization**: Returns metrics related to the total market capitalization of TRX. The `market_cap` value represents the overall valuation of TRX, calculated by multiplying the total circulating supply by its USD price. This metric reflects the aggregate market value of TRX and is a key indicator of its relative scale and dominance within the crypto market.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_trx_mkt_capitalization()
 ```
 ---
 
