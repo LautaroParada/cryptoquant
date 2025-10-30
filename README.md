@@ -64,6 +64,7 @@
         - [XRP Network Data](#xrp-network-data-arrow_up)
         - [XRP Network Indicator](#xrp-network-indicator-arrow_up)
         - [XRP Dex Data](#xrp-dex-data-arrow_up)
+        - [XRP AMM Data](#xrp-amm-data-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -2878,6 +2879,85 @@ resp = client.get_xrp_dex_liquidity()
     - **Usage**  
 ```python
 resp = client.get_xrp_dex_price()
+```
+
+#### XRP AMM Data [:arrow_up:](#cryptoquant-sdk)
+Retrieve metrics related to XRP AMM Data.
+
+Supported AMM Pairs
+
+| Name | AMM Account | AMM | Status |
+| :--- | :--- | :--- | :--- |
+| MAG/XRP | `rNZ2ZVF1ZU34kFqYcNA4xkFAvdSvve5bXce` | `mag-xrp` | Validated |
+| XGO/XRP | `rLeAEyRQ5RnN6Ljn2Z9Xw4pbcWFkQYut3c` | `xgo-xrp` | Validated |
+| SOLO/XRP | `rMeJQ9H5XvTe17UoAJzJ8jtKkVVTRcxwngo` | `solo-xrp` | Validated |
+| USDC/XRP | `rGht6LT5V9DVaEAmFzJ5ciuxuJ41ZLjLofs` | `usdc-xrp` | Validated |
+| BTC/XRP | `rQBEAghWHEwWVkShryBSa5yR3VRX9oyQ5T` | `btc-xrp` | Validated |
+| USD/XRP | `rHUPaqUPbwZkZdZQ8ZQCme18FrgW9pB4am` | `usd-xrp` | Validated |
+| XPM/XRP | `rak2prdzwsUJ1rd2ouhYYAVP7tPbhrCbtz` | `xpm-xrp` | Validated |
+| CSC/XRP | `rf7g4JWCxu9oE1MKSWtiL9whY75AphCaV` | `csc-xrp` | Validated |
+| RLT/XRP | `rwzCasMZ2WisfphuMCVWDDd58HK9QtDYc` | `rlt-xrp` | Validated |
+| CORE/XRP | `rBu4LXTXM9ofs3JsFCuDbPmzvGBDR66wpi` | `core-xrp` | Validated |
+
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+- **AMM Price**: Returns the current XRP exchange rate for supported Automated Market Maker (AMM) pairs. This metric reflects the on-chain price formation between XRP and other assets within AMM pools. Currently, only non-XRP/XRP pairs are supported.  
+
+    - **Specific Parameters**  
+        - ```amm```(str): Required — AMM pair supported by CryptoQuant.  
+          Example values: `usdc-xrp`, `btc-xrp`, `solo-xrp`. See the “Supported AMM Pairs” table for all validated pools.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_amm_price(amm="usdc-xrp")
+```
+
+- **AMM Liquidity**: Returns the total USD-denominated liquidity available within supported Automated Market Maker (AMM) pools. This metric indicates the combined value of assets supplied by liquidity providers and reflects the overall market depth and stability of each AMM pair. Currently, only non-XRP/XRP pairs are supported.  
+
+    - **Specific Parameters**  
+        - ```amm```(str): Required — AMM pair supported by CryptoQuant.  
+          Example values: `usdc-xrp`, `btc-xrp`, `solo-xrp`. See the “Supported AMM Pairs” table for all validated pools.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_amm_liquidity(amm="usdc-xrp")
+```
+
+- **AMM Fee**: Returns the trading fee applied within supported Automated Market Maker (AMM) pools. This metric represents the swap fee percentage charged to traders and distributed to liquidity providers, offering insight into cost structure and revenue generation across AMM markets. Currently, only non-XRP/XRP pairs are supported.  
+
+    - **Specific Parameters**  
+        - ```amm```(str): Required — AMM pair supported by CryptoQuant.  
+          Example values: `usdc-xrp`, `btc-xrp`, `solo-xrp`. See the “Supported AMM Pairs” table for all validated pools.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_amm_fee(amm="usdc-xrp")
+```
+
+- **AMM Swaps**: Returns swap statistics for supported Automated Market Maker (AMM) pools. This metric includes aggregated data on swap volume, number of swaps, and liquidity movement within each AMM. It provides insights into on-chain trading activity and utilization of decentralized liquidity. Currently, only non-XRP/XRP pairs are supported.  
+
+    - **Specific Parameters**  
+        - ```amm```(str): Required — AMM pair supported by CryptoQuant.  
+          Example values: `usdc-xrp`, `btc-xrp`, `solo-xrp`. See the “Supported AMM Pairs” table for all validated pools.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_amm_swaps(amm="usdc-xrp")
 ```
 ---
 
