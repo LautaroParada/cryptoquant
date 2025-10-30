@@ -74,7 +74,7 @@
         - [StableCoin Exchange Flows](#stablecoin-exchange-flows-arrow_up)
         - [Stablecoin Flow Indicator](#stablecoin-flow-indicator-arrow_up)
         - [Stablecoin Market Data](#stablecoin-market-data-arrow_up)
-        - [Stablecoin Network Data](#stablcoin-network-data-arrow_up)
+        - [Stablecoin Network Data](#stablecoin-network-data-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
