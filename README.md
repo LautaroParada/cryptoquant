@@ -59,6 +59,8 @@
     4. [XRP](#xrp-arrow_up)
         - [XRP Entity Status](#xrp-entity-status-arrow_up)
         - [XRP Entity Flows](#xrp-entity-flows-arrow_up)
+        - [XRP Flow Indicators](#xrp-flow-indicators-arrow_up)
+        - [XRP Market Data](#xrp-market-data-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -2439,6 +2441,264 @@ resp = client.get_xrp_entity_addrs_count(exchange="binance")
 ```python
 resp = client.get_xrp_entity_whale_movements(window="day")
 ```
+
+#### XRP Flow Indicators [:arrow_up:](#cryptoquant-sdk)
+Rretrieve metrics related to XRP Flow Indicators.
+
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+- **Exchange Inflow Value Distribution**: Shows the distribution of XRP inflows into exchange wallets categorized by transfer value. This metric highlights how deposited amounts are segmented across different transaction sizes, helping identify accumulation behavior and deposit concentration patterns.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange supported by CryptoQuant (e.g., `binance`, `bitstamp`, `okx`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_flow_exch_inflow_value_dstr(exchange="binance")
+```
+
+- **Exchange Outflow Value Distribution**: Shows the distribution of XRP outflows from exchange wallets categorized by transfer value. This metric illustrates how withdrawn amounts are segmented across different transaction sizes, helping detect large-scale withdrawals or distribution activity.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange supported by CryptoQuant (e.g., `binance`, `bitstamp`, `okx`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_flow_exch_outflow_value_dstr(exchange="binance")
+```
+
+- **Exchange Inflow Count Value Distribution**: Shows the number of XRP transactions flowing into exchange wallets, categorized by value segment. This metric reflects how frequently deposits of different sizes occur, helping identify retail versus institutional deposit activity patterns.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange supported by CryptoQuant (e.g., `binance`, `bitstamp`, `okx`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_flow_exch_inflow_count_value_dstr(exchange="binance")
+```
+
+- **Exchange Outflow Count Value Distribution**: Shows the number of XRP transactions flowing out of exchange wallets, categorized by value segment. This metric reflects how frequently withdrawals of different sizes occur, helping identify patterns of distribution, liquidity movement, or large-scale capital exits from exchanges.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange supported by CryptoQuant (e.g., `binance`, `bitstamp`, `okx`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_flow_exch_outflow_count_value_dstr(exchange="binance")
+```
+
+- **Exchange Supply Ratio**: Represents the ratio of XRP reserves held on exchanges compared to the total circulating supply of XRP. This metric helps evaluate how much of the total supply is stored on trading platforms, offering insight into liquidity availability and potential sell-side pressure.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Exchange supported by CryptoQuant (e.g., `binance`, `bitstamp`, `okx`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_flow_exch_supply_ratio(exchange="binance")
+```
+
+#### XRP Market Data [:arrow_up:](#cryptoquant-sdk)
+Rretrieve metrics related to XRP Market Data.
+
+- Supported Exchanges By Market
+
+| Name | Market | Supported Exchanges |
+| :--- | :--- | :--- |
+| Spot | `spot` | All Exchange*, Binance, Binance US, Bitfinex, Kucoin, Coinbase Advanced, Kraken, HTX Global |
+| Perpetual | `perpetual` | All Exchange*, Binance, Deribit, Bitmex, OKX |
+
+\* Default exchange
+
+Supported Pairs By Exchange
+- Spot
+
+| Name | Exchange | Symbol |
+| :--- | :--- | :--- |
+| All Exchanges | `all_exchange` | `xrp_usd` * |
+| Binance | `binance` | `xrp_usdt` `xrp_fdusd` `xrp_btc` `xrp_eth` `xrp_bnb` `xrp_rub` `xrp_tusd` |
+| Binance US | `binance_us` | `xrp_usdt` * |
+| Coinbase Advanced | `coinbase_advanced` | `xrp_eur` `xrp_usdt` `xrp_usd` * |
+| Bitfinex | `bitfinex` | `xrp_usdt` `xrp_btc` `xrp_usd` * |
+| HTX Global | `htx_global` | `xrp_usdt` * |
+| Kucoin | `kucoin` | `xrp_usdc` `xrp_tusd` `xrp_btc` `xrp_eth` `xrp_usdt` * |
+| Kraken | `kraken` | `xrp_usdt` `xrp_eur` `xrp_aud` `xrp_eth` `xrp_btc` `xrp_usd` * |
+
+- Perpetual
+
+| Name | Exchange | Symbol |
+| :--- | :--- | :--- |
+| All Exchanges | `all_exchange` | `xrp_usd` * `xrp_usdt` |
+| Binance | `binance` | `xrp_usd` * |
+| Deribit | `deribit` | `xrp_usdc` * |
+| Okx | `okx` | `xrp_usdt` * |
+| Bitmex | `bitmex` | `xrp_usdt` `xrp_usd` * |
+
+- Supported Windows By Market
+
+| Market | Supported Windows |
+| :--- | :--- |
+| Spot | `min`, `hour`, `day`* |
+| Perpetual | `min`, `hour`, `day`* |
+
+##### Common Parameters (applies to all methods of this section)
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+- **Price OHLCV**: Returns XRP price metrics including open, high, low, close, and volume (OHLCV). This dataset provides the USD-denominated opening price at the start of each window, the closing price at the end, the highest and lowest prices within the interval, and the total traded token volume.  
+
+    - **Specific Parameters**  
+        - ```market```(str): Optional — Market type supported by CryptoQuant.  
+        - ```exchange```(str): Optional — Exchange supported by CryptoQuant (e.g., `binance`, `bitstamp`, `okx`).  
+        - ```symbol```(str): Optional — XRP trading pair symbol supported by CryptoQuant.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_mkt_ohlcv(exchange="binance", window="day")
+```
+
+- **Open Interest**: Returns the total XRP perpetual open interest from supported derivative exchanges. This metric measures the total value of outstanding perpetual futures contracts, reflecting traders’ participation level and leveraged exposure in the market.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Derivative exchange supported by CryptoQuant (e.g., `binance`, `bybit`, `okx`).  
+        - ```symbol```(str): Optional — XRP trading pair symbol supported by CryptoQuant.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_mkt_open_interest(exchange="binance")
+```
+
+| Name | Exchange | Symbol |
+| :--- | :--- | :--- |
+| All Exchanges | `all_exchange` | `all_symbol` * |
+| Binance | `binance` | `xrp_usdt` `xrp_usd` `all_symbol` * |
+| Bybit | `bybit` | `xrp_usdt` `xrp_usd` `all_symbol` * |
+| Bitmex | `bitmex` | `xrp_usd` * |
+| HTX Global | `htx_global` | `xrp_usd` * |
+| OKX | `okx` | `xrp_usdt` `xrp_usd` `all_symbol` * |
+
+
+- **Funding Rates**: Represents traders’ sentiment in the perpetual swaps market. Positive funding rates indicate a bullish bias, where long traders pay funding to short traders. Negative rates indicate a bearish bias, where short traders pay funding to long traders. This metric helps assess market positioning and directional conviction among leveraged traders.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Derivative exchange supported by CryptoQuant (e.g., `binance`, `bybit`, `okx`).  
+        - ```symbol```(str): Optional — XRP trading pair symbol supported by CryptoQuant.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_mkt_funding_rates(exchange="binance")
+```
+
+| Name | Exchange | Symbol |
+| :--- | :--- | :--- |
+| All Exchanges | `all_exchange` | `all_symbol` * |
+| Binance | `binance` | `xrp_usdt` `xrp_usd` `all_symbol` * |
+| Bybit | `bybit` | `xrp_usdt` `xrp_usd` `all_symbol` * |
+| Bitmex | `bitmex` | `xrp_usd` * |
+| HTX Global | `htx_global` | `xrp_usd` * |
+| OKX | `okx` | `xrp_usdt` `xrp_usd` `all_symbol` * |
+
+- **Taker Buy/Sell Stats**: Represents takers’ sentiment and positioning in the perpetual swaps market. This metric aggregates taker-side trades to quantify buy and sell activity:  
+  - `taker_buy_volume`: volume bought by takers.  
+  - `taker_sell_volume`: volume sold by takers.  
+  - `taker_total_volume`: total traded volume by takers.  
+  - `taker_buy_ratio`: `taker_buy_volume` / `taker_total_volume`.  
+  - `taker_sell_ratio`: `taker_sell_volume` / `taker_total_volume`.  
+  - `taker_buy_sell_ratio`: `taker_buy_volume` / `taker_sell_volume`.  
+  All returned values are standardized in USD to ensure cross-exchange comparability.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Derivative exchange supported by CryptoQuant (e.g., `binance`, `bybit`, `okx`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_mkt_taker_buysell_stats(exchange="all_exchange")
+```
+
+| Name | Exchange | Symbol |
+| :--- | :--- | :--- |
+| All Exchanges | `all_exchange` | `all_symbol` * |
+| Binance | `binance` | `xrp_usdt` * |
+| Bybit | `bybit` | `xrp_usd` * |
+| Bitmex | `bitmex` | `xrp_usd` * |
+| HTX Global | `htx_global` | `xrp_usd` * |
+| OKX | `okx` | `xrp_usd` * |
+
+- **Liquidations**: Represents the total value of forced market orders used to close leveraged positions due to price volatility. This metric indicates market stress and reveals traders’ positioning bias — whether liquidations are concentrated on long or short positions.  
+  *Note:* Binance’s liquidation data collection policy changed on **2021-04-27**, which may affect data distribution after that date.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Derivative exchange supported by CryptoQuant (e.g., `binance`, `bybit`, `okx`).  
+        - ```symbol```(str): Optional — XRP trading pair symbol supported by CryptoQuant.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_mkt_liquidations(exchange="binance")
+```
+
+| Name | Exchange | Symbol |
+| :--- | :--- | :--- |
+| All Exchanges | `all_exchange` | `all_symbol` * |
+| Binance | `binance` | `xrp_usdt` `xrp_usd` `all_symbol` * |
+| Bybit | `bybit` | `xrp_usdt` `xrp_usd` `all_symbol` * |
+| Bitmex | `bitmex` | `xrp_usd` * |
+| HTX Global | `htx_global` | `xrp_usdt` * |
+| OKX | `okx` | `xrp_usdt` `xrp_usd` `all_symbol` * |
+| Bitfinex | `bitfinex` | `xrp_usdt` |
+
+- **Market Capitalization**: Returns metrics related to the total market capitalization of XRP. The `market_cap` value represents the overall valuation of XRP, calculated by multiplying the total circulating supply by its USD price. This metric reflects the aggregate market value of XRP and is a key indicator of its relative scale and dominance within the crypto market.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_mkt_capitalization(window="day")
+```
+
+- **Estimated Leverage Ratio (ELR)**: Indicates how much leverage is used by traders on average across exchanges. It is calculated as the ratio of open interest divided by the exchange’s reserve balance. This metric provides insight into traders’ overall risk appetite — higher values suggest increased use of leverage and higher liquidation risk during volatility.  
+
+  *Note:* This endpoint does **not** support Point-In-Time (PIT) accuracy due to periodic updates in wallet address clustering. Historical values may change as new exchange wallets are identified and validated.  
+
+    - **Specific Parameters**  
+        - ```exchange```(str): Required — Derivative exchange supported by CryptoQuant (e.g., `binance`, `bybit`, `okx`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_mkt_estimated_leverage_ratio(exchange="binance")
+```
+
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
