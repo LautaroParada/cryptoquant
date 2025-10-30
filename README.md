@@ -3448,6 +3448,15 @@ resp = client.get_stable_trx_addrs_count(token="usdt_eth")
 
 ### ERC20 [:arrow_up:](#cryptoquant-sdk)
 
+| Section Name | Objective | Number of Endpoints |
+| :------------ | :--------- | :----------------: |
+| **Entity List** | Provides a list of exchanges, custodians, and other entities associated with ERC-20 tokens. Serves as a reference point for entity-based metrics and exchange coverage. | 1 |
+| **Exchange Flows** | Tracks the movement of ERC-20 tokens between exchange wallets and external addresses, including reserves, inflows, outflows, transaction counts, and address activity. Useful for assessing liquidity shifts, accumulation, and trader behavior. | 6 |
+| **Flow Indicator** | Calculates the Exchange Supply Ratio, showing the proportion of total ERC-20 token supply held in exchanges to evaluate liquidity concentration and market exposure. | 1 |
+| **Market Data** | Provides ERC-20 token market performance metrics such as OHLCV data based on VWAP (Volume Weighted Average Price) aggregated from global exchanges. | 1 |
+| **Network Data** | Captures on-chain metrics for ERC-20 tokens including supply, velocity, transaction count, token transfer activity, and active addresses, enabling a holistic view of network activity and token circulation. | 6 |
+
+
 #### ERC20 Entity Status [:arrow_up:](#cryptoquant-sdk)
 ERC20 API with Status
 
