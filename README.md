@@ -63,6 +63,7 @@
         - [XRP Market Data](#xrp-market-data-arrow_up)
         - [XRP Network Data](#xrp-network-data-arrow_up)
         - [XRP Network Indicator](#xrp-network-indicator-arrow_up)
+        - [XRP Dex Data](#xrp-dex-data-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -2807,6 +2808,18 @@ resp = client.get_xrp_ntx_supply()
 #### XRP Network Indicator [:arrow_up:](#cryptoquant-sdk)
 Retrieve metrics related to XRP Network Indicators.
 
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
 - **Network Value to Transaction (NVT) Ratio**: Calculates the ratio between the network value (defined as `supply_total * price_usd`) and the total tokens transferred. This indicator is commonly used to assess whether XRP’s market price is overvalued or undervalued relative to on-chain transaction activity. A lower NVT suggests higher transactional utility, while a higher NVT may indicate speculative valuation.  
 
     - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
@@ -2816,8 +2829,56 @@ Retrieve metrics related to XRP Network Indicators.
 resp = client.get_xrp_ntx_value_to_trx()
 ```
 
+#### XRP Dex Data [:arrow_up:](#cryptoquant-sdk)
+Retrieve metrics related to XRP Dex.
 
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
 
+- **DEX Volume**: Returns the total XRP volume traded on the XRPL decentralized exchange (DEX). This metric captures the on-chain trading activity and liquidity level within the native DEX, reflecting organic market participation and decentralized trading demand.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_dex_volume()
+```
+
+- **DEX Transaction Count**: Returns the total number of XRP transactions executed on the XRPL decentralized exchange (DEX). This metric measures trading activity and user participation, serving as an indicator of adoption and network utilization within the on-chain exchange.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_dex_trx_count()
+```
+
+- **DEX Liquidity**: Returns the total USD-denominated liquidity available within the XRPL decentralized exchange (DEX). This metric reflects the overall depth and stability of the DEX’s order books, indicating how efficiently large trades can be executed without significant price impact.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_dex_liquidity()
+```
+
+- **DEX Price**: Returns the price of XRP traded on the XRPL decentralized exchange (DEX). This metric represents the on-chain market valuation of XRP within the DEX and can be compared against centralized exchange prices to identify potential arbitrage opportunities or liquidity disparities.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_dex_price()
+```
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
