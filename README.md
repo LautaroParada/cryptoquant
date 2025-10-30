@@ -80,6 +80,7 @@
         - [ERC20 Exchange Flows](#erc20-exchange-flows-arrow_up)
         - [ERC20 Flow Indicator](#erc20-flow-indicator-arrow_up)
         - [ERC20 Market Data](#erc20-market-data-arrow_up)
+        - [ERC20 Network Data](#erc20-network-data-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -3567,9 +3568,7 @@ resp = client.get_erc20_exch_supply_ratio(token="sushi", exchange="spot_exchange
 
 #### ERC20 Market Data [:arrow_up:](#cryptoquant-sdk)
 
-- **Price OHLCV (Index Price)**: Returns ERC-20 token price metrics including open, high, low, close, and volume (OHLCV). Metrics are calculated by minute, hour, and day intervals. The ERC-20 Token Index Price is derived from the Volume Weighted Average Price (VWAP) of aggregated price data across global exchanges, providing a reliable and standardized reference for market valuation.  
-  The full list of supported ERC-20 tokens can be found in the [CryptoQuant Supported ERC-20 List](https://cryptoquant.com/docs#tag/Supported-ERC20-List).  
-  The list of supported ERC-20 exchanges is available in the [CryptoQuant ERC-20 Exchange List](https://www.notion.so/cqlive/Stablecoins-ERC20-Exchange-List-e33b9baeae094fb090983dc1e1183b05).  
+- **Price OHLCV (Index Price)**: Returns ERC-20 token price metrics including open, high, low, close, and volume (OHLCV). Metrics are calculated by minute, hour, and day intervals. The ERC-20 Token Index Price is derived from the Volume Weighted Average Price (VWAP) of aggregated price data across global exchanges, providing a reliable and standardized reference for market valuation. The full list of supported ERC-20 tokens can be found in the [CryptoQuant Supported ERC-20 List](https://cryptoquant.com/docs#tag/Supported-ERC20-List). The list of supported ERC-20 exchanges is available in the [CryptoQuant ERC-20 Exchange List](https://www.notion.so/cqlive/Stablecoins-ERC20-Exchange-List-e33b9baeae094fb090983dc1e1183b05).  
 
     - **Specific Parameters**  
         - ```token```(str): Required — ERC-20 token symbol supported by CryptoQuant (e.g., `sushi`, `uni`, `aave`, `mkr`, `omg`, `uma`).  
@@ -3580,7 +3579,99 @@ resp = client.get_erc20_exch_supply_ratio(token="sushi", exchange="spot_exchange
 resp = client.get_erc20_mkt_ohlcv(token="aave")
 ```
 
+#### ERC20 Network Data [:arrow_up:](#cryptoquant-sdk)
 
+- **Token Supply**: Returns metrics related to the supply of ERC-20 tokens, representing the total amount of tokens in existence. This dataset provides insights into issuance and burning activity, allowing analysis of inflationary or deflationary trends within the token’s economy. The full list of supported ERC-20 tokens can be found in the [CryptoQuant Supported ERC-20 List](https://cryptoquant.com/docs#tag/Supported-ERC20-List).  
+
+    **Metrics**  
+    - `supply_total`: The total amount of ERC-20 tokens in existence.  
+    - `supply_minted`: The amount of newly issued tokens within the selected window.  
+    - `supply_burned`: The amount of tokens permanently burned within the selected window.  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — ERC-20 token symbol supported by CryptoQuant (e.g., `sushi`, `uni`, `aave`, `mkr`, `omg`, `uma`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_erc20_ntx_supply(token="uni")
+```
+
+- **Velocity**: Returns metrics related to the velocity of ERC-20 tokens, calculated by dividing the trailing 1-year estimated transaction volume (the cumulative sum of transferred tokens) by the current token supply. Velocity measures how actively tokens circulate within the market and serves as an indicator of transactional utility and network activity. The full list of supported ERC-20 tokens can be found in the [CryptoQuant Supported ERC-20 List](https://cryptoquant.com/docs#tag/Supported-ERC20-List).
+
+    **Metrics**  
+    - `velocity`: The ratio of annualized transaction volume to current token supply, representing the circulation rate of the token.  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — ERC-20 token symbol supported by CryptoQuant (e.g., `sushi`, `uni`, `aave`, `mkr`, `omg`, `uma`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_erc20_ntx_velocity(token="sushi")
+```
+
+- **Transaction Count**: Returns metrics related to the total number of ERC-20 transactions recorded on-chain. All events executed by the ERC-20 contract are counted. This metric provides insight into overall activity and adoption of the token, reflecting usage intensity and network demand. The full list of supported ERC-20 tokens can be found in the [CryptoQuant Supported ERC-20 List](https://cryptoquant.com/docs#tag/Supported-ERC20-List).
+
+    **Metrics**  
+    - `transactions_count_total`: The total number of transactions executed within the given window.  
+    - `transactions_count_mean`: The mean number of transactions recorded within the window.  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — ERC-20 token symbol supported by CryptoQuant (e.g., `sushi`, `uni`, `aave`, `mkr`, `omg`, `uma`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_erc20_ntx_trx_count(token="mkr")
+```
+
+- **Tokens Transferred Count**: Returns metrics related to the number of successful ERC-20 token transfer events executed on-chain (value > 0). This metric measures transactional frequency and network utilization, offering insight into the token’s activity level and on-chain engagement. The full list of supported ERC-20 tokens can be found in the [CryptoQuant Supported ERC-20 List](https://cryptoquant.com/docs#tag/Supported-ERC20-List). 
+
+    **Metrics**  
+    - `tokens_transferred_count_total`: The total number of successful token transfer events executed within the window.  
+    - `tokens_transferred_count_mean`: The mean number of successful transfer events recorded within the window.  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — ERC-20 token symbol supported by CryptoQuant (e.g., `sushi`, `uni`, `aave`, `mkr`, `omg`, `uma`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_erc20_ntx_tokens_transferred_count(token="aave")
+```
+
+- **Tokens Transferred**: Returns metrics related to the total number of ERC-20 tokens transferred on-chain, representing transaction volume. This dataset provides total, mean, and median values of transferred tokens, allowing analysis of liquidity flow and transaction size distribution within each window. The full list of supported ERC-20 tokens can be found in the [CryptoQuant Supported ERC-20 List](https://cryptoquant.com/docs#tag/Supported-ERC20-List). 
+
+    **Metrics**  
+    - `tokens_transferred_total`: The total number of tokens transferred during the selected window.  
+    - `tokens_transferred_mean`: The mean number of tokens transferred per transaction within the window.  
+    - `tokens_transferred_median`: The median number of tokens transferred per transaction within the window.  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — ERC-20 token symbol supported by CryptoQuant (e.g., `sushi`, `uni`, `aave`, `mkr`, `omg`, `uma`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_erc20_ntx_tokens_transferred(token="omg")
+```
+
+- **Active Addresses Count**: Returns metrics related to the number of unique addresses involved in ERC-20 token transfers. This dataset captures total active addresses, as well as the breakdown between senders and receivers, helping to measure user participation, adoption, and transactional diversity within the network. The full list of supported ERC-20 tokens can be found in the [CryptoQuant Supported ERC-20 List](https://cryptoquant.com/docs#tag/Supported-ERC20-List).
+
+    **Metrics**  
+    - `addresses_count_active`: The total number of unique addresses that were active (either sender or receiver) within the given window.  
+    - `addresses_count_sender`: The number of unique addresses that were active as senders.  
+    - `addresses_count_receiver`: The number of unique addresses that were active as receivers.  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — ERC-20 token symbol supported by CryptoQuant (e.g., `sushi`, `uni`, `aave`, `mkr`, `omg`, `uma`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_erc20_ntx_addrs_count(token="uma")
+```
 
 ---
 
