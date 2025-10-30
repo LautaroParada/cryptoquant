@@ -62,6 +62,7 @@
         - [XRP Flow Indicators](#xrp-flow-indicators-arrow_up)
         - [XRP Market Data](#xrp-market-data-arrow_up)
         - [XRP Network Data](#xrp-network-data-arrow_up)
+        - [XRP Network Indicator](#xrp-network-indicator-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -2802,6 +2803,20 @@ resp = client.get_xrp_ntx_tokens_transferred()
 ```python
 resp = client.get_xrp_ntx_supply()
 ```
+
+#### XRP Network Indicator [:arrow_up:](#cryptoquant-sdk)
+Retrieve metrics related to XRP Network Indicators.
+
+- **Network Value to Transaction (NVT) Ratio**: Calculates the ratio between the network value (defined as `supply_total * price_usd`) and the total tokens transferred. This indicator is commonly used to assess whether XRP’s market price is overvalued or undervalued relative to on-chain transaction activity. A lower NVT suggests higher transactional utility, while a higher NVT may indicate speculative valuation.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_ntx_value_to_trx()
+```
+
+
 
 ---
 
