@@ -61,6 +61,7 @@
         - [XRP Entity Flows](#xrp-entity-flows-arrow_up)
         - [XRP Flow Indicators](#xrp-flow-indicators-arrow_up)
         - [XRP Market Data](#xrp-market-data-arrow_up)
+        - [XRP Network Data](#xrp-network-data-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -2697,6 +2698,109 @@ resp = client.get_xrp_mkt_capitalization(window="day")
     - **Usage**  
 ```python
 resp = client.get_xrp_mkt_estimated_leverage_ratio(exchange="binance")
+```
+
+#### XRP Network Data [:arrow_up:](#cryptoquant-sdk)
+Retrieve metrics related to XRP Network Data.
+
+- ```window```(str, optional): Defines the data granularity. Supported values: `day`, `hour`, `block`.  
+- ```from_```(str or int, optional): Starting point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to earliest available timestamp.  
+- ```to_```(str or int, optional): Ending point of the query. Format: `YYYYMMDDTHHMMSS` (UTC).  
+  - If `window=day`, format can be `YYYYMMDD`.  
+  - If `window=block`, can specify block height (e.g., `510000`).  
+  - Defaults to latest available timestamp.  
+- ```limit```(int, optional): Maximum number of data points to return (range: 1–100,000).  
+- ```format_```(str, optional): Response format. Supported values: `json` (default) or `csv`.
+
+- **Active Addresses Count**: Returns the number of active XRP addresses used on the network. This metric measures on-chain activity by counting distinct addresses involved in transactions within each time window, serving as a proxy for user activity and network utilization.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_ntx_addrs_count(window="day")
+```
+
+| Metric | Description |
+| :--- | :--- |
+| `addresses_count_active` | The total number of unique addresses that were active (either sender or receiver) on the blockchain in a given window. |
+| `addresses_count_sender` | The number of addresses that were active as a sender. |
+| `addresses_count_receiver` | The number of addresses that were active as a receiver. |
+
+
+- **Velocity**: Measures how quickly XRP units circulate within the network. It is calculated by dividing the on-chain transaction volume by the market capitalization, effectively serving as the inverse of the NVT Ratio. Higher values indicate faster token turnover and greater transactional utility on-chain.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_ntx_velocity(window="day")
+```
+
+- **Block Interval**: Returns the average time between consecutive blocks (ledgers) generated on the XRP Ledger, expressed in seconds. This metric reflects the network’s block production rate and can be used to monitor performance or detect temporary slowdowns in block validation.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_ntx_block_interval()
+```
+
+- **XRP Burnt**: Returns the total amount of XRP that has been permanently removed (burned) from circulation. This metric tracks deflationary events on the XRP Ledger, often resulting from transaction fees or network-level burns, and reflects the long-term supply dynamics of the asset.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_ntx_burnt()
+```
+
+- **Ledger Count**: Returns the total number of ledgers (the XRP Ledger equivalent of “blocks”) created over time. This metric tracks the ongoing growth of the XRP Ledger and provides insight into its operational activity and block production consistency.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_ntx_ledger_count()
+```
+
+- **Network Fees**: Returns the total amount of fees paid on the XRP Ledger within each time window. This metric reflects transaction cost dynamics and can be used to assess network congestion or changes in fee policy over time.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_ntx_fees()
+```
+
+- **Transaction Count**: Returns the total number of transactions processed on the XRP Ledger within each time window. This metric reflects overall network activity and is commonly used to evaluate throughput, adoption trends, and on-chain demand.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_ntx_trx_count()
+```
+
+- **Tokens Transferred**: Returns the total number of XRP tokens transferred on-chain within each time window. This metric quantifies transaction volume in token units and helps evaluate liquidity flow, settlement activity, and overall utilization of the XRP Ledger.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_ntx_tokens_transferred()
+```
+
+- **Total Supply**: Returns the total circulating supply of XRP. This metric tracks the total amount of XRP available in the network at each point in time and is essential for analyzing monetary dynamics, market capitalization, and token issuance trends.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_xrp_ntx_supply()
 ```
 
 ---
