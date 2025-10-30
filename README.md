@@ -69,7 +69,7 @@
         - [TRX Market data](#trx-market-data-arrow_up)
         - [TRX Network Data](#trx-network-data-arrow_up)
         - [TRX DEFI](#trx-defi-arrow_up)
-    6. [StableCoins]
+    6. [StableCoins](#Stablecoins-arrow_up)
         - [StableCoin Entity List](#stablecoin-entity-list-arrow_up)
         - [StableCoin Exchange Flows](#stablecoin-exchange-flows-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
