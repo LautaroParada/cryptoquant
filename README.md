@@ -3207,6 +3207,13 @@ resp = client.get_trx_defi_sunswap_activity()
 
 ### StableCoins [:arrow_up:](#cryptoquant-sdk)
 
+| Section Name | Objective | Number of Endpoints |
+| :------------ | :--------- | :----------------: |
+| **Entity List** | Provides a list of entities (exchanges, custodians, and issuers) associated with each stablecoin. Serves as a reference point for entity-based metrics and market structure analysis. | 1 |
+| **Exchange Flows** | Tracks the flow of stablecoins between exchange wallets and external addresses, including reserves, inflows, outflows, transaction count, and address activity. Useful for identifying liquidity shifts and exchange-level demand. | 6 |
+| **Flow Indicator** | Measures liquidity concentration and market positioning by comparing exchange reserves to total circulating supply (Exchange Supply Ratio). | 1 |
+| **Market Data** | Provides aggregated market performance metrics such as OHLCV price data and market capitalization, based on VWAP of global exchange data. | 2 |
+| **Network Data** | Captures on-chain metrics including supply, mint/burn/issue/redeem events, tokens transferred, and active addresses, allowing for comprehensive monitoring of issuance and network activity. | 4 |
 
 
 #### StableCoin Entity List [:arrow_up:](#cryptoquant-sdk)
