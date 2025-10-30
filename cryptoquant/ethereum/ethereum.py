@@ -11,84 +11,85 @@ class Ethereum(RequestHandler):
     def __init__(self, api_key: str):
         
         #Entity List
-        self.ENTITY_STATUS = "eth/status/entity-list"
+        self.ETH_ENTITY_STATUS = "eth/status/entity-list"
         # ETH Exchange Flows
-        self.EXCH_FLOWS_RESERVE = "eth/exchange-flows/reserve"
-        self.EXCH_FLOWS_NETFLOW = "eth/exchange-flows/netflow"
-        self.EXCH_FLOWS_INFLOW = "eth/exchange-flows/inflow"
-        self.EXCH_FLOWS_OUTFLOW = "eth/exchange-flows/outflow"
-        self.EXCH_FLOWS_TRANSACTIONS_COUNT = "eth/exchange-flows/transactions-count"
-        self.EXCH_FLOWS_ADDRESES_COUNT = "eth/exchange-flows/addresses-count"
+        self.ETH_EXCH_FLOWS_RESERVE = "eth/exchange-flows/reserve"
+        self.ETH_EXCH_FLOWS_NETFLOW = "eth/exchange-flows/netflow"
+        self.ETH_EXCH_FLOWS_INFLOW = "eth/exchange-flows/inflow"
+        self.ETH_EXCH_FLOWS_OUTFLOW = "eth/exchange-flows/outflow"
+        self.ETH_EXCH_FLOWS_TRANSACTIONS_COUNT = "eth/exchange-flows/transactions-count"
+        self.ETH_EXCH_FLOWS_ADDRESES_COUNT = "eth/exchange-flows/addresses-count"
         # Exchange Supply Ratio
-        self.FLOW_IDX_EXCHNAGE_SUPPLY_RATIO = "eth/flow-indicator/exchange-supply-ratio"
+        self.ETH_FLOW_IDX_EXCHNAGE_SUPPLY_RATIO = "eth/flow-indicator/exchange-supply-ratio"
         # ETH Market Indicator
-        self.MARKET_IDX_ESTIMATED_LEVERAGE_RATIO = "eth/market-indicator/estimated-leverage-ratio"
+        self.ETH_MARKET_IDX_ESTIMATED_LEVERAGE_RATIO = "eth/market-indicator/estimated-leverage-ratio"
         # ETH 2.0
-        self.ETH_2_TOTAL_VALUE_STAKED = "eth/eth2/total-value-staked"
-        self.ETH_2_STAKING_INFLOW_TOTAL = "eth/eth2/staking-inflow-total"
-        self.ETH_2_STAKING_TRX_COUNT = "eth/eth2/staking-transaction-count"
-        self.ETH_2_STAKING_VALIDATOR_TOTAL = "eth/eth2/staking-validator-total"
-        self.ETH_2_DEPOSITOR_COUNT_TOTAL = "eth/eth2/depositor-count-total"
-        self.ETH_2_DEPOSITOR_COUNT_NEW = "eth/eth2/depositor-count-new"
-        self.ETH_2_STAKING_RATE = "eth/eth2/staking-rate"
-        self.ETH_2_PHASE_0_SUCCESS_RATE = "eth/eth2/phase0-success-rate"
+        self.ETH_ETH_2_TOTAL_VALUE_STAKED = "eth/eth2/total-value-staked"
+        self.ETH_ETH_2_STAKING_INFLOW_TOTAL = "eth/eth2/staking-inflow-total"
+        self.ETH_ETH_2_STAKING_TRX_COUNT = "eth/eth2/staking-transaction-count"
+        self.ETH_ETH_2_STAKING_VALIDATOR_TOTAL = "eth/eth2/staking-validator-total"
+        self.ETH_ETH_2_DEPOSITOR_COUNT_TOTAL = "eth/eth2/depositor-count-total"
+        self.ETH_ETH_2_DEPOSITOR_COUNT_NEW = "eth/eth2/depositor-count-new"
+        self.ETH_ETH_2_STAKING_RATE = "eth/eth2/staking-rate"
+        self.ETH_ETH_2_PHASE_0_SUCCESS_RATE = "eth/eth2/phase0-success-rate"
         # ETH Fund Data
-        self.FUND_MARKET_PRICE = "eth/fund-data/market-price-usd"
-        self.FUND_MARKET_VOLUME = "eth/fund-data/market-volume"
-        self.FUND_MARKET_PREMIUM = "eth/fund-data/market-premium"
-        self.FUND_MARKET_DIGITAL_HOLDINGS = "eth/fund-data/digital-asset-holdings"
+        self.ETH_FUND_MARKET_PRICE = "eth/fund-data/market-price-usd"
+        self.ETH_FUND_MARKET_VOLUME = "eth/fund-data/market-volume"
+        self.ETH_FUND_MARKET_PREMIUM = "eth/fund-data/market-premium"
+        self.ETH_FUND_MARKET_DIGITAL_HOLDINGS = "eth/fund-data/digital-asset-holdings"
         # Market Data
-        self.MARKET_PRICE_OHLCV = "eth/market-data/price-ohlcv"
-        self.MARKET_OPEN_INTEREST = "eth/market-data/open-interest"
-        self.MARKET_FUNDING_RATES = "eth/market-data/funding-rates"
-        self.MARKET_TAKER_BUY_SELL_STATS = "eth/market-data/taker-buy-sell-stats"
-        self.MARKET_LIQUIDATIONS = "eth/market-data/liquidations"
-        self.MARKET_COINBASE_PREMIUM_INDEX = "eth/market-data/coinbase-premium-index"
-        self.MARKET_CAPITALIZATION = "eth/market-data/capitalization"
+        self.ETH_MARKET_PRICE_OHLCV = "eth/market-data/price-ohlcv"
+        self.ETH_MARKET_OPEN_INTEREST = "eth/market-data/open-interest"
+        self.ETH_MARKET_FUNDING_RATES = "eth/market-data/funding-rates"
+        self.ETH_MARKET_TAKER_BUY_SELL_STATS = "eth/market-data/taker-buy-sell-stats"
+        self.ETH_MARKET_LIQUIDATIONS = "eth/market-data/liquidations"
+        self.ETH_MARKET_COINBASE_PREMIUM_INDEX = "eth/market-data/coinbase-premium-index"
+        self.ETH_MARKET_CAPITALIZATION = "eth/market-data/capitalization"
         # ETH Network Data
-        self.NETWORK_SUPPLY = "eth/network-data/supply"
-        self.NETWORK_VELOCITY = "eth/network-data/velocity"
-        self.NETWORK_CONTRACTS_COUNT = "eth/network-data/contracts-count"
-        self.NETWORK_TRANSACTIONS_COUNT = "eth/network-data/transactions-count"
-        self.NETWORK_TRANSACTIONS_COUNT_BETWEEN_EOA = "eth/network-data/transactions-count-between-eoa"
-        self.NETWORK_CONTRACT_CALLS_EXTERNAL = "eth/network-data/contract-calls-count-external"
-        self.NETWORK_CONTRACT_CALLS_INTERNAL = "eth/network-data/contract-calls-count-internal"
-        self.NETWORK_CONTRACT_CALLS_COUNT = "eth/network-data/contract-calls-count"
-        self.NETWORK_TRANSACTIONS_COUNT_ALL = "eth/network-data/transactions-count-all"
-        self.NETWORK_ADDRESSES_COUNT = "eth/network-data/addresses-count"
-        self.NETWORK_TOKENS_TRANSFERRED_COUNT = "eth/network-data/tokens-transferred-count"
-        self.NETWORK_TOKENS_TRANSFERRED_COUNT_BETWEEN_EOA = "eth/network-data/tokens-transferred-count-between-eoa"
-        self.NETWORK_TOKENS_TRANSFERRED_COUNT_BY_CONTRACT_CALLS_EXTERNAL = "eth/network-data/tokens-transferred-count-by-contract-calls-external"
-        self.NETWORK_TOKENS_TRANSFERRED_COUNT_BY_CONTRACT_CALLS_INTERNAL = "eth/network-data/tokens-transferred-count-by-contract-calls-internal"
-        self.NETWORK_TOKENS_TRANSFERRED_COUNT_BY_CONTRACT_CALLS = "eth/network-data/tokens-transferred-count-by-contract-calls"
-        self.NETWORK_TOKENS_TRANSFERRED_COUNT_ALL = "eth/network-data/tokens-transferred-count-all"
-        self.NETWORK_TOKENS_TRANSFERRED = "eth/network-data/tokens-transferred"
-        self.NETWORK_TOKENS_TRANSFERRED_BETWEEN_EOA = "eth/network-data/tokens-transferred-between-eoa"
-        self.NETWORK_TOKENS_TRANSFERRED_BY_CONTRACT_CALLS_EXTERNAL = "eth/network-data/tokens-transferred-by-contract-calls-external"
-        self.NETWORK_TOKENS_TRANSFERRED_BY_CONTRACT_CALLS_INTERNAL = "eth/network-data/tokens-transferred-by-contract-calls-internal"
-        self.NETWORK_TOKENS_TRANSFERRED_BY_CONTRACT_CALLS = "eth/network-data/tokens-transferred-by-contract-calls"
-        self.NETWORK_TOKENS_TRANSFERRED_ALL = "eth/network-data/tokens-transferred-all"
-        self.NETWORK_FAILED_TRANSACTIONS_COUNT = "eth/network-data/failed-transactions-count"      
-        self.NETWORK_FAILED_TOKENS_TRANSFERRED_COUNT = "eth/network-data/failed-tokens-transferred-count"
-        self.NETWORK_BLOCK_BYTES = "eth/network-data/block-bytes"
-        self.NETWORK_BLOCK_COUNT = "eth/network-data/block-count"
-        self.NETWORK_BLOCK_INTERVAL = "eth/network-data/block-interval"
-        self.NETWORK_FEES = "eth/network-data/fees"
-        self.NETWORK_FEES_BURNT = "eth/network-data/fees-burnt"
-        self.NETWORK_FEES_TIPS = "eth/network-data/fees-tips"
-        self.NETWORK_FEES_TRANSACTION = "eth/network-data/fees-transaction"
-        self.NETWORK_FEES_TRANSACTION_BURNT = "eth/network-data/fees-burnt-transaction"
-        self.NETWORK_FEES_TRANSACTION_TIPS = "eth/network-data/fees-tips-transaction"
-        self.NETWORK_BLOCKREWARD = "eth/network-data/blockreward"
-        self.NETWORK_BLOCKREWARD_EXCEPT_UNCLE = "eth/network-data/blockreward-except-uncle"
-        self.NETWORK_GAS = "eth/network-data/gas"
-        self.NETWORK_BASE_FEE = "eth/network-data/base-fee"
-        self.NETWORK_MAX_FEE = "eth/network-data/max-fee"
-        self.NETWORK_MAX_PRIOTITY_FEE = "eth/network-data/max-priority-fee"
-        self.NETWORK_DIFFICULTY = "eth/network-data/difficulty"
-        self.NETWORK_HASHRATE = "eth/network-data/hashrate"
-        self.NETWORK_UNCLE_BLOCK_COUNT = "eth/network-data/uncle-block-count"
-        self.NETWORK_UNCLE_BLOCKREWARD = "eth/network-data/uncle-blockreward"
+        self.ETH_NETWORK_SUPPLY = "eth/network-data/supply"
+        self.ETH_NETWORK_VELOCITY = "eth/network-data/velocity"
+        self.ETH_NETWORK_CONTRACTS_COUNT = "eth/network-data/contracts-count"
+        self.ETH_NETWORK_TRANSACTIONS_COUNT = "eth/network-data/transactions-count"
+        self.ETH_NETWORK_TRANSACTIONS_COUNT_BETWEEN_EOA = "eth/network-data/transactions-count-between-eoa"
+        self.ETH_NETWORK_CONTRACT_CALLS_EXTERNAL = "eth/network-data/contract-calls-count-external"
+        self.ETH_NETWORK_CONTRACT_CALLS_INTERNAL = "eth/network-data/contract-calls-count-internal"
+        self.ETH_NETWORK_CONTRACT_CALLS_COUNT = "eth/network-data/contract-calls-count"
+        self.ETH_NETWORK_TRANSACTIONS_COUNT_ALL = "eth/network-data/transactions-count-all"
+        self.ETH_NETWORK_ADDRESSES_COUNT = "eth/network-data/addresses-count"
+        self.ETH_NETWORK_ADDRESSES_COUNT_ALL = "eth/network-data/addresses-count-all"
+        self.ETH_NETWORK_TOKENS_TRANSFERRED_COUNT = "eth/network-data/tokens-transferred-count"
+        self.ETH_NETWORK_TOKENS_TRANSFERRED_COUNT_BETWEEN_EOA = "eth/network-data/tokens-transferred-count-between-eoa"
+        self.ETH_NETWORK_TOKENS_TRANSFERRED_COUNT_BY_CONTRACT_CALLS_EXTERNAL = "eth/network-data/tokens-transferred-count-by-contract-calls-external"
+        self.ETH_NETWORK_TOKENS_TRANSFERRED_COUNT_BY_CONTRACT_CALLS_INTERNAL = "eth/network-data/tokens-transferred-count-by-contract-calls-internal"
+        self.ETH_NETWORK_TOKENS_TRANSFERRED_COUNT_BY_CONTRACT_CALLS = "eth/network-data/tokens-transferred-count-by-contract-calls"
+        self.ETH_NETWORK_TOKENS_TRANSFERRED_COUNT_ALL = "eth/network-data/tokens-transferred-count-all"
+        self.ETH_NETWORK_TOKENS_TRANSFERRED = "eth/network-data/tokens-transferred"
+        self.ETH_NETWORK_TOKENS_TRANSFERRED_BETWEEN_EOA = "eth/network-data/tokens-transferred-between-eoa"
+        self.ETH_NETWORK_TOKENS_TRANSFERRED_BY_CONTRACT_CALLS_EXTERNAL = "eth/network-data/tokens-transferred-by-contract-calls-external"
+        self.ETH_NETWORK_TOKENS_TRANSFERRED_BY_CONTRACT_CALLS_INTERNAL = "eth/network-data/tokens-transferred-by-contract-calls-internal"
+        self.ETH_NETWORK_TOKENS_TRANSFERRED_BY_CONTRACT_CALLS = "eth/network-data/tokens-transferred-by-contract-calls"
+        self.ETH_NETWORK_TOKENS_TRANSFERRED_ALL = "eth/network-data/tokens-transferred-all"
+        self.ETH_NETWORK_FAILED_TRANSACTIONS_COUNT = "eth/network-data/failed-transactions-count"      
+        self.ETH_NETWORK_FAILED_TOKENS_TRANSFERRED_COUNT = "eth/network-data/failed-tokens-transferred-count"
+        self.ETH_NETWORK_BLOCK_BYTES = "eth/network-data/block-bytes"
+        self.ETH_NETWORK_BLOCK_COUNT = "eth/network-data/block-count"
+        self.ETH_NETWORK_BLOCK_INTERVAL = "eth/network-data/block-interval"
+        self.ETH_NETWORK_FEES = "eth/network-data/fees"
+        self.ETH_NETWORK_FEES_BURNT = "eth/network-data/fees-burnt"
+        self.ETH_NETWORK_FEES_TIPS = "eth/network-data/fees-tips"
+        self.ETH_NETWORK_FEES_TRANSACTION = "eth/network-data/fees-transaction"
+        self.ETH_NETWORK_FEES_TRANSACTION_BURNT = "eth/network-data/fees-burnt-transaction"
+        self.ETH_NETWORK_FEES_TRANSACTION_TIPS = "eth/network-data/fees-tips-transaction"
+        self.ETH_NETWORK_BLOCKREWARD = "eth/network-data/blockreward"
+        self.ETH_NETWORK_BLOCKREWARD_EXCEPT_UNCLE = "eth/network-data/blockreward-except-uncle"
+        self.ETH_NETWORK_GAS = "eth/network-data/gas"
+        self.ETH_NETWORK_BASE_FEE = "eth/network-data/base-fee"
+        self.ETH_NETWORK_MAX_FEE = "eth/network-data/max-fee"
+        self.ETH_NETWORK_MAX_PRIOTITY_FEE = "eth/network-data/max-priority-fee"
+        self.ETH_NETWORK_DIFFICULTY = "eth/network-data/difficulty"
+        self.ETH_NETWORK_HASHRATE = "eth/network-data/hashrate"
+        self.ETH_NETWORK_UNCLE_BLOCK_COUNT = "eth/network-data/uncle-block-count"
+        self.ETH_NETWORK_UNCLE_BLOCKREWARD = "eth/network-data/uncle-blockreward"
         
         super().__init__(api_key)
         
@@ -122,7 +123,7 @@ class Ethereum(RequestHandler):
             Entity list on a given type.
 
         """
-        return super().handle_request(self.ENTITY_STATUS, query_params)
+        return super().handle_request(self.ETH_ENTITY_STATUS, query_params)
     
     # -------------------------------
     # ETH Exchange Flows
@@ -165,7 +166,7 @@ class Ethereum(RequestHandler):
             The amount of eth on a given exchange on this window.
 
         """
-        return super().handle_request(self.EXCH_FLOWS_RESERVE, query_params)
+        return super().handle_request(self.ETH_EXCH_FLOWS_RESERVE, query_params)
     
     def get_eth_exch_netflow(self, **query_params):
         """
@@ -206,7 +207,7 @@ class Ethereum(RequestHandler):
             total netflow.
 
         """
-        return super().handle_request(self.EXCH_FLOWS_NETFLOW, query_params)
+        return super().handle_request(self.ETH_EXCH_FLOWS_NETFLOW, query_params)
     
     def get_eth_exch_inflow(self, **query_params):
         """
@@ -247,7 +248,7 @@ class Ethereum(RequestHandler):
             inflow statistics.
 
         """
-        return super().handle_request(self.EXCH_FLOWS_INFLOW, query_params)
+        return super().handle_request(self.ETH_EXCH_FLOWS_INFLOW, query_params)
     
     def get_eth_exch_outflow(self, **query_params):
         """
@@ -288,7 +289,7 @@ class Ethereum(RequestHandler):
             Outflow statistics.
 
         """
-        return super().handle_request(self.EXCH_FLOWS_OUTFLOW, query_params)
+        return super().handle_request(self.ETH_EXCH_FLOWS_OUTFLOW, query_params)
     
     def get_eth_exch_trx_count(self, **query_params):
         """
@@ -328,7 +329,7 @@ class Ethereum(RequestHandler):
             Transactions count of inflows and outflows of ethereum exchnages.
 
         """
-        return super().handle_request(self.EXCH_FLOWS_TRANSACTIONS_COUNT, query_params)
+        return super().handle_request(self.ETH_EXCH_FLOWS_TRANSACTIONS_COUNT, query_params)
     
     def get_eth_exch_addrs_count(self, **query_params):
         """
@@ -369,7 +370,7 @@ class Ethereum(RequestHandler):
             exchange wallets.
 
         """
-        return super().handle_request(self.EXCH_FLOWS_ADDRESES_COUNT, query_params)
+        return super().handle_request(self.ETH_EXCH_FLOWS_ADDRESES_COUNT, query_params)
     
     # -------------------------------
     # Exchange Supply Ratio
@@ -414,7 +415,7 @@ class Ethereum(RequestHandler):
             Ratio of reserved token in the exchange relative to total supply.
 
         """
-        return super().handle_request(self.FLOW_IDX_EXCHNAGE_SUPPLY_RATIO, query_params)
+        return super().handle_request(self.ETH_FLOW_IDX_EXCHNAGE_SUPPLY_RATIO, query_params)
     
     # -------------------------------
     # ETH Market Indicator
@@ -466,7 +467,7 @@ class Ethereum(RequestHandler):
             ETH reserve.
 
         """
-        return super().handle_request(self.MARKET_IDX_ESTIMATED_LEVERAGE_RATIO, query_params)
+        return super().handle_request(self.ETH_MARKET_IDX_ESTIMATED_LEVERAGE_RATIO, query_params)
     
     # -------------------------------
     # ETH 2.0
@@ -508,7 +509,7 @@ class Ethereum(RequestHandler):
             The valid amount of ETH in the deposit contract on this window.
 
         """
-        return super().handle_request(self.ETH_2_TOTAL_VALUE_STAKED, query_params)
+        return super().handle_request(self.ETH_ETH_2_TOTAL_VALUE_STAKED, query_params)
     
     def get_eth_20_total_inflow_staking(self, **query_params):
         """
@@ -546,7 +547,7 @@ class Ethereum(RequestHandler):
             The valid amount of ETH in the deposit contract on this window.
 
         """
-        return super().handle_request(self.ETH_2_STAKING_INFLOW_TOTAL, query_params)
+        return super().handle_request(self.ETH_ETH_2_STAKING_INFLOW_TOTAL, query_params)
     
     def get_eth_20_staking_trx_count(self, **query_params):
         """
@@ -585,7 +586,7 @@ class Ethereum(RequestHandler):
             The valid amount of ETH in the deposit contract on this window.
 
         """
-        return super().handle_request(self.ETH_2_STAKING_TRX_COUNT, query_params)
+        return super().handle_request(self.ETH_ETH_2_STAKING_TRX_COUNT, query_params)
     
     def get_eth_20_staking_validator_total(self, **query_params):
         """
@@ -623,7 +624,7 @@ class Ethereum(RequestHandler):
             The number of the number of total validators on this window.
 
         """
-        return super().handle_request(self.ETH_2_STAKING_VALIDATOR_TOTAL, query_params)
+        return super().handle_request(self.ETH_ETH_2_STAKING_VALIDATOR_TOTAL, query_params)
     
     def get_eth_20_depositor_count_total(self, **query_params):
         """
@@ -663,7 +664,7 @@ class Ethereum(RequestHandler):
             window.
 
         """
-        return super().handle_request(self.ETH_2_DEPOSITOR_COUNT_TOTAL, query_params)
+        return super().handle_request(self.ETH_ETH_2_DEPOSITOR_COUNT_TOTAL, query_params)
     
     def get_eth_20_depositor_count_new(self, **query_params):
         """
@@ -704,7 +705,7 @@ class Ethereum(RequestHandler):
             deposited over 32 ETH to the deposit contract.
 
         """
-        return super().handle_request(self.ETH_2_DEPOSITOR_COUNT_NEW, query_params)
+        return super().handle_request(self.ETH_ETH_2_DEPOSITOR_COUNT_NEW, query_params)
     
     def get_eth_20_staking_rate(self, **query_params):
         """
@@ -744,7 +745,7 @@ class Ethereum(RequestHandler):
             total supply on this window.
 
         """
-        return super().handle_request(self.ETH_2_STAKING_RATE, query_params)
+        return super().handle_request(self.ETH_ETH_2_STAKING_RATE, query_params)
     
     def get_eth_20_phase_0_success_rate(self, **query_params):
         """
@@ -784,7 +785,7 @@ class Ethereum(RequestHandler):
             524,288 ETH on thi window.
 
         """
-        return super().handle_request(self.ETH_2_PHASE_0_SUCCESS_RATE, query_params)
+        return super().handle_request(self.ETH_ETH_2_PHASE_0_SUCCESS_RATE, query_params)
     
     # -------------------------------
     # ETH Fund Data
@@ -840,7 +841,7 @@ class Ethereum(RequestHandler):
             Market price OHLC and adjusted C data in USD.
 
         """
-        return super().handle_request(self.FUND_MARKET_PRICE, query_params)
+        return super().handle_request(self.ETH_FUND_MARKET_PRICE, query_params)
     
     def get_eth_fund_market_volumen(self, **query_params):
         """
@@ -886,7 +887,7 @@ class Ethereum(RequestHandler):
             Market volume data.
 
         """
-        return super().handle_request(self.FUND_MARKET_VOLUME, query_params)
+        return super().handle_request(self.ETH_FUND_MARKET_VOLUME, query_params)
     
     def get_eth_fund_market_premium(self, **query_params):
         """
@@ -935,7 +936,7 @@ class Ethereum(RequestHandler):
             Market premium data.
 
         """
-        return super().handle_request(self.FUND_MARKET_PREMIUM, query_params)
+        return super().handle_request(self.ETH_FUND_MARKET_PREMIUM, query_params)
     
     def get_eth_fund_digital_asset_holdings(self, **query_params):
         """
@@ -980,7 +981,7 @@ class Ethereum(RequestHandler):
             Digital asset holdings data.
 
         """
-        return super().handle_request(self.FUND_MARKET_DIGITAL_HOLDINGS, query_params)
+        return super().handle_request(self.ETH_FUND_MARKET_DIGITAL_HOLDINGS, query_params)
     
     # -------------------------------
     # ETH Market Data
@@ -1038,7 +1039,7 @@ class Ethereum(RequestHandler):
             Price OHLCV data.
 
         """
-        return super().handle_request(self.MARKET_PRICE_OHLCV, query_params)
+        return super().handle_request(self.ETH_MARKET_PRICE_OHLCV, query_params)
     
     def get_eth_mkt_open_interest(self, **query_params):
         """
@@ -1084,9 +1085,9 @@ class Ethereum(RequestHandler):
             Open interest in USD.
 
         """
-        return super().handle_request(self.MARKET_OPEN_INTEREST, query_params)
+        return super().handle_request(self.ETH_MARKET_OPEN_INTEREST, query_params)
     
-    def get_eth_mkt_fundind_rates(self, **query_params):
+    def get_eth_mkt_funding_rates(self, **query_params):
         """
         Funding rates represents traders' sentiments of which position they bet
         on in perpetual swaps market. Positive funding rates implies that many
@@ -1131,7 +1132,7 @@ class Ethereum(RequestHandler):
             funding rates in percentage.
 
         """
-        return super().handle_request(self.MARKET_FUNDING_RATES, query_params)
+        return super().handle_request(self.ETH_MARKET_FUNDING_RATES, query_params)
     
     def get_eth_mkt_taker_buy_sell_stats(self, **query_params):
         """
@@ -1184,7 +1185,7 @@ class Ethereum(RequestHandler):
             Taker buy, sell volume and ratio.
 
         """
-        return super().handle_request(self.MARKET_TAKER_BUY_SELL_STATS, query_params)
+        return super().handle_request(self.ETH_MARKET_TAKER_BUY_SELL_STATS, query_params)
     
     def get_eth_mkt_liquidations(self, **query_params):
         """
@@ -1232,7 +1233,7 @@ class Ethereum(RequestHandler):
             Amount of long/short liquidations orders.
 
         """
-        return super().handle_request(self.MARKET_LIQUIDATIONS, query_params)
+        return super().handle_request(self.ETH_MARKET_LIQUIDATIONS, query_params)
     
     def get_eth_mkt_coinbase_premium_index(self, **query_params):
         """
@@ -1274,7 +1275,7 @@ class Ethereum(RequestHandler):
             Coinbase premium index in percentage and coinbase premium gap.
 
         """
-        return super().handle_request(self.MARKET_COINBASE_PREMIUM_INDEX, query_params)
+        return super().handle_request(self.ETH_MARKET_COINBASE_PREMIUM_INDEX, query_params)
     
     def get_eth_mkt_capitalization(self, **query_params):
         """
@@ -1315,7 +1316,7 @@ class Ethereum(RequestHandler):
             times price usd close.
 
         """
-        return super().handle_request(self.MARKET_CAPITALIZATION, query_params)
+        return super().handle_request(self.ETH_MARKET_CAPITALIZATION, query_params)
     
     # -------------------------------
     # ETH Network Data
@@ -1361,7 +1362,7 @@ class Ethereum(RequestHandler):
             Total and new supply.
 
         """
-        return super().handle_request(self.NETWORK_SUPPLY, query_params)
+        return super().handle_request(self.ETH_NETWORK_SUPPLY, query_params)
     
     def get_eth_ntx_velocity(self, **query_params):
         """
@@ -1404,7 +1405,7 @@ class Ethereum(RequestHandler):
             current total supply.
 
         """
-        return super().handle_request(self.NETWORK_VELOCITY, query_params)
+        return super().handle_request(self.ETH_NETWORK_VELOCITY, query_params)
     
     def get_eth_ntx_contracts_count(self, **query_params):
         """
@@ -1446,7 +1447,7 @@ class Ethereum(RequestHandler):
             new, destrpyed and total contracts on the ethereum netwok.
 
         """
-        return super().handle_request(self.NETWORK_CONTRACTS_COUNT, query_params)
+        return super().handle_request(self.ETH_NETWORK_CONTRACTS_COUNT, query_params)
     
     def get_eth_ntx_trx_count(self, **query_params):
         """
@@ -1486,7 +1487,7 @@ class Ethereum(RequestHandler):
             Transactions count total and mean.
 
         """
-        return super().handle_request(self.NETWORK_TRANSACTIONS_COUNT, query_params)
+        return super().handle_request(self.ETH_NETWORK_TRANSACTIONS_COUNT, query_params)
     
     def get_eth_ntx_trx_eoa(self, **query_params):
         """
@@ -1525,7 +1526,7 @@ class Ethereum(RequestHandler):
             Transactions count total and mean.
 
         """
-        return super().handle_request(self.NETWORK_TRANSACTIONS_COUNT_BETWEEN_EOA, query_params)
+        return super().handle_request(self.ETH_NETWORK_TRANSACTIONS_COUNT_BETWEEN_EOA, query_params)
     
     def get_eth_ntx_trx_contract_calls_external(self, **query_params):
         """
@@ -1564,7 +1565,7 @@ class Ethereum(RequestHandler):
             Contract call count total and mean.
 
         """
-        return super().handle_request(self.NETWORK_CONTRACT_CALLS_EXTERNAL, query_params)
+        return super().handle_request(self.ETH_NETWORK_CONTRACT_CALLS_EXTERNAL, query_params)
     
     def get_eth_ntx_trx_contract_calls_internal(self, **query_params):
         """
@@ -1603,7 +1604,7 @@ class Ethereum(RequestHandler):
             Contract call count total and mean.
 
         """
-        return super().handle_request(self.NETWORK_CONTRACT_CALLS_INTERNAL, query_params)
+        return super().handle_request(self.ETH_NETWORK_CONTRACT_CALLS_INTERNAL, query_params)
     
     def get_eth_ntx_trx_contract_calls_count(self, **query_params):
         """
@@ -1642,7 +1643,7 @@ class Ethereum(RequestHandler):
             Contract call count total and mean.
 
         """
-        return super().handle_request(self.NETWORK_CONTRACT_CALLS_COUNT, query_params)
+        return super().handle_request(self.ETH_NETWORK_CONTRACT_CALLS_COUNT, query_params)
     
     def get_eth_ntx_trx_count_all(self, **query_params):
         """
@@ -1681,7 +1682,7 @@ class Ethereum(RequestHandler):
             Trasactions count total and mean.
 
         """
-        return super().handle_request(self.NETWORK_TRANSACTIONS_COUNT_ALL, query_params)
+        return super().handle_request(self.ETH_NETWORK_TRANSACTIONS_COUNT_ALL, query_params)
     
     def get_eth_ntx_addr_count(self, **query_params):
         """
@@ -1725,7 +1726,10 @@ class Ethereum(RequestHandler):
             addresses count active, sender and receiver.
 
         """
-        return super().handle_request(self.NETWORK_ADDRESSES_COUNT, query_params)
+        return super().handle_request(self.ETH_NETWORK_ADDRESSES_COUNT, query_params)
+    
+    def get_eth_ntx_addr_count_all(self, **query_params):
+        return super().handle_request(self.ETH_NETWORK_ADDRESSES_COUNT_ALL, query_params)
     
     def get_eth_ntx_tokens_transferred_count(self, **query_params):
         """
@@ -1767,7 +1771,7 @@ class Ethereum(RequestHandler):
             Tokens transferred count and mean.
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED_COUNT, query_params)
+        return super().handle_request(self.ETH_NETWORK_TOKENS_TRANSFERRED_COUNT, query_params)
     
     def get_eth_ntx_tokens_transferred_count_eoa(self, **query_params):
         """
@@ -1806,7 +1810,7 @@ class Ethereum(RequestHandler):
             Tokens transferred count and mean.
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED_COUNT_BETWEEN_EOA, query_params)
+        return super().handle_request(self.ETH_NETWORK_TOKENS_TRANSFERRED_COUNT_BETWEEN_EOA, query_params)
     
     def get_eth_ntx_tokens_transferred_count_calls_external(self, **query_params):
         """
@@ -1845,7 +1849,7 @@ class Ethereum(RequestHandler):
             Tokens transferred count and mean.
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED_COUNT_BY_CONTRACT_CALLS_EXTERNAL, query_params)
+        return super().handle_request(self.ETH_NETWORK_TOKENS_TRANSFERRED_COUNT_BY_CONTRACT_CALLS_EXTERNAL, query_params)
     
     def get_eth_ntx_tokens_transferred_count_calls_internal(self, **query_params):
         """
@@ -1884,7 +1888,7 @@ class Ethereum(RequestHandler):
             Tokens transferred count and mean.
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED_COUNT_BY_CONTRACT_CALLS_INTERNAL, query_params)
+        return super().handle_request(self.ETH_NETWORK_TOKENS_TRANSFERRED_COUNT_BY_CONTRACT_CALLS_INTERNAL, query_params)
     
     def get_eth_ntx_tokens_transferred_count_calls(self, **query_params):
         """
@@ -1924,7 +1928,7 @@ class Ethereum(RequestHandler):
             Tokens transferred count and mean.
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED_COUNT_BY_CONTRACT_CALLS, query_params)
+        return super().handle_request(self.ETH_NETWORK_TOKENS_TRANSFERRED_COUNT_BY_CONTRACT_CALLS, query_params)
     
     def get_eth_ntx_tokens_transferred_count_all(self, **query_params):
         """
@@ -1963,7 +1967,7 @@ class Ethereum(RequestHandler):
             Tokens transferred count and mean.
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED_COUNT_ALL, query_params)
+        return super().handle_request(self.ETH_NETWORK_TOKENS_TRANSFERRED_COUNT_ALL, query_params)
     
     def get_eth_ntx_tokens_transferred(self, **query_params):
         """
@@ -2007,7 +2011,7 @@ class Ethereum(RequestHandler):
             metrics related to the number of tokens transferred.
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED, query_params)
+        return super().handle_request(self.ETH_NETWORK_TOKENS_TRANSFERRED, query_params)
     
     def get_eth_ntx_tokens_transferred_eoa(self, **query_params):
         """
@@ -2049,7 +2053,7 @@ class Ethereum(RequestHandler):
             externally owned accounts .
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED_BETWEEN_EOA, query_params)
+        return super().handle_request(self.ETH_NETWORK_TOKENS_TRANSFERRED_BETWEEN_EOA, query_params)
     
     def get_eth_ntx_tokens_transferred_calls_external(self, **query_params):
         """
@@ -2088,7 +2092,7 @@ class Ethereum(RequestHandler):
             metrics related to the number of tokens transferred calls.
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED_BY_CONTRACT_CALLS_EXTERNAL, query_params)
+        return super().handle_request(self.ETH_NETWORK_TOKENS_TRANSFERRED_BY_CONTRACT_CALLS_EXTERNAL, query_params)
     
     def get_eth_ntx_tokens_transferred_calls_internal(self, **query_params):
         """
@@ -2127,7 +2131,7 @@ class Ethereum(RequestHandler):
             metrics related to the number of tokens transferred calls.
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED_BY_CONTRACT_CALLS_INTERNAL, query_params)
+        return super().handle_request(self.ETH_NETWORK_TOKENS_TRANSFERRED_BY_CONTRACT_CALLS_INTERNAL, query_params)
     
     def get_eth_ntx_tokens_transferred_calls(self, **query_params):
         """
@@ -2167,7 +2171,7 @@ class Ethereum(RequestHandler):
             metrics related to the number of tokens transferred calls.
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED_BY_CONTRACT_CALLS, query_params)
+        return super().handle_request(self.ETH_NETWORK_TOKENS_TRANSFERRED_BY_CONTRACT_CALLS, query_params)
     
     def get_eth_ntx_tokens_transferred_all(self, **query_params):
         """
@@ -2207,7 +2211,7 @@ class Ethereum(RequestHandler):
             metrics related to the number of tokens transferred calls.
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED_ALL, query_params)
+        return super().handle_request(self.ETH_NETWORK_TOKENS_TRANSFERRED_ALL, query_params)
     
     def get_eth_ntx_failed_trx_count(self, **query_params):
         """
@@ -2247,7 +2251,7 @@ class Ethereum(RequestHandler):
             The number of failed transactions count.
 
         """
-        return super().handle_request(self.NETWORK_FAILED_TRANSACTIONS_COUNT, query_params)
+        return super().handle_request(self.ETH_NETWORK_FAILED_TRANSACTIONS_COUNT, query_params)
     
     def get_eth_ntx_failed_tokens_transferred_count(self, **query_params):
         """
@@ -2288,7 +2292,7 @@ class Ethereum(RequestHandler):
             The number of failed transactions count.
 
         """
-        return super().handle_request(self.NETWORK_FAILED_TOKENS_TRANSFERRED_COUNT, query_params)
+        return super().handle_request(self.ETH_NETWORK_FAILED_TOKENS_TRANSFERRED_COUNT, query_params)
     
     def get_eth_ntx_block_bytes(self, **query_params):
         """
@@ -2326,7 +2330,7 @@ class Ethereum(RequestHandler):
             The mean size (in bytes) of all blocks generated.
 
         """
-        return super().handle_request(self.NETWORK_BLOCK_BYTES, query_params)
+        return super().handle_request(self.ETH_NETWORK_BLOCK_BYTES, query_params)
     
     def get_eth_ntx_block_count(self, **query_params):
         """
@@ -2364,7 +2368,7 @@ class Ethereum(RequestHandler):
             The number of blocks generated in a given window.
 
         """
-        return super().handle_request(self.NETWORK_BLOCK_COUNT, query_params)
+        return super().handle_request(self.ETH_NETWORK_BLOCK_COUNT, query_params)
     
     def get_eth_ntx_block_interval(self, **query_params):
         """
@@ -2402,7 +2406,7 @@ class Ethereum(RequestHandler):
             The average time between blocks generated in seconds.
 
         """
-        return super().handle_request(self.NETWORK_BLOCK_INTERVAL, query_params)
+        return super().handle_request(self.ETH_NETWORK_BLOCK_INTERVAL, query_params)
     
     def get_eth_ntx_fees(self, **query_params):
         """
@@ -2444,7 +2448,7 @@ class Ethereum(RequestHandler):
             statistics related to fees paid from executing transactions.
 
         """
-        return super().handle_request(self.NETWORK_FEES, query_params)
+        return super().handle_request(self.ETH_NETWORK_FEES, query_params)
     
     def get_eth_ntx_fees_burnt(self, **query_params):
         """
@@ -2487,7 +2491,7 @@ class Ethereum(RequestHandler):
             total burn fees in eth and usd.
 
         """
-        return super().handle_request(self.NETWORK_FEES_BURNT, query_params)
+        return super().handle_request(self.ETH_NETWORK_FEES_BURNT, query_params)
     
     def get_eth_ntx_fees_tips(self, **query_params):
         """
@@ -2530,7 +2534,7 @@ class Ethereum(RequestHandler):
             tips in eth and usd.
 
         """
-        return super().handle_request(self.NETWORK_FEES_TIPS, query_params)
+        return super().handle_request(self.ETH_NETWORK_FEES_TIPS, query_params)
     
     def get_eth_ntx_fees_trx(self, **query_params):
         """
@@ -2572,7 +2576,7 @@ class Ethereum(RequestHandler):
             transactions fees in eth and usd.
 
         """
-        return super().handle_request(self.NETWORK_FEES_TRANSACTION, query_params)
+        return super().handle_request(self.ETH_NETWORK_FEES_TRANSACTION, query_params)
     
     def get_eth_ntx_fees_trx_burnt(self, **query_params):
         """
@@ -2617,7 +2621,7 @@ class Ethereum(RequestHandler):
             by executing transactions.
 
         """
-        return super().handle_request(self.NETWORK_FEES_TRANSACTION_BURNT, query_params)
+        return super().handle_request(self.ETH_NETWORK_FEES_TRANSACTION_BURNT, query_params)
     
     def get_eth_ntx_fees_trx_tips(self, **query_params):
         """
@@ -2662,7 +2666,7 @@ class Ethereum(RequestHandler):
             Ethereum miners.
 
         """
-        return super().handle_request(self.NETWORK_FEES_TRANSACTION_TIPS, query_params)
+        return super().handle_request(self.ETH_NETWORK_FEES_TRANSACTION_TIPS, query_params)
     
     def get_eth_ntx_blockreward(self, **query_params):
         """
@@ -2702,7 +2706,7 @@ class Ethereum(RequestHandler):
             transaction fees), CQ also provide this value in USD units.
 
         """
-        return super().handle_request(self.NETWORK_BLOCKREWARD, query_params)
+        return super().handle_request(self.ETH_NETWORK_BLOCKREWARD, query_params)
     
     def get_eth_ntx_blockreward_except_uncle(self, **query_params):
         """
@@ -2742,7 +2746,7 @@ class Ethereum(RequestHandler):
             value in USD units.
 
         """
-        return super().handle_request(self.NETWORK_BLOCKREWARD_EXCEPT_UNCLE, query_params)
+        return super().handle_request(self.ETH_NETWORK_BLOCKREWARD_EXCEPT_UNCLE, query_params)
     
     def get_eth_ntx_gas(self, **query_params):
         """
@@ -2784,7 +2788,7 @@ class Ethereum(RequestHandler):
             statistics related to gas used in all transactions.
 
         """
-        return super().handle_request(self.NETWORK_GAS, query_params)
+        return super().handle_request(self.ETH_NETWORK_GAS, query_params)
     
     def get_eth_ntx_base_fee(self, **query_params):
         """
@@ -2824,7 +2828,7 @@ class Ethereum(RequestHandler):
             The average value of the base fee pern gas over the blocks is Gwei.
 
         """
-        return super().handle_request(self.NETWORK_BASE_FEE, query_params)
+        return super().handle_request(self.ETH_NETWORK_BASE_FEE, query_params)
     
     def get_eth_ntx_max_fee(self, **query_params):
         """
@@ -2866,7 +2870,7 @@ class Ethereum(RequestHandler):
             Gwei.
 
         """
-        return super().handle_request(self.NETWORK_MAX_FEE, query_params)
+        return super().handle_request(self.ETH_NETWORK_MAX_FEE, query_params)
     
     def get_eth_ntx_max_priority_fee(self, **query_params):
         """
@@ -2908,7 +2912,7 @@ class Ethereum(RequestHandler):
             transactions in Gwei.
 
         """
-        return super().handle_request(self.NETWORK_MAX_PRIOTITY_FEE, query_params)
+        return super().handle_request(self.ETH_NETWORK_MAX_PRIOTITY_FEE, query_params)
     
     def get_eth_ntx_difficulty(self, **query_params):
         """
@@ -2946,7 +2950,7 @@ class Ethereum(RequestHandler):
             The mean difficulty of mining a new block..
 
         """
-        return super().handle_request(self.NETWORK_DIFFICULTY, query_params)
+        return super().handle_request(self.ETH_NETWORK_DIFFICULTY, query_params)
     
     def get_eth_ntx_hashrate(self, **query_params):
         """
@@ -2986,7 +2990,7 @@ class Ethereum(RequestHandler):
             in the network. It is displayed as hashes (gigabytes) per second.
 
         """
-        return super().handle_request(self.NETWORK_HASHRATE, query_params)
+        return super().handle_request(self.ETH_NETWORK_HASHRATE, query_params)
     
     def get_eth_ntx_uncle_block_count(self, **query_params):
         """
@@ -3024,7 +3028,7 @@ class Ethereum(RequestHandler):
             The number of uncle blocks generated in a given window.
 
         """
-        return super().handle_request(self.NETWORK_UNCLE_BLOCK_COUNT, query_params)
+        return super().handle_request(self.ETH_NETWORK_UNCLE_BLOCK_COUNT, query_params)
     
     def get_eth_ntx_uncle_blockreward(self, **query_params):
         """
@@ -3064,4 +3068,4 @@ class Ethereum(RequestHandler):
             and transaction fees). CQ also provide this value in USD units.
 
         """
-        return super().handle_request(self.NETWORK_UNCLE_BLOCKREWARD, query_params)
+        return super().handle_request(self.ETH_NETWORK_UNCLE_BLOCKREWARD, query_params)

@@ -41,7 +41,7 @@ class Discovery(RequestHandler):
         api_key : str
             Token de autenticación de la API de CryptoQuant.
         """
-        self.URL_ENDPOINT: str = "discovery/endpoints"
+        self.DISCOVERY_URL_ENDPOINT: str = "discovery/endpoints"
         super().__init__(api_key)
 
     def get_endpoints(self, **query_params: Any) -> Dict[str, Any] | str:
@@ -83,5 +83,5 @@ class Discovery(RequestHandler):
         >>> print(csv_data.splitlines()[0])
         'path,parameters,required_parameters'
         """
-        return super().handle_request(self.URL_ENDPOINT, query_params)
+        return super().handle_request(self.DISCOVERY_URL_ENDPOINT, query_params)
 

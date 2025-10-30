@@ -12,51 +12,51 @@ class XRP(RequestHandler):
         super().__init__(api_key)
         
         # Entity List
-        self.ENTITY_LIST = "xrp/status/entity-list"
+        self.XRP_ENTITY_LIST = "xrp/status/entity-list"
         # Entity flows
-        self.ENTITY_RESERVE = "xrp/entity-flows/reserve"
-        self.ENTITY_SHARE = "xrp/entity-flows/share"
-        self.ENTITY_TRANSACTION_COUNT = "xrp/entity-flows/transactions-count"
-        self.ENTITY_INFLOW = "xrp/entity-flows/inflow"
-        self.ENTITY_OUTFLOW = "xrp/entity-flows/outflow"
-        self.ENTITY_ADDRESSES_COUNT = "xrp/entity-flows/addresses-count"
-        self.ENTITY_WHALE_MOVEMENTS = "xrp/entity-flows/whale-movements"
+        self.XRP_ENTITY_RESERVE = "xrp/entity-flows/reserve"
+        self.XRP_ENTITY_SHARE = "xrp/entity-flows/share"
+        self.XRP_ENTITY_TRANSACTION_COUNT = "xrp/entity-flows/transactions-count"
+        self.XRP_ENTITY_INFLOW = "xrp/entity-flows/inflow"
+        self.XRP_ENTITY_OUTFLOW = "xrp/entity-flows/outflow"
+        self.XRP_ENTITY_ADDRESSES_COUNT = "xrp/entity-flows/addresses-count"
+        self.XRP_ENTITY_WHALE_MOVEMENTS = "xrp/entity-flows/whale-movements"
         # Flow Indicators
-        self.FLOW_EXCHANGE_INFLOW_VALUE_DISTRIBUTION = "xrp/flow-indicator/exchange-inflow-value-distribution"
-        self.FLOW_EXCHANGE_OUTFLOW_VALUE_DISTRIBUTION = "xrp/flow-indicator/exchange-outflow-value-distribution"
-        self.FLOW_EXCHANGE_INFLOW_COUNT_VALUE_DISTRIBUTION = "xrp/flow-indicator/exchange-inflow-count-value-distribution"
-        self.FLOW_EXCHANGE_OUTFLOW_COUNT_VALUE_DISTRIBUTION = "xrp/flow-indicator/exchange-outflow-count-value-distribution"
-        self.FLOW_EXCHANGE_SUPPLY_RATIO = "xrp/flow-indicator/exchange-supply-ratio"
+        self.XRP_FLOW_EXCHANGE_INFLOW_VALUE_DISTRIBUTION = "xrp/flow-indicator/exchange-inflow-value-distribution"
+        self.XRP_FLOW_EXCHANGE_OUTFLOW_VALUE_DISTRIBUTION = "xrp/flow-indicator/exchange-outflow-value-distribution"
+        self.XRP_FLOW_EXCHANGE_INFLOW_COUNT_VALUE_DISTRIBUTION = "xrp/flow-indicator/exchange-inflow-count-value-distribution"
+        self.XRP_FLOW_EXCHANGE_OUTFLOW_COUNT_VALUE_DISTRIBUTION = "xrp/flow-indicator/exchange-outflow-count-value-distribution"
+        self.XRP_FLOW_EXCHANGE_SUPPLY_RATIO = "xrp/flow-indicator/exchange-supply-ratio"
         # Market data
-        self.MARKET_PRICE_OHLCV = "xrp/market-data/price-ohlcv"
-        self.MARKET_OPEN_INTEREST = "xrp/market-data/open-interest"
-        self.MARKET_FUNDING_RATES = "xrp/market-data/funding-rates"
-        self.MARKET_TAKER_BUY_SELL_STATS = "xrp/market-data/taker-buy-sell-stats"
-        self.MARKET_LIQUIDATIONS = "xrp/market-data/liquidations"
-        self.MARKET_CAPITALIZATION = "xrp/market-data/capitalization"
-        self.MARKET_ESTIMATED_LEVERAGE_RATIO = "xrp/market-data/estimated-leverage-ratio"
+        self.XRP_MARKET_PRICE_OHLCV = "xrp/market-data/price-ohlcv"
+        self.XRP_MARKET_OPEN_INTEREST = "xrp/market-data/open-interest"
+        self.XRP_MARKET_FUNDING_RATES = "xrp/market-data/funding-rates"
+        self.XRP_MARKET_TAKER_BUY_SELL_STATS = "xrp/market-data/taker-buy-sell-stats"
+        self.XRP_MARKET_LIQUIDATIONS = "xrp/market-data/liquidations"
+        self.XRP_MARKET_CAPITALIZATION = "xrp/market-data/capitalization"
+        self.XRP_MARKET_ESTIMATED_LEVERAGE_RATIO = "xrp/market-data/estimated-leverage-ratio"
         # Network data
-        self.NETWORK_ADDRESSES_COUNT = "xrp/network-data/addresses-count"
-        self.NETWORK_VELOCITY = "xrp/network-data/velocity"            
-        self.NETWORK_BLOCK_INTERVAL = "xrp/network-data/block-interval"
-        self.NETWORK_XRP_BURNT = "xrp/network-data/xrp-burnt"
-        self.NETWORK_LEDGER_COUNT = "xrp/network-data/ledger-count"
-        self.NETWORK_FEES = "xrp/network-data/fees"
-        self.NETWORK_TRANSACTIONS_COUNT = "xrp/network-data/transactions-count"
-        self.NETWORK_TOKENS_TRANSFERRED = "xrp/network-data/tokens-transferred"
-        self.NETWORK_SUPPLY = "xrp/network-data/supply"
+        self.XRP_NETWORK_ADDRESSES_COUNT = "xrp/network-data/addresses-count"
+        self.XRP_NETWORK_VELOCITY = "xrp/network-data/velocity"            
+        self.XRP_NETWORK_BLOCK_INTERVAL = "xrp/network-data/block-interval"
+        self.XRP_NETWORK_XRP_BURNT = "xrp/network-data/xrp-burnt"
+        self.XRP_NETWORK_LEDGER_COUNT = "xrp/network-data/ledger-count"
+        self.XRP_NETWORK_FEES = "xrp/network-data/fees"
+        self.XRP_NETWORK_TRANSACTIONS_COUNT = "xrp/network-data/transactions-count"
+        self.XRP_NETWORK_TOKENS_TRANSFERRED = "xrp/network-data/tokens-transferred"
+        self.XRP_NETWORK_SUPPLY = "xrp/network-data/supply"
         # Network Indicator
-        self.NETWORK_VALUE_TO_TRANSACTION = "xrp/network-indicator/nvt"
+        self.XRP_NETWORK_VALUE_TO_TRANSACTION = "xrp/network-indicator/nvt"
         # Dex Data
-        self.DEX_VOLUME = "xrp/dex-data/volume"
-        self.DEX_TRANSACTION_COUNT = "xrp/dex-data/transactions-count"
-        self.DEX_LIQUIDTY = "xrp/dex-data/liquidity"
-        self.DEX_XRP_DEX_PRICE = "xrp/dex-data/dex-price"
+        self.XRP_DEX_VOLUME = "xrp/dex-data/volume"
+        self.XRP_DEX_TRANSACTION_COUNT = "xrp/dex-data/transactions-count"
+        self.XRP_DEX_LIQUIDTY = "xrp/dex-data/liquidity"
+        self.XRP_DEX_XRP_DEX_PRICE = "xrp/dex-data/dex-price"
         # AMM Data
-        self.AMM_PRICE = "xrp/amm-data/price"
-        self.AMM_LIQUIDITY = "xrp/amm-data/liquidity"
-        self.AMM_FEE = "xrp/amm-data/fee"
-        self.AMM_SWAPS = "xrp/amm-data/swap-stats"
+        self.XRP_AMM_PRICE = "xrp/amm-data/price"
+        self.XRP_AMM_LIQUIDITY = "xrp/amm-data/liquidity"
+        self.XRP_AMM_FEE = "xrp/amm-data/fee"
+        self.XRP_AMM_SWAPS = "xrp/amm-data/swap-stats"
         
     # -----------------------------------
     # Entity list
@@ -79,7 +79,7 @@ class XRP(RequestHandler):
             Entity list on a given type.
 
         """
-        return super().handle_request(self.ENTITY_LIST, query_params)
+        return super().handle_request(self.XRP_ENTITY_LIST, query_params)
     
     # -----------------------------------
     # Entity flows
@@ -125,7 +125,7 @@ class XRP(RequestHandler):
             The amount of XRP on a given entity on this window.
 
         """
-        return super().handle_request(self.ENTITY_RESERVE, query_params)
+        return super().handle_request(self.XRP_ENTITY_RESERVE, query_params)
     
     def get_xrp_entity_share(self, **query_params):
         """
@@ -165,7 +165,7 @@ class XRP(RequestHandler):
             The amount of XRP on a given entity on this window.
 
         """
-        return super().handle_request(self.ENTITY_SHARE, query_params)
+        return super().handle_request(self.XRP_ENTITY_SHARE, query_params)
     
     def get_xrp_entity_trx_count(self, **query_params):
         """
@@ -206,7 +206,7 @@ class XRP(RequestHandler):
             Entities.
 
         """
-        return super().handle_request(self.ENTITY_TRANSACTION_COUNT, query_params)
+        return super().handle_request(self.XRP_ENTITY_TRANSACTION_COUNT, query_params)
     
     def get_xrp_entity_inflow(self, **query_params):
         """
@@ -246,7 +246,7 @@ class XRP(RequestHandler):
             inflow and inflow_usd.
 
         """
-        return super().handle_request(self.ENTITY_INFLOW, query_params)
+        return super().handle_request(self.XRP_ENTITY_INFLOW, query_params)
     
     def get_xrp_entity_outflow(self, **query_params):
         """
@@ -286,7 +286,7 @@ class XRP(RequestHandler):
             outflow and outflow_usd.
 
         """
-        return super().handle_request(self.ENTITY_OUTFLOW, query_params)
+        return super().handle_request(self.XRP_ENTITY_OUTFLOW, query_params)
     
     def get_xrp_entity_addrs_count(self, **query_params):
         """
@@ -327,7 +327,7 @@ class XRP(RequestHandler):
             to bank wallets.
 
         """
-        return super().handle_request(self.ENTITY_ADDRESSES_COUNT, query_params)
+        return super().handle_request(self.XRP_ENTITY_ADDRESSES_COUNT, query_params)
     
     def get_xrp_entity_whale_movements(self, **query_params):
         """
@@ -367,7 +367,7 @@ class XRP(RequestHandler):
             whale addresses.
 
         """
-        return super().handle_request(self.ENTITY_WHALE_MOVEMENTS, query_params)
+        return super().handle_request(self.XRP_ENTITY_WHALE_MOVEMENTS, query_params)
     
     # -----------------------------------
     # XRP Flow Indicator
@@ -413,7 +413,7 @@ class XRP(RequestHandler):
             tokens (xrp) at once.
 
         """
-        return super().handle_request(self.FLOW_EXCHANGE_INFLOW_VALUE_DISTRIBUTION, query_params)
+        return super().handle_request(self.XRP_FLOW_EXCHANGE_INFLOW_VALUE_DISTRIBUTION, query_params)
     
     def get_xrp_flow_exch_outflow_value_dstr(self, **query_params):
         """
@@ -455,7 +455,7 @@ class XRP(RequestHandler):
             tokens (xrp) at once.
 
         """
-        return super().handle_request(self.FLOW_EXCHANGE_OUTFLOW_VALUE_DISTRIBUTION, query_params)
+        return super().handle_request(self.XRP_FLOW_EXCHANGE_OUTFLOW_VALUE_DISTRIBUTION, query_params)
     
     def get_xrp_flow_exch_inflow_count_value_dstr(self, **query_params):
         """
@@ -497,7 +497,7 @@ class XRP(RequestHandler):
             by the amount of the transferred tokens (xrp) at once.
 
         """
-        return super().handle_request(self.FLOW_EXCHANGE_INFLOW_COUNT_VALUE_DISTRIBUTION, query_params)
+        return super().handle_request(self.XRP_FLOW_EXCHANGE_INFLOW_COUNT_VALUE_DISTRIBUTION, query_params)
     
     def get_xrp_flow_exch_outflow_count_value_dstr(self, **query_params):
         """
@@ -539,7 +539,7 @@ class XRP(RequestHandler):
             by the amount of the transferred tokens (xrp) at once.
 
         """
-        return super().handle_request(self.FLOW_EXCHANGE_OUTFLOW_COUNT_VALUE_DISTRIBUTION, query_params)
+        return super().handle_request(self.XRP_FLOW_EXCHANGE_OUTFLOW_COUNT_VALUE_DISTRIBUTION, query_params)
     
     def get_xrp_flow_exch_supply_ratio(self, **query_params):
         """
@@ -578,7 +578,7 @@ class XRP(RequestHandler):
             exchange supply ratio.
 
         """
-        return super().handle_request(self.FLOW_EXCHANGE_SUPPLY_RATIO, query_params)
+        return super().handle_request(self.XRP_FLOW_EXCHANGE_SUPPLY_RATIO, query_params)
     
     # -----------------------------------
     # XRP Market Data
@@ -631,7 +631,7 @@ class XRP(RequestHandler):
             Pirce OHLCV data.
 
         """
-        return super().handle_request(self.MARKET_PRICE_OHLCV, query_params)
+        return super().handle_request(self.XRP_MARKET_PRICE_OHLCV, query_params)
     
     def get_xrp_mkt_open_interest(self, **query_params):
         """
@@ -675,7 +675,7 @@ class XRP(RequestHandler):
             Open interest in USD.
 
         """
-        return super().handle_request(self.MARKET_OPEN_INTEREST, query_params)
+        return super().handle_request(self.XRP_MARKET_OPEN_INTEREST, query_params)
     
     def get_xrp_mkt_funding_rates(self, **query_params):
         """
@@ -720,7 +720,7 @@ class XRP(RequestHandler):
             DESCRIPTION.
 
         """
-        return super().handle_request(self.MARKET_FUNDING_RATES, query_params)
+        return super().handle_request(self.XRP_MARKET_FUNDING_RATES, query_params)
     
     def get_xrp_mkt_taker_buysell_stats(self, **query_params):
         """
@@ -768,7 +768,7 @@ class XRP(RequestHandler):
             Taker buy, sell volume ratio.
 
         """
-        return super().handle_request(self.MARKET_TAKER_BUY_SELL_STATS, query_params)
+        return super().handle_request(self.XRP_MARKET_TAKER_BUY_SELL_STATS, query_params)
     
     def get_xrp_mkt_liquidations(self, **query_params):
         """
@@ -816,7 +816,7 @@ class XRP(RequestHandler):
             Amount of long/short liquidations orders.
 
         """
-        return super().handle_request(self.MARKET_LIQUIDATIONS, query_params)
+        return super().handle_request(self.XRP_MARKET_LIQUIDATIONS, query_params)
     
     def get_xrp_mkt_capitalization(self, **query_params):
         """
@@ -856,7 +856,7 @@ class XRP(RequestHandler):
             Market cap for xrp.
 
         """
-        return super().handle_request(self.MARKET_CAPITALIZATION, query_params)
+        return super().handle_request(self.XRP_MARKET_CAPITALIZATION, query_params)
     
     def get_xrp_mkt_estimated_leverage_ratio(self, **query_params):
         """
@@ -898,7 +898,7 @@ class XRP(RequestHandler):
             Estimated leverage ratio.
 
         """
-        return super().handle_request(self.MARKET_ESTIMATED_LEVERAGE_RATIO, query_params)
+        return super().handle_request(self.XRP_MARKET_ESTIMATED_LEVERAGE_RATIO, query_params)
     
     # -----------------------------------
     # XRP Network Data
@@ -944,7 +944,7 @@ class XRP(RequestHandler):
             The number of active addresses.
 
         """
-        return super().handle_request(self.NETWORK_ADDRESSES_COUNT, query_params)
+        return super().handle_request(self.XRP_NETWORK_ADDRESSES_COUNT, query_params)
     
     def get_xrp_ntx_velocity(self, **query_params):
         """
@@ -984,7 +984,7 @@ class XRP(RequestHandler):
             Velocity.
 
         """
-        return super().handle_request(self.NETWORK_VELOCITY, query_params)
+        return super().handle_request(self.XRP_NETWORK_VELOCITY, query_params)
     
     def get_xrp_ntx_block_interval(self, **query_params):
         """
@@ -1022,7 +1022,7 @@ class XRP(RequestHandler):
             The average time between blocks generated in seconds.
 
         """
-        return super().handle_request(self.NETWORK_BLOCK_INTERVAL, query_params)
+        return super().handle_request(self.XRP_NETWORK_BLOCK_INTERVAL, query_params)
     
     def get_xrp_ntx_burnt(self, **query_params):
         """
@@ -1060,7 +1060,7 @@ class XRP(RequestHandler):
             Amount of XRP burnt.
 
         """
-        return super().handle_request(self.NETWORK_XRP_BURNT, query_params)
+        return super().handle_request(self.XRP_NETWORK_XRP_BURNT, query_params)
     
     def get_xrp_ntx_ledger_count(self, **query_params):
         """
@@ -1098,7 +1098,7 @@ class XRP(RequestHandler):
             Number of total ledger created.
 
         """
-        return super().handle_request(self.NETWORK_LEDGER_COUNT, query_params)
+        return super().handle_request(self.XRP_NETWORK_LEDGER_COUNT, query_params)
     
     def get_xrp_ntx_fees(self, **query_params):
         """
@@ -1136,7 +1136,7 @@ class XRP(RequestHandler):
             The amount of total fees of the chain.
 
         """
-        return super().handle_request(self.NETWORK_FEES, query_params)
+        return super().handle_request(self.XRP_NETWORK_FEES, query_params)
     
     def get_xrp_ntx_trx_count(self, **query_params):
         """
@@ -1174,7 +1174,7 @@ class XRP(RequestHandler):
             Number of transactions in the given time frame.
 
         """
-        return super().handle_request(self.NETWORK_TRANSACTIONS_COUNT, query_params)
+        return super().handle_request(self.XRP_NETWORK_TRANSACTIONS_COUNT, query_params)
     
     def get_xrp_ntx_tokens_transferred(self, **query_params):
         """
@@ -1212,7 +1212,7 @@ class XRP(RequestHandler):
             Number of XRP transferred.
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED, query_params)
+        return super().handle_request(self.XRP_NETWORK_TOKENS_TRANSFERRED, query_params)
     
     def get_xrp_ntx_supply(self, **query_params):
         """
@@ -1250,7 +1250,7 @@ class XRP(RequestHandler):
             Total amount of XRP available.
 
         """
-        return super().handle_request(self.NETWORK_SUPPLY, query_params)
+        return super().handle_request(self.XRP_NETWORK_SUPPLY, query_params)
     
     # -----------------------------------
     # XRP Network Indicator
@@ -1297,7 +1297,7 @@ class XRP(RequestHandler):
             divided by transacted volume in the specified.
 
         """
-        return super().handle_request(self.NETWORK_VALUE_TO_TRANSACTION, query_params)
+        return super().handle_request(self.XRP_NETWORK_VALUE_TO_TRANSACTION, query_params)
     
     # -----------------------------------
     # XRP DEX data
@@ -1339,7 +1339,7 @@ class XRP(RequestHandler):
             XRP volume traded on XRPL DEX.
 
         """
-        return super().handle_request(self.DEX_VOLUME, query_params)
+        return super().handle_request(self.XRP_DEX_VOLUME, query_params)
     
     def get_xrp_dex_trx_count(self, **query_params):
         """
@@ -1377,7 +1377,7 @@ class XRP(RequestHandler):
             Transaction count of DEX trade.
 
         """
-        return super().handle_request(self.DEX_TRANSACTION_COUNT, query_params)
+        return super().handle_request(self.XRP_DEX_TRANSACTION_COUNT, query_params)
     
     def get_xrp_dex_liquidity(self, **query_params):
         """
@@ -1415,7 +1415,7 @@ class XRP(RequestHandler):
             USD liquidity in DEX.
 
         """
-        return super().handle_request(self.DEX_LIQUIDTY, query_params)
+        return super().handle_request(self.XRP_DEX_LIQUIDTY, query_params)
     
     def get_xrp_dex_price(self, **query_params):
         """
@@ -1453,7 +1453,7 @@ class XRP(RequestHandler):
             Price of XRP traded on DEX.
 
         """
-        return super().handle_request(self.DEX_XRP_DEX_PRICE, query_params)
+        return super().handle_request(self.XRP_DEX_XRP_DEX_PRICE, query_params)
     
     # -----------------------------------
     # XRP AMM Data
@@ -1499,7 +1499,7 @@ class XRP(RequestHandler):
             XRP exchange rate on AMM.
 
         """
-        return super().handle_request(self.AMM_PRICE, query_params)
+        return super().handle_request(self.XRP_AMM_PRICE, query_params)
     
     def get_xrp_amm_liquidity(self, **query_params):
         """
@@ -1539,7 +1539,7 @@ class XRP(RequestHandler):
             The total amount of liquidity on AMM.
 
         """
-        return super().handle_request(self.AMM_LIQUIDITY, query_params)
+        return super().handle_request(self.XRP_AMM_LIQUIDITY, query_params)
     
     def get_xrp_amm_fee(self, **query_params):
         """
@@ -1579,7 +1579,7 @@ class XRP(RequestHandler):
             The trading Fee on AMM
 
         """
-        return super().handle_request(self.AMM_FEE, query_params)
+        return super().handle_request(self.XRP_AMM_FEE, query_params)
     
     def get_xrp_amm_swaps(self, **query_params):
         """
@@ -1619,4 +1619,4 @@ class XRP(RequestHandler):
             The SWAP statictics on AMM.
 
         """
-        return super().handle_request(self.AMM_SWAPS, query_params)
+        return super().handle_request(self.XRP_AMM_SWAPS, query_params)

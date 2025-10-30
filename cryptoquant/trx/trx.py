@@ -12,21 +12,21 @@ class TRX(RequestHandler):
         super().__init__(api_key)
         
         # Market data
-        self.MARKET_OHLCV = "trx/market-data/price-ohlcv"
-        self.MARKET_CAPITALIZATION = "trx/market-data/capitalization"
+        self.TRX_MARKET_OHLCV = "trx/market-data/price-ohlcv"
+        self.TRX_MARKET_CAPITALIZATION = "trx/market-data/capitalization"
         # Network data
-        self.NETWORK_SUPPLY = "trx/network-data/supply"
-        self.NETWORK_TRANSACTIONS_COUNT = "trx/network-data/transactions-count"
-        self.NETWORK_ADDRESSES_COUNT = "trx/network-data/addresses-count"
-        self.NETWORK_TOKENS_TRANSFERRED = "trx/network-data/tokens-transferred"
-        self.NETWORK_BLOCK_COUNT = "trx/network-data/block-count"
-        self.NETWORK_FEES = "trx/network-data/fees"
-        self.NETWORK_TPS = "trx/network-data/tps"
-        self.NETWORK_TOTAL_VALUE_STAKED = "trx/network-data/total-value-staked"
-        self.NETWORK_ENERGY_STAKE = "trx/network-data/energy-stake"
+        self.TRX_NETWORK_SUPPLY = "trx/network-data/supply"
+        self.TRX_NETWORK_TRANSACTIONS_COUNT = "trx/network-data/transactions-count"
+        self.TRX_NETWORK_ADDRESSES_COUNT = "trx/network-data/addresses-count"
+        self.TRX_NETWORK_TOKENS_TRANSFERRED = "trx/network-data/tokens-transferred"
+        self.TRX_NETWORK_BLOCK_COUNT = "trx/network-data/block-count"
+        self.TRX_NETWORK_FEES = "trx/network-data/fees"
+        self.TRX_NETWORK_TPS = "trx/network-data/tps"
+        self.TRX_NETWORK_TOTAL_VALUE_STAKED = "trx/network-data/total-value-staked"
+        self.TRX_NETWORK_ENERGY_STAKE = "trx/network-data/energy-stake"
         # DEFI
-        self.DEFI_SUNPUMP_TOKENS = "trx/defi/sunpump-tokens"
-        self.DEFI_SUNSWAP_ACTIVITY = "trx/defi/sunswap-activity"
+        self.TRX_DEFI_SUNPUMP_TOKENS = "trx/defi/sunpump-tokens"
+        self.TRX_DEFI_SUNSWAP_ACTIVITY = "trx/defi/sunswap-activity"
         
     # -----------------------------
     # Market Data
@@ -76,7 +76,7 @@ class TRX(RequestHandler):
             Price OHLCV data for trx.
 
         """
-        return super().handle_request(self.MARKET_OHLCV, query_params)
+        return super().handle_request(self.TRX_MARKET_OHLCV, query_params)
     
     def get_trx_mkt_capitalization(self, **query_params):
         """
@@ -115,7 +115,7 @@ class TRX(RequestHandler):
             Market cap in usd.
 
         """
-        return super().handle_request(self.MARKET_CAPITALIZATION, query_params)
+        return super().handle_request(self.TRX_MARKET_CAPITALIZATION, query_params)
     
     # -----------------------------
     # Network Data
@@ -164,7 +164,7 @@ class TRX(RequestHandler):
             Supply statistics.
 
         """
-        return super().handle_request(self.NETWORK_SUPPLY, query_params)
+        return super().handle_request(self.TRX_NETWORK_SUPPLY, query_params)
     
     def get_trx_ntx_trx_count(self, **query_params):
         """
@@ -206,7 +206,7 @@ class TRX(RequestHandler):
             Transaction statistics.
 
         """
-        return super().handle_request(self.NETWORK_TRANSACTIONS_COUNT, query_params)
+        return super().handle_request(self.TRX_NETWORK_TRANSACTIONS_COUNT, query_params)
     
     def get_trx_ntx_addrs_count(self, **query_params):
         """
@@ -247,7 +247,7 @@ class TRX(RequestHandler):
             addresses statistics.
 
         """
-        return super().handle_request(self.NETWORK_ADDRESSES_COUNT, query_params)
+        return super().handle_request(self.TRX_NETWORK_ADDRESSES_COUNT, query_params)
     
     def get_trx_ntx_tokens_transferred(self, **query_params):
         """
@@ -288,7 +288,7 @@ class TRX(RequestHandler):
             tokens transferred statistics.
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED)
+        return super().handle_request(self.TRX_NETWORK_TOKENS_TRANSFERRED)
     
     def get_trx_ntx_block_count(self, **query_params):
         """
@@ -326,7 +326,7 @@ class TRX(RequestHandler):
             blocks generated.
 
         """
-        return super().handle_request(self.NETWORK_BLOCK_COUNT, query_params)
+        return super().handle_request(self.TRX_NETWORK_BLOCK_COUNT, query_params)
     
     def get_trx_ntx_fees(self, **query_params):
         """
@@ -371,7 +371,7 @@ class TRX(RequestHandler):
             Fees.
 
         """
-        return super().handle_request(self.NETWORK_FEES, query_params)
+        return super().handle_request(self.TRX_NETWORK_FEES, query_params)
     
     def get_trx_ntx_tps(self, **query_params):
         """
@@ -413,7 +413,7 @@ class TRX(RequestHandler):
             Transactions per second.
 
         """
-        return super().handle_request(self.NETWORK_TPS, query_params)
+        return super().handle_request(self.TRX_NETWORK_TPS, query_params)
     
     def get_trx_ntx_total_value_staked(self, **query_params):
         """
@@ -457,7 +457,7 @@ class TRX(RequestHandler):
             total value stacked.
 
         """
-        return super().handle_request(self.NETWORK_TOTAL_VALUE_STAKED, query_params)
+        return super().handle_request(self.TRX_NETWORK_TOTAL_VALUE_STAKED, query_params)
     
     def get_trx_ntx_enery_stake(self, **query_params):
         """
@@ -500,7 +500,7 @@ class TRX(RequestHandler):
             energy staked.
 
         """
-        return super().handle_request(self.NETWORK_ENERGY_STAKE, query_params)
+        return super().handle_request(self.TRX_NETWORK_ENERGY_STAKE, query_params)
     
     # -----------------------------
     # DEFI Data
@@ -546,7 +546,7 @@ class TRX(RequestHandler):
             SunPump token creation in Tron.
 
         """
-        return super().handle_request(self.DEFI_SUNPUMP_TOKENS, query_paramas)
+        return super().handle_request(self.TRX_DEFI_SUNPUMP_TOKENS, query_paramas)
     
     def get_trx_defi_sunswap_activity(self, **query_paramas):
         """
@@ -592,4 +592,4 @@ class TRX(RequestHandler):
             SunSwap activity.
 
         """
-        return super().handle_request(self.DEFI_SUNSWAP_ACTIVITY, query_paramas)
+        return super().handle_request(self.TRX_DEFI_SUNSWAP_ACTIVITY, query_paramas)

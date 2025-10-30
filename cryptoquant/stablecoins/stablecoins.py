@@ -12,24 +12,24 @@ class StableCoins(RequestHandler):
         super().__init__(api_key)
         
         # Entity List
-        self.ENTITY_LIST = "stablecoin/status/entity-list"
+        self.SC_ENTITY_LIST = "stablecoin/status/entity-list"
         # Exchange Flows
-        self.EXCH_RESERVE = "stablecoin/exchange-flows/reserve"
-        self.EXCH_NETFLOW = "stablecoin/exchange-flows/netflow"
-        self.EXCH_INFLOW = "stablecoin/exchange-flows/inflow"
-        self.EXCH_OUTFLOW = "stablecoin/exchange-flows/outflow"
-        self.EXCH_TRANSACTIONS_COUNT = "stablecoin/exchange-flows/transactions-count"
-        self.EXCH_ADDRESSES_COUNT = "stablecoin/exchange-flows/addresses-count"
+        self.SC_EXCH_RESERVE = "stablecoin/exchange-flows/reserve"
+        self.SC_EXCH_NETFLOW = "stablecoin/exchange-flows/netflow"
+        self.SC_EXCH_INFLOW = "stablecoin/exchange-flows/inflow"
+        self.SC_EXCH_OUTFLOW = "stablecoin/exchange-flows/outflow"
+        self.SC_EXCH_TRANSACTIONS_COUNT = "stablecoin/exchange-flows/transactions-count"
+        self.SC_EXCH_ADDRESSES_COUNT = "stablecoin/exchange-flows/addresses-count"
         # Flow Indicator
-        self.FLOW_EXCHANGE_SUPPLY_RATIO = "stablecoin/flow-indicator/exchange-supply-ratio"
+        self.SC_FLOW_EXCHANGE_SUPPLY_RATIO = "stablecoin/flow-indicator/exchange-supply-ratio"
         # Price OHLCV
-        self.MARKET_OHLCV = "stablecoin/market-data/price-ohlcv"
-        self.MARKET_CAPITALIZATION = "stablecoin/market-data/capitalization"
+        self.SC_MARKET_OHLCV = "stablecoin/market-data/price-ohlcv"
+        self.SC_MARKET_CAPITALIZATION = "stablecoin/market-data/capitalization"
         # Network Data
-        self.NETWORK_SUPPLY = "stablecoin/network-data/supply"
-        self.NETWORK_EVENTS_COUNT = "stablecoin/network-data/events-count"
-        self.NETWORK_TOKENS_TRANSFERRED = "stablecoin/network-data/tokens-transferred"
-        self.NETWORK_ADDRESSES_COUNT = "stablecoin/network-data/addresses-count"
+        self.SC_NETWORK_SUPPLY = "stablecoin/network-data/supply"
+        self.SC_NETWORK_EVENTS_COUNT = "stablecoin/network-data/events-count"
+        self.SC_NETWORK_TOKENS_TRANSFERRED = "stablecoin/network-data/tokens-transferred"
+        self.SC_NETWORK_ADDRESSES_COUNT = "stablecoin/network-data/addresses-count"
         
     # -----------------------------
     # Entity List
@@ -59,7 +59,7 @@ class StableCoins(RequestHandler):
             Entity list on a given type.
 
         """
-        return super().handle_request(self.ENTITY_LIST, query_params)
+        return super().handle_request(self.SC_ENTITY_LIST, query_params)
     
     # -----------------------------
     # Exchange Flows
@@ -105,7 +105,7 @@ class StableCoins(RequestHandler):
             The amount of Stablecoin on a given exchange on this window.
 
         """
-        return super().handle_request(self.EXCH_RESERVE, query_params)
+        return super().handle_request(self.SC_EXCH_RESERVE, query_params)
     
     def get_stable_exch_netflow(self, **query_params):
         """
@@ -147,7 +147,7 @@ class StableCoins(RequestHandler):
             Total netflow.
 
         """
-        return super().handle_request(self.EXCH_NETFLOW, query_params)
+        return super().handle_request(self.SC_EXCH_NETFLOW, query_params)
     
     def get_stable_exch_inflow(self, **query_params):
         """
@@ -190,7 +190,7 @@ class StableCoins(RequestHandler):
             Inflwo statistics for stablecoins inflows.
 
         """
-        return super().handle_request(self.EXCH_INFLOW, query_params)
+        return super().handle_request(self.SC_EXCH_INFLOW, query_params)
     
     def get_stable_exch_outflow(self, **query_params):
         """
@@ -233,7 +233,7 @@ class StableCoins(RequestHandler):
             Inflwo statistics for stablecoins outflows.
 
         """
-        return super().handle_request(self.EXCH_OUTFLOW, query_params)
+        return super().handle_request(self.SC_EXCH_OUTFLOW, query_params)
     
     def get_stable_exch_trx_count(self, **query_params):
         """
@@ -274,7 +274,7 @@ class StableCoins(RequestHandler):
             Transaction count inflows and outflows.
 
         """
-        return super().handle_request(self.EXCH_TRANSACTIONS_COUNT, query_params)
+        return super().handle_request(self.SC_EXCH_TRANSACTIONS_COUNT, query_params)
     
     def get_stable_exch_addrs_count(self, **query_params):
         """
@@ -316,7 +316,7 @@ class StableCoins(RequestHandler):
             exchange wallets.
 
         """
-        return super().handle_request(self.EXCH_ADDRESSES_COUNT, query_params)
+        return super().handle_request(self.SC_EXCH_ADDRESSES_COUNT, query_params)
     
     # -----------------------------
     # Flow Indicator
@@ -363,7 +363,7 @@ class StableCoins(RequestHandler):
             supply.
 
         """
-        return super().handle_request(self.FLOW_EXCHANGE_SUPPLY_RATIO, query_params)
+        return super().handle_request(self.SC_FLOW_EXCHANGE_SUPPLY_RATIO, query_params)
     
     # -----------------------------
     # Market Data
@@ -416,7 +416,7 @@ class StableCoins(RequestHandler):
             Price OHLCV data.
 
         """
-        return super().handle_request(self.MARKET_OHLCV, query_params)
+        return super().handle_request(self.SC_MARKET_OHLCV, query_params)
     
     def get_stable_mkt_capitalization(self, **query_params):
         """
@@ -459,7 +459,7 @@ class StableCoins(RequestHandler):
             supply times price close.
 
         """
-        return super().handle_request(self.MARKET_CAPITALIZATION, query_params)
+        return super().handle_request(self.SC_MARKET_CAPITALIZATION, query_params)
     
     # -----------------------------
     # Network Data
@@ -514,7 +514,7 @@ class StableCoins(RequestHandler):
             Supply stablecoins statistics.
 
         """
-        return super().handle_request(self.NETWORK_SUPPLY, query_params)
+        return super().handle_request(self.SC_NETWORK_SUPPLY, query_params)
     
     def get_stable_ntx_events_count(self, **query_params):
         """
@@ -558,7 +558,7 @@ class StableCoins(RequestHandler):
             Transfer, mint, issue, burn and redeem.
 
         """
-        return super().handle_request(self.NETWORK_EVENTS_COUNT, query_params)
+        return super().handle_request(self.SC_NETWORK_EVENTS_COUNT, query_params)
     
     def get_stable_trx_tokens_transferred(self, **query_params):
         """
@@ -600,7 +600,7 @@ class StableCoins(RequestHandler):
             Total tokens transferred and mean.
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED, query_params)
+        return super().handle_request(self.SC_NETWORK_TOKENS_TRANSFERRED, query_params)
     
     def get_stable_trx_addrs_count(self, **query_params):
         """
@@ -645,4 +645,4 @@ class StableCoins(RequestHandler):
             Statistics for counting addresses.
 
         """
-        return super().handle_request(self.NETWORK_ADDRESSES_COUNT, query_params)
+        return super().handle_request(self.SC_NETWORK_ADDRESSES_COUNT, query_params)

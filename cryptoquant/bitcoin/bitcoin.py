@@ -11,104 +11,104 @@ class Bitcoin(RequestHandler):
     def __init__(self, api_key: str):
         
         # URLS for exchanges
-        self.EXCH_ENTITY_URL = "btc/status/entity-list"
-        self.EXCH_RESERVES = "btc/exchange-flows/reserve"
-        self.EXCH_NETFLOW = "btc/exchange-flows/netflow"
-        self.EXCH_INFLOW = "btc/exchange-flows/inflow"
-        self.EXCH_OUTFLOW = "btc/exchange-flows/outflow"
-        self.EXCH_TNX_COUNT = "btc/exchange-flows/transactions-count"
-        self.EXCH_ADDRESSES_COUNT = "btc/exchange-flows/addresses-count"
-        self.EXCH_INHOUSE_FLOW = "btc/exchange-flows/in-house-flow"
+        self.BTC_EXCH_ENTITY_URL = "btc/status/entity-list"
+        self.BTC_EXCH_RESERVES = "btc/exchange-flows/reserve"
+        self.BTC_EXCH_NETFLOW = "btc/exchange-flows/netflow"
+        self.BTC_EXCH_INFLOW = "btc/exchange-flows/inflow"
+        self.BTC_EXCH_OUTFLOW = "btc/exchange-flows/outflow"
+        self.BTC_EXCH_TNX_COUNT = "btc/exchange-flows/transactions-count"
+        self.BTC_EXCH_ADDRESSES_COUNT = "btc/exchange-flows/addresses-count"
+        self.BTC_EXCH_INHOUSE_FLOW = "btc/exchange-flows/in-house-flow"
         # Bitcoin Flow Indicators
-        self.IDX_MPI = "btc/flow-indicator/mpi"
-        self.IDX_EXCHANGE_SHUTDOWN = "btc/flow-indicator/exchange-shutdown-index"
-        self.IDX_EXCHANGE_WHALE_RATIO = "btc/flow-indicator/exchange-whale-ratio"
-        self.IDX_FUND_FLOW_RAIO = "btc/flow-indicator/fund-flow-ratio"
-        self.IDX_STABLECOINS_RATIO = "btc/flow-indicator/stablecoins-ratio"
-        self.IDX_EXCHANGE_INFLOW_AGE_DSTR = "btc/flow-indicator/exchange-inflow-age-distribution"
-        self.IDX_EXCHANGE_INFLOW_SUPPLY_DSTR = "btc/flow-indicator/exchange-inflow-supply-distribution"
-        self.IDX_EXCHANGE_INFLOW_CDD = "btc/flow-indicator/exchange-inflow-cdd"
-        self.IDX_EXCHANGE_SUPPLY_RATIO = "btc/flow-indicator/exchange-supply-ratio"
-        self.IDX_MINER_SUPPLY_RATIO = "btc/flow-indicator/miner-supply-ratio"
+        self.BTC_IDX_MPI = "btc/flow-indicator/mpi"
+        self.BTC_IDX_EXCHANGE_SHUTDOWN = "btc/flow-indicator/exchange-shutdown-index"
+        self.BTC_IDX_EXCHANGE_WHALE_RATIO = "btc/flow-indicator/exchange-whale-ratio"
+        self.BTC_IDX_FUND_FLOW_RAIO = "btc/flow-indicator/fund-flow-ratio"
+        self.BTC_IDX_STABLECOINS_RATIO = "btc/flow-indicator/stablecoins-ratio"
+        self.BTC_IDX_EXCHANGE_INFLOW_AGE_DSTR = "btc/flow-indicator/exchange-inflow-age-distribution"
+        self.BTC_IDX_EXCHANGE_INFLOW_SUPPLY_DSTR = "btc/flow-indicator/exchange-inflow-supply-distribution"
+        self.BTC_IDX_EXCHANGE_INFLOW_CDD = "btc/flow-indicator/exchange-inflow-cdd"
+        self.BTC_IDX_EXCHANGE_SUPPLY_RATIO = "btc/flow-indicator/exchange-supply-ratio"
+        self.BTC_IDX_MINER_SUPPLY_RATIO = "btc/flow-indicator/miner-supply-ratio"
         # Bitcoin market indicators
-        self.MKT_ESTIMATED_LEVERAGE_RATIO = "btc/market-indicator/estimated-leverage-ratio"
-        self.MKT_STABLECOIN_SUPPLY_RATIO = "btc/market-indicator/stablecoin-supply-ratio"
-        self.MKT_MVRV = "btc/market-indicator/mvrv"
-        self.MKT_SOPR = "btc/market-indicator/sopr"
-        self.MKT_SOPR_RATIO = "btc/market-indicator/sopr-ratio"
-        self.MKT_REALIZED_PRICE = "btc/market-indicator/realized-price"
-        self.MKT_UTXO_REALIZED_PRICE_AGRE_DIST = "btc/market-indicator/utxo-realized-price-age-distribution"
+        self.BTC_MKT_ESTIMATED_LEVERAGE_RATIO = "btc/market-indicator/estimated-leverage-ratio"
+        self.BTC_MKT_STABLECOIN_SUPPLY_RATIO = "btc/market-indicator/stablecoin-supply-ratio"
+        self.BTC_MKT_MVRV = "btc/market-indicator/mvrv"
+        self.BTC_MKT_SOPR = "btc/market-indicator/sopr"
+        self.BTC_MKT_SOPR_RATIO = "btc/market-indicator/sopr-ratio"
+        self.BTC_MKT_REALIZED_PRICE = "btc/market-indicator/realized-price"
+        self.BTC_MKT_UTXO_REALIZED_PRICE_AGRE_DIST = "btc/market-indicator/utxo-realized-price-age-distribution"
         # Bitcoin network indicators
-        self.NTW_STOCK_TO_FLOW = "btc/network-indicator/stock-to-flow"
-        self.NTW_NVT = "btc/network-indicator/nvt"
-        self.NTW_NVT_GOLDEN_CROSS = "btc/network-indicator/nvt-golden-cross"
-        self.NTW_NVM = "btc/network-indicator/nvm"
-        self.NTW_PUELL_MULTIPLE = "btc/network-indicator/puell-multiple"
-        self.NTW_COIN_DAYS_DESTROYED = "btc/network-indicator/cdd"
-        self.NTW_MEAN_COIN_AGE = "btc/network-indicator/mca"
-        self.NTW_SUM_COIN_AGE = "btc/network-indicator/sca"
-        self.NTW_SUM_COIN_AGE_DISTRIBUTION = "btc/network-indicator/sca-distribution"
-        self.NTW_NET_UNREALIZED_PNL = "btc/network-indicator/nupl"
-        self.NTW_NET_REALIZED_PNL = "btc/network-indicator/nrpl"
-        self.NTW_PROFIT_AND_LOSS_UTXO = "btc/network-indicator/pnl-utxo"
-        self.NTW_PROFIT_AND_LOSS_SUPPLY = "btc/network-indicator/pnl-supply"
-        self.NTW_DORMANCY = "btc/network-indicator/dormancy"
-        self.NTW_UTXO_AGE_DISTRIBUTION = "btc/network-indicator/utxo-age-distribution"
-        self.NTW_UTXO_REALIZED_AGE_DISTR = "btc/network-indicator/utxo-realized-age-distribution"
-        self.NTW_UTXO_COUNT_AGE_DSTR = "btc/network-indicator/utxo-count-age-distribution"
-        self.NTW_SPENT_OUTPUT_AGE_DSTR = "btc/network-indicator/spent-output-age-distribution"
-        self.NTW_UTXO_SUPPLY_DSTR = "btc/network-indicator/utxo-supply-distribution"
-        self.NTW_UTXO_REALIZED_SUPPLY_DSTR = "btc/network-indicator/utxo-realized-supply-distribution"
-        self.NTW_UTXO_COUNT_SUPPLY_DSTR = "btc/network-indicator/utxo-count-supply-distribution"
-        self.NTW_SPENT_OUTPUT_SUPPLY_DSTR = "btc/network-indicator/spent-output-supply-distribution"
+        self.BTC_NTW_STOCK_TO_FLOW = "btc/network-indicator/stock-to-flow"
+        self.BTC_NTW_NVT = "btc/network-indicator/nvt"
+        self.BTC_NTW_NVT_GOLDEN_CROSS = "btc/network-indicator/nvt-golden-cross"
+        self.BTC_NTW_NVM = "btc/network-indicator/nvm"
+        self.BTC_NTW_PUELL_MULTIPLE = "btc/network-indicator/puell-multiple"
+        self.BTC_NTW_COIN_DAYS_DESTROYED = "btc/network-indicator/cdd"
+        self.BTC_NTW_MEAN_COIN_AGE = "btc/network-indicator/mca"
+        self.BTC_NTW_SUM_COIN_AGE = "btc/network-indicator/sca"
+        self.BTC_NTW_SUM_COIN_AGE_DISTRIBUTION = "btc/network-indicator/sca-distribution"
+        self.BTC_NTW_NET_UNREALIZED_PNL = "btc/network-indicator/nupl"
+        self.BTC_NTW_NET_REALIZED_PNL = "btc/network-indicator/nrpl"
+        self.BTC_NTW_PROFIT_AND_LOSS_UTXO = "btc/network-indicator/pnl-utxo"
+        self.BTC_NTW_PROFIT_AND_LOSS_SUPPLY = "btc/network-indicator/pnl-supply"
+        self.BTC_NTW_DORMANCY = "btc/network-indicator/dormancy"
+        self.BTC_NTW_UTXO_AGE_DISTRIBUTION = "btc/network-indicator/utxo-age-distribution"
+        self.BTC_NTW_UTXO_REALIZED_AGE_DISTR = "btc/network-indicator/utxo-realized-age-distribution"
+        self.BTC_NTW_UTXO_COUNT_AGE_DSTR = "btc/network-indicator/utxo-count-age-distribution"
+        self.BTC_NTW_SPENT_OUTPUT_AGE_DSTR = "btc/network-indicator/spent-output-age-distribution"
+        self.BTC_NTW_UTXO_SUPPLY_DSTR = "btc/network-indicator/utxo-supply-distribution"
+        self.BTC_NTW_UTXO_REALIZED_SUPPLY_DSTR = "btc/network-indicator/utxo-realized-supply-distribution"
+        self.BTC_NTW_UTXO_COUNT_SUPPLY_DSTR = "btc/network-indicator/utxo-count-supply-distribution"
+        self.BTC_NTW_SPENT_OUTPUT_SUPPLY_DSTR = "btc/network-indicator/spent-output-supply-distribution"
         # Bitcoin Miner Flows
-        self.MINER_RESERVE = "btc/miner-flows/reserve"
-        self.MINER_NETFLOW = "btc/miner-flows/netflow"
-        self.MINER_INFLOW = "btc/miner-flows/inflow"
-        self.MINER_OUTFLOW = "btc/miner-flows/outflow"
-        self.MINER_TRANSACTIONS_COUNT = "btc/miner-flows/transactions-count"
-        self.MINER_ADDRESSES_COUNT = "btc/miner-flows/addresses-count"
-        self.MINER_IN_HOUSE_FLOW = "btc/miner-flows/in-house-flow"
+        self.BTC_MINER_RESERVE = "btc/miner-flows/reserve"
+        self.BTC_MINER_NETFLOW = "btc/miner-flows/netflow"
+        self.BTC_MINER_INFLOW = "btc/miner-flows/inflow"
+        self.BTC_MINER_OUTFLOW = "btc/miner-flows/outflow"
+        self.BTC_MINER_TRANSACTIONS_COUNT = "btc/miner-flows/transactions-count"
+        self.BTC_MINER_ADDRESSES_COUNT = "btc/miner-flows/addresses-count"
+        self.BTC_MINER_IN_HOUSE_FLOW = "btc/miner-flows/in-house-flow"
         # Bitcoin Inter Entity Flows
-        self.INTER_EXCHANGE_TO_EXCHANGE = "btc/inter-entity-flows/exchange-to-exchange"
-        self.INTER_MINER_TO_EXCHANGE = "btc/inter-entity-flows/miner-to-exchange"
-        self.INTER_EXCHANGE_TO_MINER = "btc/inter-entity-flows/exchange-to-miner"
-        self.INTER_MINER_TO_MINER = "btc/inter-entity-flows/miner-to-miner"
+        self.BTC_INTER_EXCHANGE_TO_EXCHANGE = "btc/inter-entity-flows/exchange-to-exchange"
+        self.BTC_INTER_MINER_TO_EXCHANGE = "btc/inter-entity-flows/miner-to-exchange"
+        self.BTC_INTER_EXCHANGE_TO_MINER = "btc/inter-entity-flows/exchange-to-miner"
+        self.BTC_INTER_MINER_TO_MINER = "btc/inter-entity-flows/miner-to-miner"
         # Bitcoin fund data
-        self.FUND_MARKET_PRICE_USD = "btc/fund-data/market-price-usd"
-        self.FUND_MARKET_VOLUME = "btc/fund-data/market-volume"
-        self.FUND_MARKET_PREMIUM = "btc/fund-data/market-premium"
-        self.FUND_DIGITAL_ASSETS_HOLDINGS = "btc/fund-data/digital-asset-holdings"
+        self.BTC_FUND_MARKET_PRICE_USD = "btc/fund-data/market-price-usd"
+        self.BTC_FUND_MARKET_VOLUME = "btc/fund-data/market-volume"
+        self.BTC_FUND_MARKET_PREMIUM = "btc/fund-data/market-premium"
+        self.BTC_FUND_DIGITAL_ASSETS_HOLDINGS = "btc/fund-data/digital-asset-holdings"
         # Bitcoin market data
-        self.LIQUIDITY_PRICE_OHLCV = "btc/market-data/price-ohlcv"
-        self.LIQUIDITY_OPEN_INTEREST = "btc/market-data/open-interest"
-        self.LIQUIDITY_FUNDING_RATES = "btc/market-data/funding-rates"
-        self.LIQUIDITY_TAKER_BUY_SELL_STATS = "btc/market-data/taker-buy-sell-stats"
-        self.LIQUIDITY_LIQUIDATIONS = "btc/market-data/liquidations"
-        self.LIQUIDITY_CAPITALIZATION = "btc/market-data/capitalization"
-        self.LIQUIDITY_COINBASE_PREMIUM_INDEX = "btc/market-data/coinbase-premium-index"
+        self.BTC_LIQUIDITY_PRICE_OHLCV = "btc/market-data/price-ohlcv"
+        self.BTC_LIQUIDITY_OPEN_INTEREST = "btc/market-data/open-interest"
+        self.BTC_LIQUIDITY_FUNDING_RATES = "btc/market-data/funding-rates"
+        self.BTC_LIQUIDITY_TAKER_BUY_SELL_STATS = "btc/market-data/taker-buy-sell-stats"
+        self.BTC_LIQUIDITY_LIQUIDATIONS = "btc/market-data/liquidations"
+        self.BTC_LIQUIDITY_CAPITALIZATION = "btc/market-data/capitalization"
+        self.BTC_LIQUIDITY_COINBASE_PREMIUM_INDEX = "btc/market-data/coinbase-premium-index"
         # Bitcoin miner data
-        self.BITCOIN_MINER_DATA = "btc/miner-data/companies"
+        self.BTC_BITCOIN_MINER_DATA = "btc/miner-data/companies"
         # Bitcoin Network Data
-        self.NETWORK_SUPPLY = "btc/network-data/supply"
-        self.NETWORK_VELOCITY = "btc/network-data/velocity"
-        self.NETWORK_TRANSACTIONS_COUNT = "btc/network-data/transactions-count"
-        self.NETWORK_ADDRESSES_COUNT = "btc/network-data/addresses-count"
-        self.NETWORK_TOKENS_TRANSFERRED = "btc/network-data/tokens-transferred"
-        self.NETWORK_BLOCK_BYTES = "btc/network-data/block-bytes"
-        self.NETWORK_BLOCK_COUNT = "btc/network-data/block-count"
-        self.NETWORK_BLOCK_INTERVAL = "btc/network-data/block-interval"
-        self.NETWORK_UTXO_COUNT = "btc/network-data/utxo-count"
-        self.NETWORK_FEES = "btc/network-data/fees"
-        self.NETWORK_FEES_TRANSACTION = "btc/network-data/fees-transaction"
-        self.NETWORK_BLOCKREWARD = "btc/network-data/blockreward"
-        self.NETWORK_DIFFICULTY = "btc/network-data/difficulty"
-        self.NETWORK_HASHRATE = "btc/network-data/hashrate"
+        self.BTC_NETWORK_SUPPLY = "btc/network-data/supply"
+        self.BTC_NETWORK_VELOCITY = "btc/network-data/velocity"
+        self.BTC_NETWORK_TRANSACTIONS_COUNT = "btc/network-data/transactions-count"
+        self.BTC_NETWORK_ADDRESSES_COUNT = "btc/network-data/addresses-count"
+        self.BTC_NETWORK_TOKENS_TRANSFERRED = "btc/network-data/tokens-transferred"
+        self.BTC_NETWORK_BLOCK_BYTES = "btc/network-data/block-bytes"
+        self.BTC_NETWORK_BLOCK_COUNT = "btc/network-data/block-count"
+        self.BTC_NETWORK_BLOCK_INTERVAL = "btc/network-data/block-interval"
+        self.BTC_NETWORK_UTXO_COUNT = "btc/network-data/utxo-count"
+        self.BTC_NETWORK_FEES = "btc/network-data/fees"
+        self.BTC_NETWORK_FEES_TRANSACTION = "btc/network-data/fees-transaction"
+        self.BTC_NETWORK_BLOCKREWARD = "btc/network-data/blockreward"
+        self.BTC_NETWORK_DIFFICULTY = "btc/network-data/difficulty"
+        self.BTC_NETWORK_HASHRATE = "btc/network-data/hashrate"
         # BTC Mempool Statistics
-        self.MEMPOOL_STATS_BY_RELATIVE_FEE = "btc/mempool/stats-by-relative-fee"
-        self.MEMPOOL_STATS_IN_TOTAL = "btc/mempool/stats-in-total"
+        self.BTC_MEMPOOL_STATS_BY_RELATIVE_FEE = "btc/mempool/stats-by-relative-fee"
+        self.BTC_MEMPOOL_STATS_IN_TOTAL = "btc/mempool/stats-in-total"
         # BTC Lightning Network Statistics
-        self.LIGHTNING_NETWORK = "btc/lightning/stats-in-total"
+        self.BTC_LIGHTNING_NETWORK = "btc/lightning/stats-in-total"
         
         super().__init__(api_key)
     
@@ -144,7 +144,7 @@ class Bitcoin(RequestHandler):
             Entity list on a given type.
 
         """
-        return super().handle_request(self.EXCH_ENTITY_URL, query_params)
+        return super().handle_request(self.BTC_EXCH_ENTITY_URL, query_params)
     
     def get_btc_exch_reserve(self, **query_params):
         """
@@ -184,7 +184,7 @@ class Bitcoin(RequestHandler):
             The amount of BTC on a given exchange on this window.
 
         """
-        return super().handle_request(self.EXCH_RESERVES, query_params)
+        return super().handle_request(self.BTC_EXCH_RESERVES, query_params)
     
     def get_btc_exch_netflow(self, **query_params):
         """
@@ -225,7 +225,7 @@ class Bitcoin(RequestHandler):
             total netfow.
 
         """
-        return super().handle_request(self.EXCH_NETFLOW, query_params)
+        return super().handle_request(self.BTC_EXCH_NETFLOW, query_params)
     
     def get_btc_exch_inflow(self, **query_params):
         """
@@ -266,7 +266,7 @@ class Bitcoin(RequestHandler):
             inflow total, top 10 inflow, mean inflow, and 7 day sma inflow.
 
         """
-        return super().handle_request(self.EXCH_INFLOW, query_params)
+        return super().handle_request(self.BTC_EXCH_INFLOW, query_params)
     
     def get_btc_exch_outflow(self, **query_params):
         """
@@ -307,7 +307,7 @@ class Bitcoin(RequestHandler):
             outflow total, top 10 outflow, mean outflow, and 7 day sma outflow.
 
         """
-        return super().handle_request(self.EXCH_OUTFLOW, query_params)
+        return super().handle_request(self.BTC_EXCH_OUTFLOW, query_params)
     
     def get_btc_exch_txn(self, **query_params):
         """
@@ -348,7 +348,7 @@ class Bitcoin(RequestHandler):
 
         """
         
-        return super().handle_request(self.EXCH_TNX_COUNT, query_params)
+        return super().handle_request(self.BTC_EXCH_TNX_COUNT, query_params)
     
     def get_btc_exch_addrs(self, **query_params):
         """
@@ -388,7 +388,7 @@ class Bitcoin(RequestHandler):
             exchange wallets.
 
         """
-        return super().handle_request(self.EXCH_ADDRESSES_COUNT, query_params)
+        return super().handle_request(self.BTC_EXCH_ADDRESSES_COUNT, query_params)
     
     def get_btc_exch_inhouseflow(self, **query_params):
         """
@@ -430,7 +430,7 @@ class Bitcoin(RequestHandler):
             Total flow, mean flow, count transactions flow
 
         """
-        return super().handle_request(self.EXCH_INHOUSE_FLOW, query_params)
+        return super().handle_request(self.BTC_EXCH_INHOUSE_FLOW, query_params)
     
     # -------------------------------------
     # BTC Flow Indicator
@@ -479,7 +479,7 @@ class Bitcoin(RequestHandler):
             Miners position index
 
         """
-        return super().handle_request(self.IDX_MPI, query_params)
+        return super().handle_request(self.BTC_IDX_MPI, query_params)
     
     def get_btc_idx_exchshutdown(self, **query_params):
         """
@@ -520,7 +520,7 @@ class Bitcoin(RequestHandler):
             Exchange Shutdown Index
 
         """
-        return super().handle_request(self.IDX_EXCHANGE_SHUTDOWN, query_params)
+        return super().handle_request(self.BTC_IDX_EXCHANGE_SHUTDOWN, query_params)
     
     def get_btc_idx_whale(self, **query_params):
         """
@@ -564,7 +564,7 @@ class Bitcoin(RequestHandler):
             amount flowed into exchange.
 
         """
-        return super().handle_request(self.IDX_EXCHANGE_WHALE_RATIO, query_params)
+        return super().handle_request(self.BTC_IDX_EXCHANGE_WHALE_RATIO, query_params)
     
     def get_btc_idx_fundflow(self, **query_params):
         """
@@ -607,7 +607,7 @@ class Bitcoin(RequestHandler):
             BTC transferred on the Bitcoin network.
 
         """
-        return super().handle_request(self.IDX_FUND_FLOW_RAIO, query_params)
+        return super().handle_request(self.BTC_IDX_FUND_FLOW_RAIO, query_params)
     
     def get_btc_idx_stableratio(self, **query_params):
         """
@@ -650,7 +650,7 @@ class Bitcoin(RequestHandler):
             exchange.
 
         """
-        return super().handle_request(self.IDX_STABLECOINS_RATIO, query_params)
+        return super().handle_request(self.BTC_IDX_STABLECOINS_RATIO, query_params)
     
     def get_btc_idx_agedistr(self, **query_params):
         """
@@ -692,7 +692,7 @@ class Bitcoin(RequestHandler):
             Exchange inflow age distribution.
 
         """
-        return super().handle_request(self.IDX_EXCHANGE_INFLOW_AGE_DSTR, query_params)
+        return super().handle_request(self.BTC_IDX_EXCHANGE_INFLOW_AGE_DSTR, query_params)
     
     def get_btc_idx_supplydstr(self, **query_params):
         """
@@ -735,7 +735,7 @@ class Bitcoin(RequestHandler):
             Exchange inflow supply distribution.
 
         """
-        return super().handle_request(self.IDX_EXCHANGE_INFLOW_SUPPLY_DSTR, query_params)
+        return super().handle_request(self.BTC_IDX_EXCHANGE_INFLOW_SUPPLY_DSTR, query_params)
     
     def get_btc_idx_cdd(self, **query_params):
         """
@@ -776,7 +776,7 @@ class Bitcoin(RequestHandler):
             Exchange inflow cdd.
 
         """
-        return super().handle_request(self.IDX_EXCHANGE_INFLOW_CDD, query_params)
+        return super().handle_request(self.BTC_IDX_EXCHANGE_INFLOW_CDD, query_params)
     
     def get_btc_idx_exchsupplyratio(self, **query_params):
         """
@@ -817,7 +817,7 @@ class Bitcoin(RequestHandler):
             Ratio of reserved token in the exchange relative to total supply.
 
         """
-        return super().handle_request(self.IDX_EXCHANGE_SUPPLY_RATIO, query_params)
+        return super().handle_request(self.BTC_IDX_EXCHANGE_SUPPLY_RATIO, query_params)
     
     def get_btc_idx_minersupplyratio(self, **query_params):
         """
@@ -858,7 +858,7 @@ class Bitcoin(RequestHandler):
             Ratio of reserved token in the miner relative to total supply.
 
         """
-        return super().handle_request(self.IDX_MINER_SUPPLY_RATIO, query_params)
+        return super().handle_request(self.BTC_IDX_MINER_SUPPLY_RATIO, query_params)
     
     # -------------------------------------
     # BTC Market Indicator
@@ -912,7 +912,7 @@ class Bitcoin(RequestHandler):
             The amount of open interest of exchange divided by their BTC reserve
 
         """
-        return super().handle_request(self.MKT_ESTIMATED_LEVERAGE_RATIO, query_params)
+        return super().handle_request(self.BTC_MKT_ESTIMATED_LEVERAGE_RATIO, query_params)
     
     def get_btc_mkt_ssr(self, **query_params):
         """
@@ -954,7 +954,7 @@ class Bitcoin(RequestHandler):
             Stablecoin supply ratio.
 
         """
-        return super().handle_request(self.MKT_STABLECOIN_SUPPLY_RATIO, query_params)
+        return super().handle_request(self.BTC_MKT_STABLECOIN_SUPPLY_RATIO, query_params)
     
     def get_btc_mkt_mvrv(self, **query_params):
         """
@@ -996,7 +996,7 @@ class Bitcoin(RequestHandler):
             Market-Value-to-Realized-Value
 
         """
-        return super().handle_request(self.MKT_MVRV, query_params)
+        return super().handle_request(self.BTC_MKT_MVRV, query_params)
     
     def get_btc_mkt_sopr(self, **query_params):
         """
@@ -1040,7 +1040,7 @@ class Bitcoin(RequestHandler):
             Spent Output Profit Ratio
 
         """
-        return super().handle_request(self.MKT_SOPR, query_params)
+        return super().handle_request(self.BTC_MKT_SOPR, query_params)
     
     def get_btc_mkt_soprratio(self, **query_params):
         """
@@ -1080,7 +1080,7 @@ class Bitcoin(RequestHandler):
             Long term holders SOPR divided by short term holders SOPR
 
         """
-        return super().handle_request(self.MKT_SOPR_RATIO, query_params)
+        return super().handle_request(self.BTC_MKT_SOPR_RATIO, query_params)
     
     def get_btc_mkt_realizedprice(self, **query_params):
         """
@@ -1121,7 +1121,7 @@ class Bitcoin(RequestHandler):
             Realized cap divided by total supply.
 
         """
-        return super().handle_request(self.MKT_REALIZED_PRICE, query_params)
+        return super().handle_request(self.BTC_MKT_REALIZED_PRICE, query_params)
     
     def get_btc_mkt_utxo(self, **query_params):
         """
@@ -1161,7 +1161,7 @@ class Bitcoin(RequestHandler):
             UTxO Realized Price Age Distribution.
 
         """
-        return super().handle_request(self.MKT_UTXO_REALIZED_PRICE_AGRE_DIST, query_params)
+        return super().handle_request(self.BTC_MKT_UTXO_REALIZED_PRICE_AGRE_DIST, query_params)
     
     # -------------------------------------
     # BTC Network Indicator
@@ -1208,7 +1208,7 @@ class Bitcoin(RequestHandler):
             Stock to flow and stock to flow reversion.
 
         """
-        return super().handle_request(self.NTW_STOCK_TO_FLOW, query_params)
+        return super().handle_request(self.BTC_NTW_STOCK_TO_FLOW, query_params)
     
     def get_btc_ntw_nvt(self, **query_params):
         """
@@ -1250,7 +1250,7 @@ class Bitcoin(RequestHandler):
             Network Value to Transaction ratio.
 
         """
-        return super().handle_request(self.NTW_NVT, query_params)
+        return super().handle_request(self.BTC_NTW_NVT, query_params)
     
     def get_btc_ntw_nvtgoldencross(self, **query_params):
         """
@@ -1291,7 +1291,7 @@ class Bitcoin(RequestHandler):
             NVT golden cross.
 
         """
-        return super().handle_request(self.NTW_NVT_GOLDEN_CROSS, query_params)
+        return super().handle_request(self.BTC_NTW_NVT_GOLDEN_CROSS, query_params)
     
     def get_btc_ntw_nvm(self, **query_params):
         """
@@ -1335,7 +1335,7 @@ class Bitcoin(RequestHandler):
             Network Value to Metcalfe Ratio.
 
         """
-        return super().handle_request(self.NTW_NVM, query_params)
+        return super().handle_request(self.BTC_NTW_NVM, query_params)
     
     def get_btc_ntw_puell(self, **query_params):
         """
@@ -1377,7 +1377,7 @@ class Bitcoin(RequestHandler):
             Puell Multiple.
 
         """
-        return super().handle_request(self.NTW_PUELL_MULTIPLE, query_params)
+        return super().handle_request(self.BTC_NTW_PUELL_MULTIPLE, query_params)
     
     def get_btc_ntw_cdd(self, **query_params):
         """
@@ -1425,7 +1425,7 @@ class Bitcoin(RequestHandler):
             cdd.
 
         """
-        return super().handle_request(self.NTW_COIN_DAYS_DESTROYED, query_params)
+        return super().handle_request(self.BTC_NTW_COIN_DAYS_DESTROYED, query_params)
     
     def get_btc_ntw_mca(self, **query_params):
         """
@@ -1467,7 +1467,7 @@ class Bitcoin(RequestHandler):
             mca.
 
         """
-        return super().handle_request(self.NTW_MEAN_COIN_AGE, query_params)
+        return super().handle_request(self.BTC_NTW_MEAN_COIN_AGE, query_params)
     
     def get_btc_ntw_sca(self, **query_params):
         """
@@ -1509,7 +1509,7 @@ class Bitcoin(RequestHandler):
             Sum Coin age.
 
         """
-        return super().handle_request(self.NTW_SUM_COIN_AGE, query_params)
+        return super().handle_request(self.BTC_NTW_SUM_COIN_AGE, query_params)
     
     def get_btc_ntw_scad(self, **query_params):
         """
@@ -1554,7 +1554,7 @@ class Bitcoin(RequestHandler):
             Sum Coin Age Distribution.
 
         """
-        return super().handle_request(self.NTW_SUM_COIN_AGE_DISTRIBUTION, query_params)
+        return super().handle_request(self.BTC_NTW_SUM_COIN_AGE_DISTRIBUTION, query_params)
     
     def get_btc_ntw_nupl(self, **query_params):
         """
@@ -1601,7 +1601,7 @@ class Bitcoin(RequestHandler):
             Net unrealized profit and loss.
 
         """
-        return super().handle_request(self.NTW_NET_UNREALIZED_PNL, query_params)
+        return super().handle_request(self.BTC_NTW_NET_UNREALIZED_PNL, query_params)
     
     def get_btc_ntw_nrpl(self, **query_params):
         """
@@ -1641,7 +1641,7 @@ class Bitcoin(RequestHandler):
             Net realized profit and loss.
 
         """
-        return super().handle_request(self.NTW_NET_REALIZED_PNL, query_params)
+        return super().handle_request(self.BTC_NTW_NET_REALIZED_PNL, query_params)
     
     def get_btc_ntw_pnlutxo(self, **query_params):
         """
@@ -1682,7 +1682,7 @@ class Bitcoin(RequestHandler):
             Profit and Loss UTxO.
 
         """
-        return super().handle_request(self.NTW_PROFIT_AND_LOSS_UTXO, query_params)
+        return super().handle_request(self.BTC_NTW_PROFIT_AND_LOSS_UTXO, query_params)
     
     def get_btc_ntw_pnlsupply(self, **query_params):
         """
@@ -1726,7 +1726,7 @@ class Bitcoin(RequestHandler):
             Profit and Loss (Supply).
 
         """
-        return super().handle_request(self.NTW_PROFIT_AND_LOSS_SUPPLY, query_params)
+        return super().handle_request(self.BTC_NTW_PROFIT_AND_LOSS_SUPPLY, query_params)
     
     def get_btc_ntw_dormancy(self, **query_params):
         """
@@ -1767,7 +1767,7 @@ class Bitcoin(RequestHandler):
             Te average number of days destroyed per coin transacted.
 
         """
-        return super().handle_request(self.NTW_DORMANCY, query_params)
+        return super().handle_request(self.BTC_NTW_DORMANCY, query_params)
     
     def get_btc_ntw_utxo_age_distr(self, **query_params):
         """
@@ -1808,7 +1808,7 @@ class Bitcoin(RequestHandler):
             UTxO Age Distribution.
 
         """
-        return super().handle_request(self.NTW_UTXO_AGE_DISTRIBUTION, query_params)
+        return super().handle_request(self.BTC_NTW_UTXO_AGE_DISTRIBUTION, query_params)
     
     def get_btc_ntw_utxo_realized_age_dstr(self, **query_params):
         """
@@ -1850,7 +1850,7 @@ class Bitcoin(RequestHandler):
             UTxO Realized Age Distribution.
 
         """
-        return super().handle_request(self.NTW_UTXO_REALIZED_AGE_DISTR, query_params)
+        return super().handle_request(self.BTC_NTW_UTXO_REALIZED_AGE_DISTR, query_params)
     
     def get_btc_ntw_utxo_count_age_dstr(self, **query_params):
         """
@@ -1891,7 +1891,7 @@ class Bitcoin(RequestHandler):
             UTxO Count Age Distribution.
 
         """
-        return super().handle_request(self.NTW_UTXO_COUNT_AGE_DSTR, query_params)
+        return super().handle_request(self.BTC_NTW_UTXO_COUNT_AGE_DSTR, query_params)
     
     def get_btc_ntw_spent_output_age_dstr(self, **query_params):
         """
@@ -1932,7 +1932,7 @@ class Bitcoin(RequestHandler):
             Spent Output Age Distribution.
 
         """
-        return super().handle_request(self.NTW_SPENT_OUTPUT_AGE_DSTR, query_params)
+        return super().handle_request(self.BTC_NTW_SPENT_OUTPUT_AGE_DSTR, query_params)
     
     def get_btc_ntw_utxo_supply_dstr(self, **query_params):
         """
@@ -1974,7 +1974,7 @@ class Bitcoin(RequestHandler):
             UTxO Supply Distribution.
 
         """
-        return super().handle_request(self.NTW_UTXO_SUPPLY_DSTR, query_params)
+        return super().handle_request(self.BTC_NTW_UTXO_SUPPLY_DSTR, query_params)
     
     def get_btc_ntw_utxo_realized_supply_dstr(self, **query_params):
         """
@@ -2016,7 +2016,7 @@ class Bitcoin(RequestHandler):
             UTxO Realized Supply Distribution.
 
         """
-        return super().handle_request(self.NTW_UTXO_REALIZED_SUPPLY_DSTR, query_params)
+        return super().handle_request(self.BTC_NTW_UTXO_REALIZED_SUPPLY_DSTR, query_params)
     
     def get_btc_ntw_utxo_count_supply_dstr(self, **query_params):
         """
@@ -2057,7 +2057,7 @@ class Bitcoin(RequestHandler):
             UTxO Count Supply Distribution.
 
         """
-        return super().handle_request(self.NTW_UTXO_COUNT_SUPPLY_DSTR, query_params)
+        return super().handle_request(self.BTC_NTW_UTXO_COUNT_SUPPLY_DSTR, query_params)
     
     def get_btc_ntw_spent_output_supply_dstr(self, **query_params):
         """
@@ -2098,7 +2098,7 @@ class Bitcoin(RequestHandler):
             Spent Output Supply Distribution.
 
         """
-        return super().handle_request(self.NTW_SPENT_OUTPUT_SUPPLY_DSTR, query_params)
+        return super().handle_request(self.BTC_NTW_SPENT_OUTPUT_SUPPLY_DSTR, query_params)
     
     # -------------------------------------
     # BTC Miner Flows
@@ -2142,7 +2142,7 @@ class Bitcoin(RequestHandler):
             The amount of BTC on the given miner on this window.
 
         """
-        return super().handle_request(self.MINER_RESERVE, query_params)
+        return super().handle_request(self.BTC_MINER_RESERVE, query_params)
     
     def get_btc_miner_netflow(self, **query_params):
         """
@@ -2183,7 +2183,7 @@ class Bitcoin(RequestHandler):
             Total netflow.
 
         """
-        return super().handle_request(self.MINER_NETFLOW, query_params)
+        return super().handle_request(self.BTC_MINER_NETFLOW, query_params)
     
     def get_btc_miner_inflow(self, **query_params):
         """
@@ -2224,7 +2224,7 @@ class Bitcoin(RequestHandler):
             Miner inflows.
 
         """
-        return super().handle_request(self.MINER_INFLOW, query_params)
+        return super().handle_request(self.BTC_MINER_INFLOW, query_params)
     
     def get_btc_miner_outflow(self, **query_params):
         """
@@ -2266,7 +2266,7 @@ class Bitcoin(RequestHandler):
             Miner outflows.
 
         """
-        return super().handle_request(self.MINER_OUTFLOW, query_params)
+        return super().handle_request(self.BTC_MINER_OUTFLOW, query_params)
     
     def get_btc_miner_txn_count(self, **query_params):
         """
@@ -2305,7 +2305,7 @@ class Bitcoin(RequestHandler):
             Miner transactions, in and out.
 
         """
-        return super().handle_request(self.MINER_TRANSACTIONS_COUNT, query_params)
+        return super().handle_request(self.BTC_MINER_TRANSACTIONS_COUNT, query_params)
     
     def get_btc_miner_addr_count(self, **query_params):
         """
@@ -2344,7 +2344,7 @@ class Bitcoin(RequestHandler):
             Miner addresses count, in and out.
 
         """
-        return super().handle_request(self.MINER_ADDRESSES_COUNT, query_params)
+        return super().handle_request(self.BTC_MINER_ADDRESSES_COUNT, query_params)
     
     def get_btc_miner_inhouse_flow(self, **query_params):
         """
@@ -2386,7 +2386,7 @@ class Bitcoin(RequestHandler):
             Miner in house inflows.
 
         """
-        return super().handle_request(self.MINER_IN_HOUSE_FLOW, query_params)
+        return super().handle_request(self.BTC_MINER_IN_HOUSE_FLOW, query_params)
     
     # -------------------------------------
     # BTC Inter Entity Flows
@@ -2434,7 +2434,7 @@ class Bitcoin(RequestHandler):
             from and to exchange flow.
 
         """
-        return super().handle_request(self.INTER_EXCHANGE_TO_EXCHANGE, query_params)
+        return super().handle_request(self.BTC_INTER_EXCHANGE_TO_EXCHANGE, query_params)
     
     def get_btc_inter_miner_2_exch(self, **query_params):
         """
@@ -2479,7 +2479,7 @@ class Bitcoin(RequestHandler):
             from miner to exchange flow.
 
         """
-        return super().handle_request(self.INTER_MINER_TO_EXCHANGE, query_params)
+        return super().handle_request(self.BTC_INTER_MINER_TO_EXCHANGE, query_params)
     
     def get_btc_inter_exch_2_miner(self, **query_params):
         """
@@ -2523,7 +2523,7 @@ class Bitcoin(RequestHandler):
             exchange to miner flow.
 
         """
-        return super().handle_request(self.INTER_EXCHANGE_TO_MINER, query_params)
+        return super().handle_request(self.BTC_INTER_EXCHANGE_TO_MINER, query_params)
     
     def get_btc_inter_miner_2_miner(self, **query_params):
         """
@@ -2567,7 +2567,7 @@ class Bitcoin(RequestHandler):
             miner to miner flows of Bitcoin.
 
         """
-        return super().handle_request(self.INTER_MINER_TO_MINER, query_params)
+        return super().handle_request(self.BTC_INTER_MINER_TO_MINER, query_params)
     
     # -------------------------------------
     # BTC Fund Data
@@ -2622,7 +2622,7 @@ class Bitcoin(RequestHandler):
             Market price OHLC and adjusted C data in usd.
 
         """
-        return super().handle_request(self.FUND_MARKET_PRICE_USD, query_params)
+        return super().handle_request(self.BTC_FUND_MARKET_PRICE_USD, query_params)
     
     def get_btc_fund_mkt_volume(self, **query_params):
         """
@@ -2667,7 +2667,7 @@ class Bitcoin(RequestHandler):
             market volume for selected bitcoin fund.
 
         """
-        return super().handle_request(self.FUND_MARKET_VOLUME, query_params)
+        return super().handle_request(self.BTC_FUND_MARKET_VOLUME, query_params)
     
     def get_btc_fund_mkt_premium(self, **query_params):
         """
@@ -2715,7 +2715,7 @@ class Bitcoin(RequestHandler):
             Fund market premium or discount.
 
         """
-        return super().handle_request(self.FUND_MARKET_PREMIUM, query_params)
+        return super().handle_request(self.BTC_FUND_MARKET_PREMIUM, query_params)
     
     def get_btc_fund_digital_assets_holdings(self, **query_params):
         """
@@ -2758,7 +2758,7 @@ class Bitcoin(RequestHandler):
             Digital assets holdings for the fund.
 
         """
-        return super().handle_request(self.FUND_DIGITAL_ASSETS_HOLDINGS, query_params)
+        return super().handle_request(self.BTC_FUND_DIGITAL_ASSETS_HOLDINGS, query_params)
     
     # -------------------------------------
     # BTC market/liquidity data
@@ -2820,7 +2820,7 @@ class Bitcoin(RequestHandler):
             price ohlcv data.
 
         """
-        return super().handle_request(self.LIQUIDITY_PRICE_OHLCV, query_params)
+        return super().handle_request(self.BTC_LIQUIDITY_PRICE_OHLCV, query_params)
     
     def get_btc_liq_open_interest(self, **query_params):
         """
@@ -2864,7 +2864,7 @@ class Bitcoin(RequestHandler):
             DESCRIPTION.
 
         """
-        return super().handle_request(self.LIQUIDITY_OPEN_INTEREST, query_params)
+        return super().handle_request(self.BTC_LIQUIDITY_OPEN_INTEREST, query_params)
     
     def get_btc_liq_funding_rates(self, **query_params):
         """
@@ -2909,7 +2909,7 @@ class Bitcoin(RequestHandler):
             DESCRIPTION.
 
         """
-        return super().handle_request(self.LIQUIDITY_FUNDING_RATES, query_params)
+        return super().handle_request(self.BTC_LIQUIDITY_FUNDING_RATES, query_params)
     
     def get_btc_liq_taker_stats(self, **query_params):
         """
@@ -2960,7 +2960,7 @@ class Bitcoin(RequestHandler):
             Taker buy and sell volume ratio.
 
         """
-        return super().handle_request(self.LIQUIDITY_TAKER_BUY_SELL_STATS, query_params)
+        return super().handle_request(self.BTC_LIQUIDITY_TAKER_BUY_SELL_STATS, query_params)
     
     def get_btc_liq_liquidations(self, **query_params):
         """
@@ -3006,7 +3006,7 @@ class Bitcoin(RequestHandler):
             Amount of long/short liquidations orders.
 
         """
-        return super().handle_request(self.LIQUIDITY_LIQUIDATIONS, query_params)
+        return super().handle_request(self.BTC_LIQUIDITY_LIQUIDATIONS, query_params)
     
     def get_btc_liq_capitalization(self, **query_params):
         """
@@ -3067,7 +3067,7 @@ class Bitcoin(RequestHandler):
             market cap, realized cap, average cap, delta cap, and thermo cap.
 
         """
-        return super().handle_request(self.LIQUIDITY_CAPITALIZATION, query_params)
+        return super().handle_request(self.BTC_LIQUIDITY_CAPITALIZATION, query_params)
     
     def get_btc_liq_coinbase_idx(self, **query_params):
         """
@@ -3109,7 +3109,7 @@ class Bitcoin(RequestHandler):
             Coinbase premium index in percentage and coinbase premium gap.
 
         """
-        return super().handle_request(self.LIQUIDITY_COINBASE_PREMIUM_INDEX, query_params)
+        return super().handle_request(self.BTC_LIQUIDITY_COINBASE_PREMIUM_INDEX, query_params)
     
     # -------------------------------------
     # BTC Miner data
@@ -3174,7 +3174,7 @@ class Bitcoin(RequestHandler):
             DESCRIPTION.
 
         """
-        return super().handle_request(self.BITCOIN_MINER_DATA, query_params)
+        return super().handle_request(self.BTC_BITCOIN_MINER_DATA, query_params)
     
     # -------------------------------------
     # BTC Network Data
@@ -3220,7 +3220,7 @@ class Bitcoin(RequestHandler):
             supply total and new.
 
         """
-        return super().handle_request(self.NETWORK_SUPPLY, query_params)
+        return super().handle_request(self.BTC_NETWORK_SUPPLY, query_params)
     
     def get_btc_net_velocity(self, **query_params):
         """
@@ -3263,7 +3263,7 @@ class Bitcoin(RequestHandler):
             current total supply.
 
         """
-        return super().handle_request(self.NETWORK_VELOCITY, query_params)
+        return super().handle_request(self.BTC_NETWORK_VELOCITY, query_params)
     
     def get_btc_net_trx_count(self, **query_params):
         """
@@ -3304,7 +3304,7 @@ class Bitcoin(RequestHandler):
             total transactions and mean.
 
         """
-        return super().handle_request(self.NETWORK_TRANSACTIONS_COUNT, query_params)
+        return super().handle_request(self.BTC_NETWORK_TRANSACTIONS_COUNT, query_params)
     
     def get_btc_net_addr_count(self, **query_params):
         """
@@ -3347,7 +3347,7 @@ class Bitcoin(RequestHandler):
             Count of active, sender and receiver.
 
         """
-        return super().handle_request(self.NETWORK_ADDRESSES_COUNT, query_params)
+        return super().handle_request(self.BTC_NETWORK_ADDRESSES_COUNT, query_params)
     
     def get_btc_net_tokens_transferred(self, **query_params):
         """
@@ -3390,7 +3390,7 @@ class Bitcoin(RequestHandler):
             transferred, mean trensfered and median transferred tokens.
 
         """
-        return super().handle_request(self.NETWORK_TOKENS_TRANSFERRED, query_params)
+        return super().handle_request(self.BTC_NETWORK_TOKENS_TRANSFERRED, query_params)
     
     def get_btc_net_block_bytes(self, **query_params):
         """
@@ -3428,7 +3428,7 @@ class Bitcoin(RequestHandler):
             The mean size (in bytes) of all blocks generated.
 
         """
-        return super().handle_request(self.NETWORK_BLOCK_BYTES, query_params)
+        return super().handle_request(self.BTC_NETWORK_BLOCK_BYTES, query_params)
     
     def get_btc_net_block_count(self, **query_params):
         """
@@ -3466,7 +3466,7 @@ class Bitcoin(RequestHandler):
             The number of blocks generated in a given window.
 
         """
-        return super().handle_request(self.NETWORK_BLOCK_COUNT, query_params)
+        return super().handle_request(self.BTC_NETWORK_BLOCK_COUNT, query_params)
     
     def get_btc_net_block_interval(self, **query_params):
         """
@@ -3504,7 +3504,7 @@ class Bitcoin(RequestHandler):
             The average time between blocks generated in seconds.
 
         """
-        return super().handle_request(self.NETWORK_BLOCK_INTERVAL, query_params)
+        return super().handle_request(self.BTC_NETWORK_BLOCK_INTERVAL, query_params)
     
     def get_btc_net_utxo_count(self, **query_params):
         """
@@ -3544,7 +3544,7 @@ class Bitcoin(RequestHandler):
             period.
 
         """
-        return super().handle_request(self.NETWORK_UTXO_COUNT, query_params)
+        return super().handle_request(self.BTC_NETWORK_UTXO_COUNT, query_params)
     
     def get_btc_net_fees(self, **query_params):
         """
@@ -3588,7 +3588,7 @@ class Bitcoin(RequestHandler):
             Fees in the bitcoin network.
 
         """
-        return super().handle_request(self.NETWORK_FEES, query_params)
+        return super().handle_request(self.BTC_NETWORK_FEES, query_params)
     
     def get_btc_net_fees_trx(self, **query_params):
         """
@@ -3634,7 +3634,7 @@ class Bitcoin(RequestHandler):
             miners.
 
         """
-        return super().handle_request(self.NETWORK_FEES_TRANSACTION, query_params)
+        return super().handle_request(self.BTC_NETWORK_FEES_TRANSACTION, query_params)
     
     def get_btc_net_blockreward(self, **query_params):
         """
@@ -3674,7 +3674,7 @@ class Bitcoin(RequestHandler):
             transaction fees). CQ al provides this value in usd.
 
         """
-        return super().handle_request(self.NETWORK_BLOCKREWARD, query_params)
+        return super().handle_request(self.BTC_NETWORK_BLOCKREWARD, query_params)
     
     def get_btc_net_difficulty(self, **query_params):
         """
@@ -3712,7 +3712,7 @@ class Bitcoin(RequestHandler):
             DESCRIPTION.
 
         """
-        return super().handle_request(self.NETWORK_DIFFICULTY, query_params)
+        return super().handle_request(self.BTC_NETWORK_DIFFICULTY, query_params)
     
     def get_btc_net_hashrate(self, **query_params):
         """
@@ -3752,7 +3752,7 @@ class Bitcoin(RequestHandler):
             miners in the network. It is displayed as hash(bytes) per second.
 
         """
-        return super().handle_request(self.NETWORK_HASHRATE, query_params)
+        return super().handle_request(self.BTC_NETWORK_HASHRATE, query_params)
     
     # -------------------------------------
     # BTC Mempool Statistics
@@ -3806,7 +3806,7 @@ class Bitcoin(RequestHandler):
             Bitcoin mempool stats by relative fee.
 
         """
-        return super().handle_request(self.MEMPOOL_STATS_BY_RELATIVE_FEE, query_params)
+        return super().handle_request(self.BTC_MEMPOOL_STATS_BY_RELATIVE_FEE, query_params)
     
     def get_btc_mem_stats_in_total(self, **query_params):
         """
@@ -3856,7 +3856,7 @@ class Bitcoin(RequestHandler):
             Bitcoin mempool stats (sum).
 
         """
-        return super().handle_request(self.MEMPOOL_STATS_IN_TOTAL, query_params)
+        return super().handle_request(self.BTC_MEMPOOL_STATS_IN_TOTAL, query_params)
     
     # -------------------------------------
     # BTC Lightning Network Statistics
@@ -3899,4 +3899,4 @@ class Bitcoin(RequestHandler):
             BTC Lightning network stats.
 
         """
-        return super().handle_request(self.LIGHTNING_NETWORK, query_params)
+        return super().handle_request(self.BTC_LIGHTNING_NETWORK, query_params)
