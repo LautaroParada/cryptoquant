@@ -68,6 +68,7 @@
     5. [TRX](#trx-arrow_up)
         - [TRX Market data](#trx-market-data-arrow_up)
         - [TRX Network Data](#trx-network-data-arrow_up)
+        - [TRX DEFI](#trx-defi-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -3159,7 +3160,38 @@ resp = client.get_trx_ntx_total_value_staked()
 resp = client.get_trx_ntx_enery_stake()
 ```
 
+#### TRX DEFI [:arrow_up:](#cryptoquant-sdk)
+Returns metrics related to SunPump token creation on TRON.
 
+- **SunPump Token Creation**: Returns metrics related to token creation events on the SunPump platform within the TRON network. This dataset provides insights into the growth and activity of newly created tokens in the DeFi ecosystem.  
+
+    **Metrics**  
+    - `token_create_event_count`: The total number of tokens created on the SunPump platform.  
+    - `cumulative_count_create_events`: The cumulative number of token creation events on SunPump over time.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_trx_defi_sunpump_tokens()
+```
+
+- **SunSwap Activity**: Returns metrics related to trading activity on the SunSwap decentralized exchange within the TRON network. This dataset captures transaction volume, dominance, and token-specific activity, providing a view of liquidity and user engagement across the platform.  
+
+    **Metrics**  
+    - `total_transaction_count`: The total number of transactions on SunSwap.  
+    - `wtrx_transaction_count`: The number of transactions involving WTRX within the given window.  
+    - `other_transaction_count`: The number of transactions involving tokens other than WTRX.  
+    - `wtrx_dominance`: The dominance of WTRX in total transaction volume within the given window.  
+    - `wtrx_amount`: The total amount of WTRX traded within the window.  
+    - `wtrx_amount_usd`: The total amount of WTRX traded in USD within the window.  
+
+    - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_trx_defi_sunswap_activity()
+```
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
