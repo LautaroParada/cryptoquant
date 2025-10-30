@@ -75,6 +75,9 @@
         - [Stablecoin Flow Indicator](#stablecoin-flow-indicator-arrow_up)
         - [Stablecoin Market Data](#stablecoin-market-data-arrow_up)
         - [Stablecoin Network Data](#stablecoin-network-data-arrow_up)
+    7. [ERC20](#erc20-arrow_up)
+        - [ERC20 Entity Status](#erc20-entity-status-arrow_up)
+        - [ERC20 Exchange Flows](#erc20-exchange-flows-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -3439,6 +3442,33 @@ resp = client.get_stable_trx_tokens_transferred(token="usdt_eth")
 ```python
 resp = client.get_stable_trx_addrs_count(token="usdt_eth")
 ```
+
+### ERC20 [:arrow_up:](#cryptoquant-sdk)
+
+#### ERC20 Entity Status [:arrow_up:](#cryptoquant-sdk)
+ERC20 API with Status
+
+- **Entity List**: Returns the list of entities available for a specific ERC-20 token. This includes exchanges, custodians, and other related entities. For exchange entities, the `market_type` field indicates whether the exchange operates in the **spot** or **derivatives** market. Entities without a defined market type (e.g., custodians or smart contracts) will return `0`.  
+
+    **Exchange Market Type**  
+    | Value | Description |  
+    | :----: | :----------- |  
+    | `0` | Undefined |  
+    | `1` | Spot Exchange |  
+    | `2` | Derivative Exchange |  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — ERC-20 token symbol supported by CryptoQuant (e.g., `link_eth`, `uni_eth`, `aave_eth`, `shib_eth`).  
+        - ```format_```(str): Optional — Default: `json`. Defines the response format. Supported formats: `json`, `csv`.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_erc20_entity_list(token="link_eth")
+```
+
+#### ERC20 Exchange Flows [:arrow_up:](#cryptoquant-sdk)
+
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
