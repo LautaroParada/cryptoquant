@@ -2313,6 +2313,18 @@ resp = client.get_eth_ntx_hashrate(window="day", limit=180)
 
 ### XRP [:arrow_up:](#cryptoquant-sdk)
 
+| Section Name | Objective | Number of Endpoints |
+| :------------ | :--------- | :----------------: |
+| **Entity List** | Provides a list of available entities (e.g., exchanges) for which XRP data can be retrieved. Serves as the reference entry point for other entity-based metrics. | 1 |
+| **Entity Flows** | Tracks XRP movements between entities, including reserves, inflows, outflows, and address activity. Helps analyze accumulation, distribution, and network liquidity flows. | 7 |
+| **Flow Indicators** | Measures the composition and distribution of inflows/outflows across exchanges, as well as their ratio to total supply. Useful for understanding capital concentration and flow dynamics. | 5 |
+| **Market Data** | Covers XRP market performance metrics, including OHLCV prices, open interest, funding rates, taker activity, liquidations, capitalization, and leverage ratio. | 7 |
+| **Network Data** | Provides on-chain activity and protocol-level metrics such as active addresses, velocity, fees, supply, and transaction volume. Used to assess network health and utilization. | 7 |
+| **Network Indicator** | Contains the NVT Ratio (Network Value to Transaction), a valuation indicator comparing market cap to transaction activity. | 1 |
+| **DEX Data** | Focuses on the XRPL Decentralized Exchange (DEX), including on-chain price, liquidity, trading volume, and transaction count. | 4 |
+| **AMM Data** | Provides analytics for Automated Market Makers (AMMs) on XRPL, including price, liquidity, fees, and swap statistics for validated non-XRP/XRP pairs. | 4 |
+
+
 #### XRP Entity Status [:arrow_up:](#cryptoquant-sdk)
 
 - **Entities**: Returns tentity list to serve data. 
