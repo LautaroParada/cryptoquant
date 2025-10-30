@@ -81,6 +81,8 @@
         - [ERC20 Flow Indicator](#erc20-flow-indicator-arrow_up)
         - [ERC20 Market Data](#erc20-market-data-arrow_up)
         - [ERC20 Network Data](#erc20-network-data-arrow_up)
+    8. [Altcoins](#altcoins-arrow_up)
+        - [Altcoins Market Data](#altcoins-market-data-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -3680,6 +3682,26 @@ resp = client.get_erc20_ntx_tokens_transferred(token="omg")
     - **Usage**  
 ```python
 resp = client.get_erc20_ntx_addrs_count(token="uma")
+```
+
+### Altcoins [:arrow_up:](#cryptoquant-sdk)
+
+| Section Name | Objective | Number of Endpoints |
+| :------------ | :--------- | :----------------: |
+| **Market Data** | Provides aggregated OHLCV (open, high, low, close, volume) price data for supported Altcoins. The Altcoin Index Price is calculated using VWAP (Volume Weighted Average Price) from multiple global exchanges, offering a unified benchmark for market valuation and liquidity monitoring. | 1 |
+
+
+#### Altcoins Market Data [:arrow_up:](#cryptoquant-sdk)
+
+- **Price OHLCV (Index Price)**: Returns Altcoin price metrics including open, high, low, close, and volume (OHLCV). Metrics are calculated by minute, hour, and day intervals. The Alt Token Index Price is derived from the Volume Weighted Average Price (VWAP) of aggregated price data across global exchanges, providing a consistent and transparent benchmark for valuation. The full list of supported Altcoins can be found in the [CryptoQuant Supported Altcoin List](https://cryptoquant.com/docs#tag/Supported-Alt-List).  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — Altcoin symbol supported by CryptoQuant (e.g., `avax`, `atom`, `sol`, `fil`, `near`, `algo`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_alts_mkt_ohlcv(token="avax")
 ```
 
 ---
