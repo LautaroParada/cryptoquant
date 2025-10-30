@@ -69,6 +69,9 @@
         - [TRX Market data](#trx-market-data-arrow_up)
         - [TRX Network Data](#trx-network-data-arrow_up)
         - [TRX DEFI](#trx-defi-arrow_up)
+    6. [StableCoins]
+        - [StableCoin Entity List](#stablecoin-entity-list-arrow_up)
+        - [StableCoin Exchange Flows](#stablecoin-exchange-flows-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -3198,6 +3201,124 @@ resp = client.get_trx_defi_sunpump_tokens()
 ```python
 resp = client.get_trx_defi_sunswap_activity()
 ```
+
+### StableCoins [:arrow_up:](#cryptoquant-sdk)
+
+
+
+#### StableCoin Entity List [:arrow_up:](#cryptoquant-sdk)
+Stablecoin API with Status.
+
+- **Entity List**: Returns the list of entities available for a specific stablecoin. This includes exchanges, custodians, and other related entities.  
+  *Note:* The parameter `all_token` is **not supported** for this endpoint — a specific stablecoin symbol (e.g., `usdt`, `usdc`, `dai`) must be provided.  
+  For exchange entities, the `market_type` field indicates whether the exchange operates in the spot or derivatives market. Entities without a market type (e.g., banks, custodians) will return `0`.  
+
+    **Exchange Market Type**  
+    | Value | Description |  
+    | :----: | :----------- |  
+    | `0` | Undefined |  
+    | `1` | Spot Exchange |  
+    | `2` | Derivative Exchange |  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — Stablecoin symbol supported by CryptoQuant (e.g., `usdt`, `usdc`, `dai`, `tusd`).  
+        - ```format_```(str): Optional — Default: `json`. Defines the response format. Supported formats: `json`, `csv`.  
+        - Authorization via access token is required.  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_stable_entity_list(token="usdt")
+```
+
+#### StableCoin Exchange Flows [:arrow_up:](#cryptoquant-sdk)
+
+Returns the historical amount of stablecoin tokens held in exchange wallets for as far back as available. This metric reflects the balance of reserves across supported exchanges, helping to assess liquidity concentration and potential market pressure.  
+  *Note:* Transfers to exchange wallets may occur some time after the contract creation event. Exchange wallet data is periodically updated every **Tuesday at 00:00 UTC**, which may lead to minor adjustments in recent data points.  
+
+    **Supported Aggregated Exchanges**  
+    | Name | Exchange | Supported Stablecoins |  
+    | :---- | :-------- | :------------------- |  
+    | All Exchanges | `all_exchange` | All Tokens |  
+    | Spot Exchanges | `spot_exchange` | All Tokens |  
+    | Derivative Exchanges | `derivative_exchange` | All Tokens |  
+
+*This endpoint does not support Point-In-Time (PIT) accuracy* due to periodic updates in exchange wallet clustering. Historical data may change as new wallets are discovered, validated, and added.  
+
+
+- **Exchange Reserve**: Returns the full historical on-chain balance of Stablecoin exchanges. 
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — Stablecoin symbol supported by CryptoQuant (e.g., `usdt`, `usdc`, `dai`, `tusd`).  
+        - ```exchange```(str): Optional — Specific or aggregated exchange identifier (see table above).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_stable_exch_reserve(token="usdt_eth", exchange="binance")
+```
+
+- **Exchange Netflow**: Represents the difference between stablecoin inflows and outflows from exchanges. This metric helps identify whether more coins are being deposited (positive netflow) or withdrawn (negative netflow) over a given time frame. A positive netflow often signals an increase in idle coins potentially waiting to be traded, while a negative netflow can indicate accumulation or withdrawal to custody.  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — Stablecoin symbol supported by CryptoQuant (e.g., `usdt`, `usdc`, `dai`, `tusd`).  
+        - ```exchange```(str): Optional — Exchange or aggregated exchange identifier (e.g., `all_exchange`, `spot_exchange`, `derivative_exchange`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_stable_exch_netflow(token="usdt_eth", exchange="binance")
+```
+
+- **Exchange Inflow**: Returns the total inflow of stablecoins into exchange wallets for as far back as available. This metric measures the amount of tokens deposited into exchange wallets, indicating potential selling pressure or increased liquidity supply. The average inflow represents the average transaction value for deposits on a given day.  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — Stablecoin symbol supported by CryptoQuant (e.g., `usdt_eth`, `usdc_eth`, `dai_eth`).  
+        - ```exchange```(str): Required — Exchange supported by CryptoQuant (e.g., `binance`, `kraken`, `okx`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_stable_exch_inflow(token="usdt_eth", exchange="binance")
+```
+
+- **Exchange Outflow**: Returns the total outflow of stablecoins from exchange wallets for as far back as available. This metric measures the amount of tokens withdrawn from exchange wallets, indicating accumulation, self-custody movements, or reduced liquidity on trading platforms. The average outflow represents the average transaction value for withdrawals on a given day.  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — Stablecoin symbol supported by CryptoQuant (e.g., `usdt_eth`, `usdc_eth`, `dai_eth`).  
+        - ```exchange```(str): Required — Exchange supported by CryptoQuant (e.g., `binance`, `kraken`, `okx`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_stable_exch_outflow(token="usdt_eth", exchange="binance")
+```
+
+- **Exchange Transaction Count**: Returns the total number of transactions flowing into and out of stablecoin exchange wallets. This metric measures on-chain transactional activity between exchanges and users, helping identify shifts in market participation, liquidity movements, and trading intensity.  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — Stablecoin symbol supported by CryptoQuant (e.g., `usdt_eth`, `usdc_eth`, `dai_eth`).  
+        - ```exchange```(str): Required — Exchange supported by CryptoQuant (e.g., `binance`, `kraken`, `okx`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_stable_exch_trx_count(token="usdt_eth", exchange="binance")
+```
+
+- **Exchange Addresses Count**: Returns the number of unique addresses involved in inflow and outflow transactions for a given stablecoin on exchanges. This metric reflects the diversity of participants interacting with exchange wallets, helping identify changes in market activity, user engagement, or concentration of flows.  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — Stablecoin symbol supported by CryptoQuant (e.g., `usdt_eth`, `usdc_eth`, `dai_eth`).  
+        - ```exchange```(str): Required — Exchange supported by CryptoQuant (e.g., `binance`, `kraken`, `okx`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_stable_exch_addrs_count(token="usdt_eth", exchange="binance")
+```
+
+
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
