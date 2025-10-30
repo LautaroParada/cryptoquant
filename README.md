@@ -3238,11 +3238,11 @@ Returns the historical amount of stablecoin tokens held in exchange wallets for 
 
 **Supported Aggregated Exchanges**
 
-    | Name | Exchange | Supported Stablecoins |  
-    | :---- | :-------- | :------------------- |  
-    | All Exchanges | `all_exchange` | All Tokens |  
-    | Spot Exchanges | `spot_exchange` | All Tokens |  
-    | Derivative Exchanges | `derivative_exchange` | All Tokens |  
+| Name | Exchange | Supported Stablecoins |  
+| :---- | :-------- | :------------------- |  
+| All Exchanges | `all_exchange` | All Tokens |  
+| Spot Exchanges | `spot_exchange` | All Tokens |  
+| Derivative Exchanges | `derivative_exchange` | All Tokens |  
 
 *This endpoint does not support Point-In-Time (PIT) accuracy* due to periodic updates in exchange wallet clustering. Historical data may change as new wallets are discovered, validated, and added.  
 
