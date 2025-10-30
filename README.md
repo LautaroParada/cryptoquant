@@ -3469,6 +3469,83 @@ resp = client.get_erc20_entity_list(token="link_eth")
 
 #### ERC20 Exchange Flows [:arrow_up:](#cryptoquant-sdk)
 
+- **Exchange Reserve**: Returns the full historical on-chain ERC-20 token balance of exchanges. This metric reflects the amount of tokens held within exchange wallets, providing insight into liquidity availability, accumulation trends, and potential sell-side pressure.  
+  The full list of supported ERC-20 tokens can be found in the [CryptoQuant Supported ERC-20 List](https://cryptoquant.com/docs#tag/Supported-ERC20-List).  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — ERC-20 token symbol supported by CryptoQuant (e.g., `sushi`, `uni`, `aave`, `mkr`, `omg`, `uma`).  
+        - ```exchange```(str): Required — Exchange or aggregated exchange identifier (e.g., `spot_exchange`, `all_exchange`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_erc20_exch_reserve(token="uni", exchange="spot_exchange")
+```
+
+- **Exchange Netflow**: Represents the difference between ERC-20 tokens flowing into and out of exchanges. A positive netflow indicates an increase in idle coins on exchanges (potential selling pressure), while a negative netflow suggests withdrawals to self-custody or accumulation. This metric helps identify liquidity movements and investor sentiment over time.  
+  The full list of supported ERC-20 tokens can be found in the [CryptoQuant Supported ERC-20 List](https://cryptoquant.com/docs#tag/Supported-ERC20-List).  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — ERC-20 token symbol supported by CryptoQuant (e.g., `sushi`, `uni`, `aave`, `mkr`, `omg`, `uma`).  
+        - ```exchange```(str): Required — Exchange or aggregated exchange identifier (e.g., `spot_exchange`, `all_exchange`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_erc20_exch_netflow(token="aave", exchange="all_exchange")
+```
+
+- **Exchange Inflow**: Returns the total inflow of ERC-20 tokens into exchange wallets for as far back as available. This metric measures the amount of tokens deposited into exchange wallets, indicating potential increases in liquidity supply or short-term selling pressure. The average inflow represents the mean transaction value for deposits within a given window.  
+  The full list of supported ERC-20 tokens can be found in the [CryptoQuant Supported ERC-20 List](https://cryptoquant.com/docs#tag/Supported-ERC20-List).  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — ERC-20 token symbol supported by CryptoQuant (e.g., `sushi`, `uni`, `aave`, `mkr`, `omg`, `uma`).  
+        - ```exchange```(str): Required — Exchange or aggregated exchange identifier (e.g., `spot_exchange`, `all_exchange`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_erc20_exch_inflow(token="sushi", exchange="spot_exchange")
+```
+
+- **Exchange Outflow**: Returns the total outflow of ERC-20 tokens from exchange wallets for as far back as available. This metric measures the amount of tokens withdrawn from exchanges, often interpreted as accumulation, reduced liquidity, or movement toward self-custody. The average outflow represents the mean transaction value for withdrawals within a given window.  
+  The full list of supported ERC-20 tokens can be found in the [CryptoQuant Supported ERC-20 List](https://cryptoquant.com/docs#tag/Supported-ERC20-List).  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — ERC-20 token symbol supported by CryptoQuant (e.g., `sushi`, `uni`, `aave`, `mkr`, `omg`, `uma`).  
+        - ```exchange```(str): Required — Exchange or aggregated exchange identifier (e.g., `spot_exchange`, `all_exchange`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_erc20_exch_outflow(token="mkr", exchange="all_exchange")
+```
+
+- **Exchange Transaction Count**: Returns the total number of transactions involving ERC-20 tokens flowing into and out of exchange wallets. This metric reflects transactional activity and user participation on exchanges, helping to identify changes in liquidity dynamics and market engagement.  
+  The full list of supported ERC-20 tokens can be found in the [CryptoQuant Supported ERC-20 List](https://cryptoquant.com/docs#tag/Supported-ERC20-List).  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — ERC-20 token symbol supported by CryptoQuant (e.g., `sushi`, `uni`, `aave`, `mkr`, `omg`, `uma`).  
+        - ```exchange```(str): Required — Exchange or aggregated exchange identifier (e.g., `spot_exchange`, `all_exchange`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_erc20_exch_trx_count(token="omg", exchange="spot_exchange")
+```
+
+- **Exchange Addresses Count**: Returns the number of unique addresses involved in ERC-20 token inflow and outflow transactions. This metric measures the diversity and distribution of on-chain participants interacting with exchange wallets, helping identify whether market activity is concentrated or broadly distributed among users.  
+  The full list of supported ERC-20 tokens can be found in the [CryptoQuant Supported ERC-20 List](https://cryptoquant.com/docs#tag/Supported-ERC20-List).  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — ERC-20 token symbol supported by CryptoQuant (e.g., `sushi`, `uni`, `aave`, `mkr`, `omg`, `uma`).  
+        - ```exchange```(str): Required — Exchange or aggregated exchange identifier (e.g., `spot_exchange`, `all_exchange`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_erc20_exch_addrs_count(token="uma", exchange="all_exchange")
+```
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
