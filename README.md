@@ -79,6 +79,7 @@
         - [ERC20 Entity Status](#erc20-entity-status-arrow_up)
         - [ERC20 Exchange Flows](#erc20-exchange-flows-arrow_up)
         - [ERC20 Flow Indicator](#erc20-flow-indicator-arrow_up)
+        - [ERC20 Market Data](#erc20-market-data-arrow_up)
 6. [Disclaimer](#disclaimer-arrow_up)
 
 ---
@@ -3563,6 +3564,24 @@ Retrieve entity flow based indicators. CQ provide certain indicators to avoid an
 ```python
 resp = client.get_erc20_exch_supply_ratio(token="sushi", exchange="spot_exchange")
 ```
+
+#### ERC20 Market Data [:arrow_up:](#cryptoquant-sdk)
+
+- **Price OHLCV (Index Price)**: Returns ERC-20 token price metrics including open, high, low, close, and volume (OHLCV). Metrics are calculated by minute, hour, and day intervals. The ERC-20 Token Index Price is derived from the Volume Weighted Average Price (VWAP) of aggregated price data across global exchanges, providing a reliable and standardized reference for market valuation.  
+  The full list of supported ERC-20 tokens can be found in the [CryptoQuant Supported ERC-20 List](https://cryptoquant.com/docs#tag/Supported-ERC20-List).  
+  The list of supported ERC-20 exchanges is available in the [CryptoQuant ERC-20 Exchange List](https://www.notion.so/cqlive/Stablecoins-ERC20-Exchange-List-e33b9baeae094fb090983dc1e1183b05).  
+
+    - **Specific Parameters**  
+        - ```token```(str): Required — ERC-20 token symbol supported by CryptoQuant (e.g., `sushi`, `uni`, `aave`, `mkr`, `omg`, `uma`).  
+        - Common parameters apply: `window`, `from_`, `to_`, `limit`, `format_`.  
+
+    - **Usage**  
+```python
+resp = client.get_erc20_mkt_ohlcv(token="aave")
+```
+
+
+
 ---
 
 ## Disclaimer [:arrow_up:](#cryptoquant-sdk)
