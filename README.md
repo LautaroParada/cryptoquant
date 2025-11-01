@@ -3301,7 +3301,7 @@ Stablecoin API with Status.
 
     - **Usage**  
 ```python
-resp = client.get_stable_entity_list(token="usdt")
+resp = client.get_stable_entity_list(token="usdc", type_='exchange')
 ```
 
 #### StableCoin Exchange Flows [:arrow_up:](#cryptoquant-sdk)
