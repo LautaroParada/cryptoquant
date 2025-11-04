@@ -3404,7 +3404,7 @@ Retrieve entity flow based indicators. CQ provide certain indicators to avoid an
 
     - **Usage**  
 ```python
-resp = client.get_stable_flow_exch_supply_ratio(token="usdt_eth")
+resp = client.get_stable_flow_exch_supply_ratio(token="usdc", exchange='all_exchange')
 ```
 
 #### Stablecoin Market Data [:arrow_up:](#cryptoquant-sdk)
