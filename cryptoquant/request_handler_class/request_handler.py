@@ -6,8 +6,11 @@ Created on Tue Oct  7 18:14:29 2025
 """
 
 from __future__ import annotations
-from typing import Dict, Mapping, Optional
+from typing import Any, Dict, Mapping, Optional, Union
 import requests
+
+
+DEFAULT_TIMEOUT: float = 10
 
 
 class RequestHandler:
@@ -20,7 +23,12 @@ class RequestHandler:
 
     """
 
-    def __init__(self, api_key: str):
+    def __init__(
+        self,
+        api_key: str,
+        session: Optional[requests.Session] = None,
+        default_timeout: Optional[float] = None,
+    ) -> None:
         """
         Inicializa el manejador con la clave API de autenticación.
 
@@ -28,11 +36,19 @@ class RequestHandler:
         ----------
         api_key : str
             Token de acceso personal proporcionado por CryptoQuant.
+        session : requests.Session, optional
+            Sesión HTTP reutilizable para realizar las solicitudes.
+            Si no se proporciona, se crea una nueva instancia.
+        default_timeout : float, optional
+            Tiempo de espera por defecto (en segundos) para las solicitudes.
+            Si no se especifica, se utiliza ``DEFAULT_TIMEOUT``.
         """
         self.API_KEY_ = api_key
         self.resp: Optional[requests.Response] = None
         self.HEADERS_: Dict[str, str] = {"Authorization": "Bearer " + self.API_KEY_}
         self.HOST_: str = "https://api.cryptoquant.com/v1/"
+        self.session: requests.Session = session or requests.Session()
+        self.timeout: float = DEFAULT_TIMEOUT if default_timeout is None else default_timeout
 
     # ---------------------------------------------------------------------
     # Métodos internos (uso privado)
@@ -113,7 +129,8 @@ class RequestHandler:
         self,
         endpoint_url: str,
         query_params: Optional[Mapping[str, str]] = None,
-    ):
+        timeout: Optional[float] = None,
+    ) -> Union[Dict[str, Any], str]:
         """
         Envía una solicitud GET a la API de CryptoQuant y maneja la respuesta.
 
@@ -130,6 +147,10 @@ class RequestHandler:
             Parámetros de consulta (`window`, `interval`, `format_`, etc.).
             Las claves con sufijo `_` se normalizan automáticamente. Si se pasan
             `format` y `format_`, prevalece `format_`.
+        timeout : float, optional
+            Tiempo de espera para esta solicitud en particular. Si no se
+            especifica, se utiliza el ``default_timeout`` configurado en la
+            instancia.
 
         Returns
         -------
@@ -148,11 +169,14 @@ class RequestHandler:
         # Normalizar parámetros
         query_params_ = self.__append_fmt(query_params)
 
+        request_timeout = self.timeout if timeout is None else timeout
+
         # Realizar la solicitud HTTP
-        self.resp = requests.get(
+        self.resp = self.session.get(
             url=endpoint_url_,
             headers=self.HEADERS_,
             params=query_params_,
+            timeout=request_timeout,
         )
 
         # Evaluar la respuesta
