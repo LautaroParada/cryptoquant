@@ -62,7 +62,7 @@ class RequestHandler:
             normalized_params.update(dict_to_append)
 
         # Eliminar nombres reservados para evitar colisiones
-        for reserved in ("from", "type", "filter", "format"):
+        for reserved in ("from", "type", "filter", "format", "to"):
             normalized_params.pop(reserved, None)
 
         # Mapear variantes con sufijo "_"
@@ -71,6 +71,7 @@ class RequestHandler:
             "type_": "type",
             "filter_": "filter",
             "format_": "format",
+            "to_": "to",
         }
 
         for current_key, target_key in replacements.items():
