@@ -2,7 +2,9 @@ from __future__ import annotations
 
 from typing import Any, Dict
 from unittest import TestCase
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
+
+import requests
 
 from cryptoquant.request_handler_class.request_handler import RequestHandler
 
@@ -12,7 +14,12 @@ class RequestHandlerTests(TestCase):
 
     def setUp(self) -> None:
         """Prepare a reusable request handler instance."""
-        self.handler = RequestHandler(api_key="test_api_key")
+        self.session = MagicMock(spec=requests.Session)
+        self.handler = RequestHandler(
+            api_key="test_api_key",
+            session=self.session,
+            default_timeout=5.0,
+        )
 
     def _mock_response(self) -> MagicMock:
         """Create a mock HTTP response with a JSON payload."""
@@ -24,32 +31,32 @@ class RequestHandlerTests(TestCase):
 
     def test_handle_request_normalizes_to_param(self) -> None:
         """Ensure ``to_`` is forwarded as ``to`` and the suffix is removed."""
-        with patch(
-            "cryptoquant.request_handler_class.request_handler.requests.get",
-            return_value=self._mock_response(),
-        ) as mock_get:
-            result = self.handler.handle_request(
-                "dummy/endpoint",
-                {"to_": "20240101"},
-            )
+        self.session.get.return_value = self._mock_response()
 
-        mock_get.assert_called_once()
-        params: Dict[str, Any] = mock_get.call_args.kwargs["params"]
+        result = self.handler.handle_request(
+            "dummy/endpoint",
+            {"to_": "20240101"},
+        )
+
+        self.session.get.assert_called_once()
+        params: Dict[str, Any] = self.session.get.call_args.kwargs["params"]
         self.assertEqual(params.get("to"), "20240101")
         self.assertNotIn("to_", params)
         self.assertEqual(result, {"status": "ok"})
+        self.assertEqual(self.session.get.call_args.kwargs["headers"], self.handler.HEADERS_)
+        self.assertEqual(self.session.get.call_args.kwargs["timeout"], 5.0)
 
     def test_handle_request_overrides_existing_to_param(self) -> None:
         """Ensure ``to_`` replaces any preexisting ``to`` value."""
-        with patch(
-            "cryptoquant.request_handler_class.request_handler.requests.get",
-            return_value=self._mock_response(),
-        ) as mock_get:
-            self.handler.handle_request(
-                "dummy/endpoint",
-                {"to": "old", "to_": "20240101"},
-            )
+        self.session.get.return_value = self._mock_response()
 
-        params: Dict[str, Any] = mock_get.call_args.kwargs["params"]
+        self.handler.handle_request(
+            "dummy/endpoint",
+            {"to": "old", "to_": "20240101"},
+            timeout=2.5,
+        )
+
+        params: Dict[str, Any] = self.session.get.call_args.kwargs["params"]
         self.assertEqual(params.get("to"), "20240101")
         self.assertNotIn("to_", params)
+        self.assertEqual(self.session.get.call_args.kwargs["timeout"], 2.5)
