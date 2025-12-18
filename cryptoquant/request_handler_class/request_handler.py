@@ -46,6 +46,8 @@ class RequestHandler:
         - Elimina nombres reservados conflictivos (`from`, `type`, `filter`, `format`).
         - Reemplaza las claves con sufijo "_" (ej. `from_`) por su versión correcta
           para ajustarse a los parámetros esperados por la API.
+        - Acepta tanto `format` como `format_`, priorizando `format_` cuando ambos
+          estén presentes.
 
         Parameters
         ----------
@@ -58,8 +60,12 @@ class RequestHandler:
             Diccionario con las claves normalizadas, apto para ser enviado en la query.
         """
         normalized_params: Dict[str, str] = {}
+        preferred_format: Optional[str] = None
         if dict_to_append:
             normalized_params.update(dict_to_append)
+            preferred_format = dict_to_append.get("format_")
+            if preferred_format is None:
+                preferred_format = dict_to_append.get("format")
 
         # Eliminar nombres reservados para evitar colisiones
         for reserved in ("from", "type", "filter", "format", "to"):
@@ -77,6 +83,9 @@ class RequestHandler:
         for current_key, target_key in replacements.items():
             if current_key in normalized_params:
                 normalized_params[target_key] = normalized_params.pop(current_key)
+
+        if preferred_format is not None:
+            normalized_params["format"] = preferred_format
 
         return normalized_params
 
@@ -108,7 +117,7 @@ class RequestHandler:
         """
         Envía una solicitud GET a la API de CryptoQuant y maneja la respuesta.
 
-        Según el valor del parámetro `format`, la respuesta se interpreta como:
+        Según el valor del parámetro `format`/`format_`, la respuesta se interpreta como:
         - `format='csv'`: Devuelve el cuerpo en texto plano CSV.
         - Por defecto: Devuelve un objeto JSON (tipo `dict`).
         Si el contenido no es JSON válido, devuelve el texto crudo.
@@ -119,7 +128,8 @@ class RequestHandler:
             Ruta relativa del endpoint (por ejemplo, `"btc/network/hashrate"`).
         query_params : Mapping[str, str], optional
             Parámetros de consulta (`window`, `interval`, `format_`, etc.).
-            Las claves con sufijo `_` se normalizan automáticamente.
+            Las claves con sufijo `_` se normalizan automáticamente. Si se pasan
+            `format` y `format_`, prevalece `format_`.
 
         Returns
         -------

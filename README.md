@@ -186,7 +186,7 @@ The table below outlines each main module and its core functionality:
 ### Available Endpoints [:arrow_up:](#cryptoquant-sdk)
 - **Endpoints**: Discover all available endpoints.
 	- Parameters:
-		- ```format_```(str): Optional — Default: `json`. Defines the response format. Supported formats: `json`, `csv`.
+		- ```format_```(str): Optional — Default: `json`. Defines the response format. Supported formats: `json`, `csv`. You can also pass `format` (without underscore); if both are provided, the SDK prioritizes `format_`.
 
 	- Usage:
 ```python
