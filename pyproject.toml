@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cryptoquant"
-version = "0.1.0"
+version = "0.1.1"
 description = "Unofficial CryptoQuant Python SDK — unified access to on-chain and market data endpoints."
 authors = [{ name = "Lautaro Parada", email = "lautaro.parada@lpingenierias.com" }]
 readme = "README.md"
