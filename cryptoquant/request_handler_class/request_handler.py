@@ -8,6 +8,8 @@ Created on Tue Oct  7 18:14:29 2025
 from __future__ import annotations
 from typing import Any, Dict, Mapping, Optional, Union
 import requests
+import re
+from datetime import datetime
 
 
 DEFAULT_TIMEOUT: float = 10
@@ -64,6 +66,8 @@ class RequestHandler:
           para ajustarse a los parámetros esperados por la API.
         - Acepta tanto `format` como `format_`, priorizando `format_` cuando ambos
           estén presentes.
+        - Valida el formato de timestamps cuando se especifica window='hour' para
+          consultas intradiarias.
 
         Parameters
         ----------
@@ -74,6 +78,12 @@ class RequestHandler:
         -------
         dict
             Diccionario con las claves normalizadas, apto para ser enviado en la query.
+
+        Raises
+        ------
+        ValueError
+            Si se detecta una consulta intradiaria (window='hour') con timestamps
+            en formato incorrecto.
         """
         normalized_params: Dict[str, str] = {}
         preferred_format: Optional[str] = None
@@ -102,6 +112,27 @@ class RequestHandler:
 
         if preferred_format is not None:
             normalized_params["format"] = preferred_format
+
+        # Validar timestamps para consultas intradiarias
+        window = normalized_params.get("window", "").lower()
+        if window == "hour":
+            # Validar 'from' timestamp si está presente
+            if "from" in normalized_params:
+                from_ts = normalized_params["from"]
+                if not self.validate_timestamp(from_ts, window):
+                    raise ValueError(
+                        f"For intraday queries (window='hour'), 'from' timestamp must be in format "
+                        f"YYYYMMDDTHHMMSS. Got: '{from_ts}'. Example: '20240101T120000'"
+                    )
+
+            # Validar 'to' timestamp si está presente
+            if "to" in normalized_params:
+                to_ts = normalized_params["to"]
+                if not self.validate_timestamp(to_ts, window):
+                    raise ValueError(
+                        f"For intraday queries (window='hour'), 'to' timestamp must be in format "
+                        f"YYYYMMDDTHHMMSS. Got: '{to_ts}'. Example: '20240101T235959'"
+                    )
 
         return normalized_params
 
@@ -196,3 +227,160 @@ class RequestHandler:
 
         # Si la respuesta no fue exitosa → lanzar excepción
         self.resp.raise_for_status()
+
+    @staticmethod
+    def validate_timestamp(timestamp: str, window: Optional[str] = None) -> bool:
+        """
+        Valida el formato de timestamp según el tipo de ventana.
+
+        Para consultas intradiarias (window='hour'), se requiere el formato completo
+        YYYYMMDDTHHMMSS. Para consultas diarias (window='day'), se acepta tanto
+        YYYYMMDD como YYYYMMDDTHHMMSS.
+
+        Parameters
+        ----------
+        timestamp : str
+            Timestamp a validar.
+        window : str, optional
+            Tipo de ventana ('day', 'hour', 'block'). Si no se especifica,
+            solo se valida el formato básico.
+
+        Returns
+        -------
+        bool
+            True si el formato es válido, False en caso contrario.
+
+        Examples
+        --------
+        >>> RequestHandler.validate_timestamp('20240101', 'day')
+        True
+        >>> RequestHandler.validate_timestamp('20240101T120000', 'hour')
+        True
+        >>> RequestHandler.validate_timestamp('20240101', 'hour')
+        False
+        """
+        # Formato completo con hora: YYYYMMDDTHHMMSS
+        full_format = r'^\d{8}T\d{6}$'
+        # Formato solo fecha: YYYYMMDD
+        date_format = r'^\d{8}$'
+
+        # Si window es 'hour', se requiere formato completo
+        if window == 'hour':
+            if not re.match(full_format, timestamp):
+                return False
+            # Validar que la fecha y hora sean válidas
+            try:
+                datetime.strptime(timestamp, '%Y%m%dT%H%M%S')
+                return True
+            except ValueError:
+                return False
+
+        # Si window es 'day', se acepta tanto formato completo como solo fecha
+        if window == 'day':
+            if re.match(date_format, timestamp):
+                try:
+                    datetime.strptime(timestamp, '%Y%m%d')
+                    return True
+                except ValueError:
+                    return False
+            elif re.match(full_format, timestamp):
+                try:
+                    datetime.strptime(timestamp, '%Y%m%dT%H%M%S')
+                    return True
+                except ValueError:
+                    return False
+            return False
+
+        # Si no se especifica window, validar formato básico
+        if re.match(date_format, timestamp):
+            try:
+                datetime.strptime(timestamp, '%Y%m%d')
+                return True
+            except ValueError:
+                return False
+        elif re.match(full_format, timestamp):
+            try:
+                datetime.strptime(timestamp, '%Y%m%dT%H%M%S')
+                return True
+            except ValueError:
+                return False
+
+        return False
+
+    @staticmethod
+    def format_timestamp_for_window(timestamp: Union[str, datetime], window: str = 'day') -> str:
+        """
+        Formatea un timestamp según el tipo de ventana especificado.
+
+        Para consultas intradiarias (window='hour'), devuelve el formato
+        YYYYMMDDTHHMMSS. Para consultas diarias (window='day'), puede devolver
+        YYYYMMDD o YYYYMMDDTHHMMSS.
+
+        Parameters
+        ----------
+        timestamp : str or datetime
+            Timestamp a formatear. Puede ser un string en formato YYYYMMDD,
+            YYYYMMDDTHHMMSS, o un objeto datetime.
+        window : str, optional
+            Tipo de ventana ('day' o 'hour'). Por defecto 'day'.
+
+        Returns
+        -------
+        str
+            Timestamp formateado apropiadamente para el tipo de ventana.
+
+        Raises
+        ------
+        ValueError
+            Si el timestamp no tiene un formato válido o si se requiere formato
+            completo para window='hour' pero solo se proporciona fecha.
+
+        Examples
+        --------
+        >>> from datetime import datetime
+        >>> dt = datetime(2024, 1, 1, 12, 0, 0)
+        >>> RequestHandler.format_timestamp_for_window(dt, 'hour')
+        '20240101T120000'
+        >>> RequestHandler.format_timestamp_for_window('20240101', 'day')
+        '20240101'
+        """
+        # Si es un objeto datetime, convertir a string
+        if isinstance(timestamp, datetime):
+            if window == 'hour':
+                return timestamp.strftime('%Y%m%dT%H%M%S')
+            else:  # window == 'day' o cualquier otro
+                return timestamp.strftime('%Y%m%d')
+
+        # Si es un string, validar y ajustar formato
+        timestamp = str(timestamp).strip()
+
+        # Formato completo: YYYYMMDDTHHMMSS
+        if re.match(r'^\d{8}T\d{6}$', timestamp):
+            # Validar que sea una fecha válida
+            try:
+                datetime.strptime(timestamp, '%Y%m%dT%H%M%S')
+            except ValueError:
+                raise ValueError(f"Invalid timestamp format: {timestamp}")
+            return timestamp
+
+        # Formato solo fecha: YYYYMMDD
+        if re.match(r'^\d{8}$', timestamp):
+            # Validar que sea una fecha válida
+            try:
+                datetime.strptime(timestamp, '%Y%m%d')
+            except ValueError:
+                raise ValueError(f"Invalid date format: {timestamp}")
+
+            # Para window='hour', necesitamos formato completo
+            if window == 'hour':
+                raise ValueError(
+                    f"For intraday queries (window='hour'), timestamp must include time. "
+                    f"Got: {timestamp}. Expected format: YYYYMMDDTHHMMSS (e.g., '20240101T120000')"
+                )
+            return timestamp
+
+        # Si no coincide con ningún formato conocido
+        raise ValueError(
+            f"Invalid timestamp format: {timestamp}. "
+            f"Expected YYYYMMDD or YYYYMMDDTHHMMSS"
+        )

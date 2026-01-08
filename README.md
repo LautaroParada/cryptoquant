@@ -146,6 +146,98 @@ I strongly recommend saving your API keys in your environment variables. You can
 
 ---
 
+## Intraday Data Support [:arrow_up:](#cryptoquant-sdk)
+
+The SDK fully supports **intraday (hourly) data queries** in addition to daily data. To fetch hourly data, use the `window='hour'` parameter with properly formatted timestamps.
+
+### Key Requirements for Intraday Queries
+
+1. **Window Parameter**: Set `window='hour'` for hourly data
+2. **Timestamp Format**: Use `YYYYMMDDTHHMMSS` format (e.g., `'20240101T120000'`)
+3. **Both Timestamps**: Both `from_` and `to_` must include time components
+
+### Intraday Query Example
+
+```python
+from cryptoquant import CryptoQuant
+from datetime import datetime
+
+api_key = os.environ['CQ_API']
+client = CryptoQuant(api_key)
+
+# Fetch hourly BTC exchange reserves
+response = client.get_btc_exch_reserve(
+    exchange='binance',
+    window='hour',                    # Use 'hour' for intraday data
+    from_='20240101T000000',         # Full timestamp required
+    to_='20240101T235959',           # Full timestamp required
+    limit=24
+)
+```
+
+### Helper Methods for Timestamp Formatting
+
+The SDK provides utility methods to help with timestamp formatting:
+
+```python
+from cryptoquant.request_handler_class import RequestHandler
+from datetime import datetime
+
+# Format datetime objects for hourly queries
+dt = datetime(2024, 1, 15, 12, 0, 0)
+timestamp = RequestHandler.format_timestamp_for_window(dt, 'hour')
+# Returns: '20240115T120000'
+
+# Validate timestamps before making requests
+is_valid = RequestHandler.validate_timestamp('20240101T120000', 'hour')
+# Returns: True
+```
+
+### Error Handling
+
+The SDK automatically validates timestamps for intraday queries and provides clear error messages:
+
+```python
+# This will raise a ValueError with a helpful message
+try:
+    response = client.get_btc_exch_reserve(
+        exchange='binance',
+        window='hour',
+        from_='20240101',  # Missing time component
+        to_='20240101'     # Missing time component
+    )
+except ValueError as e:
+    print(e)
+    # "For intraday queries (window='hour'), 'from' timestamp must be in format 
+    #  YYYYMMDDTHHMMSS. Got: '20240101'. Example: '20240101T120000'"
+```
+
+### Backward Compatibility
+
+Daily data queries remain unchanged and fully backward compatible:
+
+```python
+# Daily queries work as before
+response = client.get_btc_exch_reserve(
+    exchange='binance',
+    window='day',
+    from_='20240101',    # Date-only format still works for daily
+    to_='20240131',
+    limit=31
+)
+```
+
+### Complete Examples
+
+See the [intraday_data_example.py](examples/intraday_data_example.py) file for comprehensive examples of:
+- Fetching hourly exchange reserves, flows, and netflows
+- Using timestamp formatting helpers
+- Error handling and validation
+- Fetching multiple metrics with hourly granularity
+- Working with CSV format for intraday data
+
+---
+
 ## Documentation [:arrow_up:](#cryptoquant-sdk)
 Please be aware that some descriptions will come directly from the API's documentation because no further explanations were needed for the specific method. Additionally, for the sake of simplicity, I will use the following convention along with the whole document:
 
