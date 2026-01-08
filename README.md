@@ -148,93 +148,125 @@ I strongly recommend saving your API keys in your environment variables. You can
 
 ## Intraday Data Support [:arrow_up:](#cryptoquant-sdk)
 
-The SDK fully supports **intraday (hourly) data queries** in addition to daily data. To fetch hourly data, use the `window='hour'` parameter with properly formatted timestamps.
+The SDK now supports **hourly data** in addition to daily data. Simply use `window='hour'` with timestamps that include the time.
 
-### Key Requirements for Intraday Queries
-
-1. **Window Parameter**: Set `window='hour'` for hourly data
-2. **Timestamp Format**: Use `YYYYMMDDTHHMMSS` format (e.g., `'20240101T120000'`)
-3. **Both Timestamps**: Both `from_` and `to_` must include time components
-
-### Intraday Query Example
+### Quick Start: Fetching Hourly Data
 
 ```python
+# Import the main SDK class.
 from cryptoquant import CryptoQuant
-from datetime import datetime
 
+# Import the 'os' module to access environment variables.
+# It's considered best practice to store API keys outside of source code.
+import os
+
+# Load your CryptoQuant API key from an environment variable.
 api_key = os.environ['CQ_API']
+
+# Create an instance of the main SDK client,
+# passing the API key for authentication.
+# This automatically initializes all internal submodules and request handlers.
 client = CryptoQuant(api_key)
 
-# Fetch hourly BTC exchange reserves
+# Fetch hourly BTC exchange reserves for a 24-hour period
 response = client.get_btc_exch_reserve(
     exchange='binance',
-    window='hour',                    # Use 'hour' for intraday data
-    from_='20240101T000000',         # Full timestamp required
-    to_='20240101T235959',           # Full timestamp required
+    window='hour',                    # Use 'hour' for hourly data
+    from_='20240101T000000',         # Format: YYYYMMDDTHHMMSS
+    to_='20240101T235959',           # Format: YYYYMMDDTHHMMSS
     limit=24
 )
 ```
 
-### Helper Methods for Timestamp Formatting
+### Important: Timestamp Format
 
-The SDK provides utility methods to help with timestamp formatting:
+When using `window='hour'`, timestamps must include the time in format `YYYYMMDDTHHMMSS`:
+- ✅ Correct: `'20240101T120000'` (January 1, 2024 at 12:00:00)
+- ❌ Incorrect: `'20240101'` (missing time - will raise an error)
+
+For daily data (`window='day'`), both formats work:
+- ✅ `'20240101'` (date only)
+- ✅ `'20240101T000000'` (date with time)
+
+### Helper Tools
+
+The SDK includes helper methods to make working with timestamps easier:
 
 ```python
+# Import helper methods
 from cryptoquant.request_handler_class import RequestHandler
 from datetime import datetime
 
-# Format datetime objects for hourly queries
+# Import the 'os' module to access environment variables.
+# It's considered best practice to store API keys outside of source code.
+import os
+
+# Load your CryptoQuant API key from an environment variable.
+api_key = os.environ['CQ_API']
+
+# Create an instance of the main SDK client,
+# passing the API key for authentication.
+# This automatically initializes all internal submodules and request handlers.
+client = CryptoQuant(api_key)
+
+# Convert datetime objects to proper format
 dt = datetime(2024, 1, 15, 12, 0, 0)
 timestamp = RequestHandler.format_timestamp_for_window(dt, 'hour')
 # Returns: '20240115T120000'
 
-# Validate timestamps before making requests
-is_valid = RequestHandler.validate_timestamp('20240101T120000', 'hour')
-# Returns: True
+# Use the formatted timestamp in your query
+response = client.get_btc_exch_reserve(
+    exchange='binance',
+    window='hour',
+    from_=timestamp,
+    to_=RequestHandler.format_timestamp_for_window(datetime(2024, 1, 15, 18, 0, 0), 'hour'),
+    limit=6
+)
 ```
 
-### Error Handling
+### What Happens If I Use the Wrong Format?
 
-The SDK automatically validates timestamps for intraday queries and provides clear error messages:
+The SDK will catch the error and tell you exactly what's wrong:
 
 ```python
-# This will raise a ValueError with a helpful message
+# Import the main SDK class.
+from cryptoquant import CryptoQuant
+
+# Import the 'os' module to access environment variables.
+# It's considered best practice to store API keys outside of source code.
+import os
+
+# Load your CryptoQuant API key from an environment variable.
+api_key = os.environ['CQ_API']
+
+# Create an instance of the main SDK client,
+# passing the API key for authentication.
+# This automatically initializes all internal submodules and request handlers.
+client = CryptoQuant(api_key)
+
 try:
     response = client.get_btc_exch_reserve(
         exchange='binance',
         window='hour',
-        from_='20240101',  # Missing time component
-        to_='20240101'     # Missing time component
+        from_='20240101',  # Wrong format!
+        to_='20240101'
     )
 except ValueError as e:
     print(e)
-    # "For intraday queries (window='hour'), 'from' timestamp must be in format 
-    #  YYYYMMDDTHHMMSS. Got: '20240101'. Example: '20240101T120000'"
+    # Error message: "For intraday queries (window='hour'), 'from' timestamp 
+    # must be in format YYYYMMDDTHHMMSS. Got: '20240101'. Example: '20240101T120000'"
 ```
 
-### Backward Compatibility
+### More Examples
 
-Daily data queries remain unchanged and fully backward compatible:
+For complete examples including:
+- Multiple hourly metrics (reserves, inflows, outflows)
+- CSV format output
+- Advanced timestamp handling
 
-```python
-# Daily queries work as before
-response = client.get_btc_exch_reserve(
-    exchange='binance',
-    window='day',
-    from_='20240101',    # Date-only format still works for daily
-    to_='20240131',
-    limit=31
-)
-```
+See: [examples/intraday_data_example.py](examples/intraday_data_example.py)
 
-### Complete Examples
-
-See the [intraday_data_example.py](examples/intraday_data_example.py) file for comprehensive examples of:
-- Fetching hourly exchange reserves, flows, and netflows
-- Using timestamp formatting helpers
-- Error handling and validation
-- Fetching multiple metrics with hourly granularity
-- Working with CSV format for intraday data
+For technical details about the implementation, see: [TECHNICAL_CHANGES.md](TECHNICAL_CHANGES.md)
 
 ---
 

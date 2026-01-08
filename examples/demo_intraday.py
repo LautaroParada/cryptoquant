@@ -5,7 +5,10 @@ Simple demonstration of intraday data support in CryptoQuant SDK.
 This script shows the key improvements made to support hourly data queries.
 """
 
+# Import helper methods for timestamp formatting
 from cryptoquant.request_handler_class import RequestHandler
+
+# Import datetime utilities
 from datetime import datetime
 
 print("=" * 70)

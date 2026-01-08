@@ -10,15 +10,25 @@ The SDK now includes:
 3. Clear error messages when timestamps are improperly formatted
 """
 
-import os
-from datetime import datetime, timedelta
+# Import the main SDK class.
 from cryptoquant import CryptoQuant
+
+# Import helper methods for timestamp formatting
 from cryptoquant.request_handler_class import RequestHandler
 
-# Load API key from environment variable
-api_key = os.environ.get('CQ_API', 'your_api_key_here')
+# Import datetime utilities
+from datetime import datetime, timedelta
 
-# Initialize the CryptoQuant client
+# Import the 'os' module to access environment variables.
+# It's considered best practice to store API keys outside of source code.
+import os
+
+# Load your CryptoQuant API key from an environment variable.
+api_key = os.environ['CQ_API']
+
+# Create an instance of the main SDK client,
+# passing the API key for authentication.
+# This automatically initializes all internal submodules and request handlers.
 client = CryptoQuant(api_key)
 
 print("=" * 70)
