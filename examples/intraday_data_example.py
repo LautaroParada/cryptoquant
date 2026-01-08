@@ -185,7 +185,7 @@ try:
         lines = response.split('\n')[:5]  # Show first 5 lines
         for line in lines:
             print(f"  {line}")
-        print(f"  ... ({len(response.split(chr(10)))} total lines)")
+        print(f"  ... ({len(response.split('\n'))} total lines)")
     
 except Exception as e:
     print(f"✗ Error: {e}")

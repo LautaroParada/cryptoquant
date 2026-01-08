@@ -6,13 +6,18 @@ Created on Tue Oct  7 18:14:29 2025
 """
 
 from __future__ import annotations
-from typing import Any, Dict, Mapping, Optional, Union
-import requests
 import re
 from datetime import datetime
+from typing import Any, Dict, Mapping, Optional, Union
+
+import requests
 
 
 DEFAULT_TIMEOUT: float = 10
+
+# Timestamp format patterns for validation and formatting
+TIMESTAMP_FULL_FORMAT_PATTERN: str = r'^\d{8}T\d{6}$'  # YYYYMMDDTHHMMSS
+TIMESTAMP_DATE_FORMAT_PATTERN: str = r'^\d{8}$'  # YYYYMMDD
 
 
 class RequestHandler:
@@ -259,14 +264,9 @@ class RequestHandler:
         >>> RequestHandler.validate_timestamp('20240101', 'hour')
         False
         """
-        # Formato completo con hora: YYYYMMDDTHHMMSS
-        full_format = r'^\d{8}T\d{6}$'
-        # Formato solo fecha: YYYYMMDD
-        date_format = r'^\d{8}$'
-
         # Si window es 'hour', se requiere formato completo
         if window == 'hour':
-            if not re.match(full_format, timestamp):
+            if not re.match(TIMESTAMP_FULL_FORMAT_PATTERN, timestamp):
                 return False
             # Validar que la fecha y hora sean válidas
             try:
@@ -277,13 +277,13 @@ class RequestHandler:
 
         # Si window es 'day', se acepta tanto formato completo como solo fecha
         if window == 'day':
-            if re.match(date_format, timestamp):
+            if re.match(TIMESTAMP_DATE_FORMAT_PATTERN, timestamp):
                 try:
                     datetime.strptime(timestamp, '%Y%m%d')
                     return True
                 except ValueError:
                     return False
-            elif re.match(full_format, timestamp):
+            elif re.match(TIMESTAMP_FULL_FORMAT_PATTERN, timestamp):
                 try:
                     datetime.strptime(timestamp, '%Y%m%dT%H%M%S')
                     return True
@@ -292,13 +292,13 @@ class RequestHandler:
             return False
 
         # Si no se especifica window, validar formato básico
-        if re.match(date_format, timestamp):
+        if re.match(TIMESTAMP_DATE_FORMAT_PATTERN, timestamp):
             try:
                 datetime.strptime(timestamp, '%Y%m%d')
                 return True
             except ValueError:
                 return False
-        elif re.match(full_format, timestamp):
+        elif re.match(TIMESTAMP_FULL_FORMAT_PATTERN, timestamp):
             try:
                 datetime.strptime(timestamp, '%Y%m%dT%H%M%S')
                 return True
@@ -355,7 +355,7 @@ class RequestHandler:
         timestamp = str(timestamp).strip()
 
         # Formato completo: YYYYMMDDTHHMMSS
-        if re.match(r'^\d{8}T\d{6}$', timestamp):
+        if re.match(TIMESTAMP_FULL_FORMAT_PATTERN, timestamp):
             # Validar que sea una fecha válida
             try:
                 datetime.strptime(timestamp, '%Y%m%dT%H%M%S')
@@ -364,7 +364,7 @@ class RequestHandler:
             return timestamp
 
         # Formato solo fecha: YYYYMMDD
-        if re.match(r'^\d{8}$', timestamp):
+        if re.match(TIMESTAMP_DATE_FORMAT_PATTERN, timestamp):
             # Validar que sea una fecha válida
             try:
                 datetime.strptime(timestamp, '%Y%m%d')
