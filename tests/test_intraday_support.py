@@ -1,10 +1,3 @@
-"""
-Tests for intraday data support in RequestHandler.
-
-This module tests the validation and formatting utilities added to support
-intraday (hourly) queries to the CryptoQuant API.
-"""
-
 from __future__ import annotations
 
 from datetime import datetime
@@ -15,6 +8,7 @@ from unittest.mock import MagicMock
 import requests
 
 from cryptoquant.request_handler_class.request_handler import RequestHandler
+from cryptoquant.exceptions import CryptoQuantValidationError
 
 
 class IntradayTimestampValidationTests(TestCase):
@@ -51,7 +45,28 @@ class IntradayTimestampValidationTests(TestCase):
         self.assertFalse(RequestHandler.validate_timestamp('20240101T126000', 'hour'))
 
 
-class IntradayTimestampFormattingTests(TestCase):
+    def test_validate_timestamp_min_valid(self) -> None:
+        """window='min' requires YYYYMMDDTHHMMSS — same as 'hour'."""
+        self.assertTrue(RequestHandler.validate_timestamp('20240101T120000', 'min'))
+        self.assertFalse(RequestHandler.validate_timestamp('20240101', 'min'))
+
+    def test_validate_timestamp_block_accepts_positive_integer(self) -> None:
+        """window='block' accepts positive integer block heights as strings."""
+        self.assertTrue(RequestHandler.validate_timestamp('800000', 'block'))
+        self.assertTrue(RequestHandler.validate_timestamp('1', 'block'))
+
+    def test_validate_timestamp_block_accepts_full_datetime(self) -> None:
+        """window='block' accepts YYYYMMDDTHHMMSS format."""
+        self.assertTrue(RequestHandler.validate_timestamp('20240101T000000', 'block'))
+
+    def test_validate_timestamp_block_rejects_invalid(self) -> None:
+        """window='block' rejects date-only strings and invalid formats."""
+        self.assertFalse(RequestHandler.validate_timestamp('20240101', 'block'))
+        self.assertFalse(RequestHandler.validate_timestamp('not-a-block', 'block'))
+        self.assertFalse(RequestHandler.validate_timestamp('0', 'block'))
+
+
+
     """Tests for timestamp formatting utilities."""
 
     def test_format_timestamp_from_datetime_hour(self) -> None:
@@ -72,8 +87,8 @@ class IntradayTimestampFormattingTests(TestCase):
         self.assertEqual(result, '20240115')
 
     def test_format_timestamp_string_date_for_hour_raises(self) -> None:
-        """Test that date-only strings raise error for hour window."""
-        with self.assertRaises(ValueError) as context:
+        """Test that date-only strings raise CryptoQuantValidationError for hour window."""
+        with self.assertRaises(CryptoQuantValidationError) as context:
             RequestHandler.format_timestamp_for_window('20240115', 'hour')
         self.assertIn('intraday', str(context.exception).lower())
         self.assertIn('YYYYMMDDTHHMMSS', str(context.exception))
@@ -84,11 +99,33 @@ class IntradayTimestampFormattingTests(TestCase):
         self.assertEqual(result, '20240115T143045')
 
     def test_format_timestamp_invalid_format_raises(self) -> None:
-        """Test that invalid timestamp formats raise ValueError."""
-        with self.assertRaises(ValueError):
+        """Test that invalid timestamp formats raise CryptoQuantValidationError."""
+        with self.assertRaises((CryptoQuantValidationError, ValueError)):
             RequestHandler.format_timestamp_for_window('2024-01-15', 'day')
-        with self.assertRaises(ValueError):
+        with self.assertRaises((CryptoQuantValidationError, ValueError)):
             RequestHandler.format_timestamp_for_window('invalid', 'hour')
+
+    def test_format_timestamp_min_window_returns_full_format(self) -> None:
+        """Test that window='min' returns YYYYMMDDTHHMMSS from datetime."""
+        dt = datetime(2024, 3, 10, 9, 5, 30)
+        result = RequestHandler.format_timestamp_for_window(dt, 'min')
+        self.assertEqual(result, '20240310T090530')
+
+    def test_format_timestamp_min_window_string_date_raises(self) -> None:
+        """Test that date-only string raises for window='min'."""
+        with self.assertRaises(CryptoQuantValidationError):
+            RequestHandler.format_timestamp_for_window('20240310', 'min')
+
+    def test_format_timestamp_block_window_int_returns_string(self) -> None:
+        """Test that integer block height returns its string representation."""
+        result = RequestHandler.format_timestamp_for_window(800000, 'block')
+        self.assertEqual(result, '800000')
+
+    def test_format_timestamp_block_window_datetime_returns_full(self) -> None:
+        """Test that datetime for block window returns YYYYMMDDTHHMMSS."""
+        dt = datetime(2024, 1, 1, 0, 0, 0)
+        result = RequestHandler.format_timestamp_for_window(dt, 'block')
+        self.assertEqual(result, '20240101T000000')
 
 
 class IntradayParameterNormalizationTests(TestCase):
@@ -133,10 +170,10 @@ class IntradayParameterNormalizationTests(TestCase):
         self.assertEqual(result, {"status": "ok", "data": []})
 
     def test_handle_request_hour_with_invalid_from_timestamp_raises(self) -> None:
-        """Test that hour window with invalid 'from' timestamp raises ValueError."""
+        """Test that hour window with invalid 'from' timestamp raises CryptoQuantValidationError."""
         self.session.get.return_value = self._mock_response()
 
-        with self.assertRaises(ValueError) as context:
+        with self.assertRaises(CryptoQuantValidationError) as context:
             self.handler.handle_request(
                 "btc/exchange-flows/reserve",
                 {
@@ -152,10 +189,10 @@ class IntradayParameterNormalizationTests(TestCase):
         self.session.get.assert_not_called()
 
     def test_handle_request_hour_with_invalid_to_timestamp_raises(self) -> None:
-        """Test that hour window with invalid 'to' timestamp raises ValueError."""
+        """Test that hour window with invalid 'to' timestamp raises CryptoQuantValidationError."""
         self.session.get.return_value = self._mock_response()
 
-        with self.assertRaises(ValueError) as context:
+        with self.assertRaises(CryptoQuantValidationError) as context:
             self.handler.handle_request(
                 "btc/exchange-flows/reserve",
                 {
@@ -228,7 +265,19 @@ class IntradayParameterNormalizationTests(TestCase):
         self.assertEqual(result, {"status": "ok", "data": []})
 
 
-class IntradayUseCaseTests(TestCase):
+    def test_handle_request_min_with_date_only_raises(self) -> None:
+        """Test that window='min' with date-only timestamp raises CryptoQuantValidationError."""
+        with self.assertRaises(CryptoQuantValidationError):
+            self.handler.handle_request(
+                "btc/market-data/price-ohlcv",
+                {
+                    "window": "min",
+                    "from_": "20240101",  # Missing time component
+                },
+            )
+        self.session.get.assert_not_called()
+
+
     """Integration-style tests for common intraday use cases."""
 
     def setUp(self) -> None:

@@ -12,8 +12,17 @@ from typing import Any, Dict, Mapping, Optional, Union
 
 import requests
 
+from cryptoquant.exceptions import (
+    CryptoQuantConnectionError,
+    CryptoQuantHTTPError,
+    CryptoQuantTimeoutError,
+    CryptoQuantValidationError,
+)
 
-DEFAULT_TIMEOUT: float = 10
+DEFAULT_TIMEOUT: float = 30
+
+_BASE_URL_V1 = "https://api.cryptoquant.com/v1/"
+_BASE_URL_V2 = "https://api.cryptoquant.com/v2/"
 
 # Timestamp format patterns for validation and formatting
 TIMESTAMP_FULL_FORMAT_PATTERN: str = r'^\d{8}T\d{6}$'  # YYYYMMDDTHHMMSS
@@ -53,7 +62,7 @@ class RequestHandler:
         self.API_KEY_ = api_key
         self.resp: Optional[requests.Response] = None
         self.HEADERS_: Dict[str, str] = {"Authorization": "Bearer " + self.API_KEY_}
-        self.HOST_: str = "https://api.cryptoquant.com/v1/"
+        self.HOST_: str = _BASE_URL_V1
         self.session: requests.Session = session or requests.Session()
         self.timeout: float = DEFAULT_TIMEOUT if default_timeout is None else default_timeout
 
@@ -120,13 +129,13 @@ class RequestHandler:
 
         # Validar timestamps para consultas intradiarias
         window = normalized_params.get("window", "").lower()
-        if window == "hour":
+        if window in ("hour", "min"):
             # Validar 'from' timestamp si está presente
             if "from" in normalized_params:
                 from_ts = normalized_params["from"]
                 if not self.validate_timestamp(from_ts, window):
-                    raise ValueError(
-                        f"For intraday queries (window='hour'), 'from' timestamp must be in format "
+                    raise CryptoQuantValidationError(
+                        f"For intraday queries (window='{window}'), 'from' timestamp must be in format "
                         f"YYYYMMDDTHHMMSS. Got: '{from_ts}'. Example: '20240101T120000'"
                     )
 
@@ -134,8 +143,8 @@ class RequestHandler:
             if "to" in normalized_params:
                 to_ts = normalized_params["to"]
                 if not self.validate_timestamp(to_ts, window):
-                    raise ValueError(
-                        f"For intraday queries (window='hour'), 'to' timestamp must be in format "
+                    raise CryptoQuantValidationError(
+                        f"For intraday queries (window='{window}'), 'to' timestamp must be in format "
                         f"YYYYMMDDTHHMMSS. Got: '{to_ts}'. Example: '20240101T235959'"
                     )
 
@@ -155,7 +164,9 @@ class RequestHandler:
         str
             URL completa lista para ser usada en la llamada HTTP.
         """
-        return self.HOST_ + url_to_append
+        if url_to_append.startswith("v2/"):
+            return _BASE_URL_V2 + url_to_append[3:]
+        return _BASE_URL_V1 + url_to_append
 
     # ---------------------------------------------------------------------
     # Métodos públicos
@@ -208,30 +219,44 @@ class RequestHandler:
         request_timeout = self.timeout if timeout is None else timeout
 
         # Realizar la solicitud HTTP
-        self.resp = self.session.get(
-            url=endpoint_url_,
-            headers=self.HEADERS_,
-            params=query_params_,
-            timeout=request_timeout,
-        )
+        try:
+            self.resp = self.session.get(
+                url=endpoint_url_,
+                headers=self.HEADERS_,
+                params=query_params_,
+                timeout=request_timeout,
+            )
+        except requests.exceptions.Timeout as exc:
+            raise CryptoQuantTimeoutError(
+                f"Request timed out after {request_timeout}s: {endpoint_url_}"
+            ) from exc
+        except requests.exceptions.ConnectionError as exc:
+            raise CryptoQuantConnectionError(
+                f"Network connection error: {endpoint_url_}"
+            ) from exc
 
         # Evaluar la respuesta
-        if self.resp.status_code == 200:
-            fmt = query_params_.get("format", "").lower()
+        try:
+            self.resp.raise_for_status()
+        except requests.exceptions.HTTPError as exc:
+            raise CryptoQuantHTTPError(
+                str(exc),
+                status_code=self.resp.status_code,
+                response=self.resp,
+            ) from exc
 
-            # Si se solicitó CSV → devolver texto plano
-            if fmt == "csv":
-                return self.resp.text
+        fmt = query_params_.get("format", "").lower()
 
-            # Intentar decodificar JSON
-            try:
-                return self.resp.json()
-            except ValueError:
-                # Si no es JSON válido, devolver texto crudo
-                return self.resp.text
+        # Si se solicito CSV -> devolver texto plano
+        if fmt == "csv":
+            return self.resp.text
 
-        # Si la respuesta no fue exitosa → lanzar excepción
-        self.resp.raise_for_status()
+        # Intentar decodificar JSON
+        try:
+            return self.resp.json()
+        except ValueError:
+            # Si no es JSON valido, devolver texto crudo
+            return self.resp.text
 
     @staticmethod
     def validate_timestamp(timestamp: str, window: Optional[str] = None) -> bool:
@@ -291,6 +316,30 @@ class RequestHandler:
                     return False
             return False
 
+        # Si window es 'min', mismo comportamiento que 'hour'
+        if window == 'min':
+            if not re.match(TIMESTAMP_FULL_FORMAT_PATTERN, timestamp):
+                return False
+            try:
+                datetime.strptime(timestamp, '%Y%m%dT%H%M%S')
+                return True
+            except ValueError:
+                return False
+
+        # Si window es 'block', acepta entero (block height) o YYYYMMDDTHHMMSS
+        if window == 'block':
+            ts_str = str(timestamp)
+            # Reject 8-digit strings that match YYYYMMDD date format
+            if ts_str.isdigit() and int(ts_str) > 0 and not re.match(TIMESTAMP_DATE_FORMAT_PATTERN, ts_str):
+                return True
+            if re.match(TIMESTAMP_FULL_FORMAT_PATTERN, ts_str):
+                try:
+                    datetime.strptime(ts_str, '%Y%m%dT%H%M%S')
+                    return True
+                except ValueError:
+                    return False
+            return False
+
         # Si no se especifica window, validar formato básico
         if re.match(TIMESTAMP_DATE_FORMAT_PATTERN, timestamp):
             try:
@@ -344,9 +393,19 @@ class RequestHandler:
         >>> RequestHandler.format_timestamp_for_window('20240101', 'day')
         '20240101'
         """
+        # Si es un block height (int), devolver como string
+        if isinstance(timestamp, int):
+            if window == 'block':
+                return str(timestamp)
+            raise CryptoQuantValidationError(
+                f"Integer timestamps are only valid for window='block'. Got window='{window}'"
+            )
+
         # Si es un objeto datetime, convertir a string
         if isinstance(timestamp, datetime):
-            if window == 'hour':
+            if window in ('hour', 'min'):
+                return timestamp.strftime('%Y%m%dT%H%M%S')
+            elif window == 'block':
                 return timestamp.strftime('%Y%m%dT%H%M%S')
             else:  # window == 'day' o cualquier otro
                 return timestamp.strftime('%Y%m%d')
@@ -360,7 +419,7 @@ class RequestHandler:
             try:
                 datetime.strptime(timestamp, '%Y%m%dT%H%M%S')
             except ValueError:
-                raise ValueError(f"Invalid timestamp format: {timestamp}")
+                raise CryptoQuantValidationError(f"Invalid timestamp format: {timestamp}")
             return timestamp
 
         # Formato solo fecha: YYYYMMDD
@@ -369,18 +428,24 @@ class RequestHandler:
             try:
                 datetime.strptime(timestamp, '%Y%m%d')
             except ValueError:
-                raise ValueError(f"Invalid date format: {timestamp}")
+                raise CryptoQuantValidationError(f"Invalid date format: {timestamp}")
 
-            # Para window='hour', necesitamos formato completo
-            if window == 'hour':
-                raise ValueError(
-                    f"For intraday queries (window='hour'), timestamp must include time. "
+            # Para window='hour' o 'min', necesitamos formato completo
+            if window in ('hour', 'min'):
+                raise CryptoQuantValidationError(
+                    f"For intraday queries (window='{window}'), timestamp must include time. "
                     f"Got: {timestamp}. Expected format: YYYYMMDDTHHMMSS (e.g., '20240101T120000')"
+                )
+            # Para window='block', un string de solo fecha no es block height valido
+            if window == 'block':
+                raise CryptoQuantValidationError(
+                    f"For block queries, timestamp must be a block height integer or YYYYMMDDTHHMMSS. "
+                    f"Got: {timestamp}"
                 )
             return timestamp
 
         # Si no coincide con ningún formato conocido
-        raise ValueError(
+        raise CryptoQuantValidationError(
             f"Invalid timestamp format: {timestamp}. "
             f"Expected YYYYMMDD or YYYYMMDDTHHMMSS"
         )
